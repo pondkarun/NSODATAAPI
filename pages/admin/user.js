@@ -54,7 +54,7 @@ export default function UserList(){
                         <TableCell>สถานะผู้ใช้</TableCell>
                         <TableCell>จัดการ</TableCell>
                     </TableRow>
-                </TableHead>
+                </TableHead>   
                 <TableBody>
                     {rows.map((row, index) => (
                         <TableRow>
