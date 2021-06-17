@@ -1,15 +1,13 @@
 const INIT_STATE = {
-    authUser: null,
-    loadUser: true,
-    token: null
+    keycloak: null,
   };
 
   export default (state = INIT_STATE, action) => {
     switch (action.type) {
-      case "SET_TOKEN": {
+      case "SET_KEYCLOAK": {
         return {
           ...state,
-          authUser: action.payload, token: false,
+          keycloak: action.payload,
         };
       }
 

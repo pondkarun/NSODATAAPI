@@ -140,7 +140,7 @@ export default function TemporaryDrawer() {
         <Grid container>
           <Grid item xs={12}>
             <div style={{textAlign: 'center'}}>
-            
+
             <TextField placeholder={'Search...'} />
             <button type="submit"><SearchButton /></button>
             </div>
