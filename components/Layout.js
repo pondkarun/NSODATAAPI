@@ -119,7 +119,9 @@ export default function TemporaryDrawer() {
             ))}
           </Grid>
           <Grid item xs={1}>
-          <AccountBoxIcon />
+            <Link href={'/login'}>
+              <AccountBoxIcon />
+            </Link>
             <ShoppingCartIcon />
           </Grid>
         </Grid>

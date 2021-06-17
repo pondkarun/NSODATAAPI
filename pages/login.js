@@ -19,6 +19,7 @@ import Box from '@material-ui/core/Box';
 import { OutlinedInput } from '@material-ui/core';
 import Logo from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import { style } from '@material-ui/system';
 // import LogoPath from '../public/img/logo.png';
 
@@ -94,34 +95,64 @@ export default function TemporaryDrawer() {
           </Grid>
         </Grid>
       </div>
-      <div style={{position:'absolute', left:'50%', top: '50%',backgroundColor: 'orangered', borderRadius: 10}}>
+      {/* <div style={{ position: 'absolute', left: '50%', top: '50%', backgroundColor: 'orangered', borderRadius: 10 }}>
         <Grid container spacing={3}>
-            <Grid item>
-                <div style={{fontSize: 27, fontWeight: 'bolder', display: 'inline'}}>
-                    ระบบนามานุกรมข้อมูลภาครัฐ
-                </div>
-                <div style={{fontSize: 25, fontWeight: 'bolder'}}>
-                    (Goverment Directory Service)
-                </div>
-                {/* <div>
-                    <Logo src={LogoPath} alt="Test"></Logo>
-                </div> */}
-            </Grid>
-            <Grid item alignItems={'flex-end'}>
-                <div style={{textAlign: 'center', fontSize: 27, fontWeight: 'bolder', height: '100%'}}>
-                    เข้าสู่ระบบ
-                    <br/>
-                    <TextField variant={'filled'} label={'Open ID account'} />
-                    <br />
-                    <TextField variant={'filled'} label={'Password'} />
-                    <br />
-                    <Link href="/" className={style.button}>
-                        <a>Login</a>
-                    </Link>
-                </div>
-            </Grid>
+          <Grid item>
+            <div style={{ fontSize: 27, fontWeight: 'bolder', display: 'inline' }}>
+              ระบบนามานุกรมข้อมูลภาครัฐ
+            </div>
+            <div style={{ fontSize: 25, fontWeight: 'bolder' }}>
+              (Goverment Directory Service)
+            </div>
+            <div>
+              <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
+            </div>
+          </Grid>
+          <Grid item alignItems={'flex-end'}>
+            <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', height: '100%' }}>
+              เข้าสู่ระบบ
+              <br />
+              <TextField variant={'filled'} label={'Open ID account'} />
+              <br />
+              <TextField variant={'filled'} label={'Password'} />
+              <br />
+              <Link href="/" className={style.button}>
+                <a>Login</a>
+              </Link>
+            </div>
+          </Grid>
         </Grid>
+      </div> */}
+      ==================================================================
+
+      <div container>
+        <div item xs={6}>
+          <div style={{ fontSize: 27, fontWeight: 'bolder', display: 'inline' }}>
+            ระบบนามานุกรมข้อมูลภาครัฐ
+          </div>
+          <div style={{ fontSize: 25, fontWeight: 'bolder' }}>
+            (Goverment Directory Service)
+          </div>
+          <div>
+            <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
+          </div>        
+        </div>
+        <div item xs={6}>
+          <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', height: '100%' }}>
+            เข้าสู่ระบบ
+            <br />
+            <TextField variant={'filled'} label={'Open ID account'} />
+            <br />
+            <TextField variant={'filled'} label={'Password'} />
+            <br />
+            <Link href="/" className={style.button}>
+              <a>Login</a>
+            </Link>
+          </div>        
+          </div>
       </div>
+
+
     </>
   );
 }
