@@ -10,6 +10,8 @@ import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
+import Cardbox from '../components/Cardbox'
+import { Row, Col } from 'antd';
 
 
 export default function Home() {
@@ -48,7 +50,14 @@ export default function Home() {
       </Head>
 
       <Layout>
-        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic architecto beatae similique, accusamus aspernatur itaque non earum eveniet sunt quidem nulla ipsum omnis error praesentium repellat commodi provident repellendus laudantium.</h1>
+        <Row gutter={20} style={{padding:20}}>
+          {["จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ", "จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ...", "จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ..."].map((item) =>
+            <Col className="gutter-row" xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} >
+              <Cardbox title={item} />
+            </Col>
+          )}
+        </Row>
+
       </Layout>
     </>
   )

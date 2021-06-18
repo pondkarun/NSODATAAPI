@@ -95,12 +95,14 @@ function Layouts({ children }) {
                         <Typography className={classes.title} variant="h6" noWrap>
 
                         </Typography>
-                        <IconButton aria-label="search" color="inherit">
-                            <SearchIcon />
-                        </IconButton>
-                        <IconButton aria-label="display more actions" edge="end" color="inherit">
-                            <MoreIcon />
-                        </IconButton>
+
+                            <IconButton aria-label="search" color="inherit" edge="end">
+                                <SearchIcon />
+                            </IconButton>
+                            <IconButton aria-label="display more actions" edge="end" color="inherit">
+                                <MoreIcon />
+                            </IconButton>
+
                     </Toolbar>
                 </AppBar>
                 <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
@@ -108,7 +110,7 @@ function Layouts({ children }) {
                 </Drawer>
             </>
             <Headers />
-            <Container fixed>
+            <Container maxWidth="lg">
                 {children}
             </Container>
 
