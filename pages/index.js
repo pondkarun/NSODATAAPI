@@ -14,7 +14,7 @@ import Axios from 'axios'
 
 export default function Home() {
   const dispatch = useDispatch();
-
+  const name = "asdasdasd"
   useEffect(async () => {
     GetDataKeyCloak()
   }, []);
@@ -47,6 +47,7 @@ export default function Home() {
       </Head>
 
       <Layout>
+        <p>{name}</p>
         <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic architecto beatae similique, accusamus aspernatur itaque non earum eveniet sunt quidem nulla ipsum omnis error praesentium repellat commodi provident repellendus laudantium.</h1>
       </Layout>
     </>

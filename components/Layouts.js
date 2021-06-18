@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Layouts({ children }) {
+function Layouts({ children  }) {
     const classes = useStyles();
 
     const [state, setState] = React.useState({
