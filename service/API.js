@@ -4,9 +4,7 @@ export const GetAPIkeyCloak = async () => {
   let gettoken = JSON.parse(localStorage.getItem('KEYCLOAK'));
   let succesdata;
   console.log('gettoken :>> ', gettoken);
-  let checktokentime = new Date(gettoken.time_stamps.date).getTime() > new Date(new Date().getTime() + gettoken.expires_in * 1000).getTime()
-  console.log('checktokentime :>> ', checktokentime);
-  if (checktokentime) {
+  let GETKEYCLOAK = async() => {
     var formData = new FormData();
     formData.append("grant_type", "password");
     formData.append("client_id", "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq");
@@ -23,8 +21,17 @@ export const GetAPIkeyCloak = async () => {
     }).catch((error) => {
       console.log(`error`, error);
     })
+  }
+  if (gettoken) {
+    let checktokentime = new Date(gettoken.time_stamps.date).getTime() > new Date(new Date().getTime() + gettoken.expires_in * 1000).getTime()
+    console.log('checktokentime :>> ', checktokentime);
+    if (checktokentime) {
+      GETKEYCLOAK()
+    } else {
+      succesdata = gettoken;
+    }
   } else {
-    succesdata = gettoken;
+    GETKEYCLOAK()
   }
 
   return succesdata;
