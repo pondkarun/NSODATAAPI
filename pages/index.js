@@ -10,7 +10,7 @@ import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
-import { SET_MENU } from '../redux/actions'
+// import { SET_MENU } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
 import { Row, Col } from 'antd';
 
@@ -30,12 +30,12 @@ export default function Home() {
 
 
   const GetDataKeyCloak = () => {
-    API.get('/services/v1/api/user/mydata').then((data) => {
-      console.log(`data`, data)
-      dispatch(SET_MENU(data.data));
-    }).catch((error) => {
-      console.log('error :>> ', error);
-    })
+    // API.get('/services/v1/api/user/mydata').then((data) => {
+    //   console.log(`data`, data)
+    //   dispatch(SET_MENU(data.data));
+    // }).catch((error) => {
+    //   console.log('error :>> ', error);
+    // })
     // Axios({
     //   url:'http://dookdik2021.ddns.net/services/v1/api/user/mydata',
     //   method:"GET",
@@ -73,6 +73,3 @@ export default function Home() {
     </>
   )
 }
-
-
-
