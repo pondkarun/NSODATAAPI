@@ -47,7 +47,7 @@ export default function Header() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div style={{ backgroundColor: '#ffa366', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
+      <div style={{ backgroundColor: '#F4D03F', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
         <Grid container>
           <Grid item xs={12}>
             <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', }}>
