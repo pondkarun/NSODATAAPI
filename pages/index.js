@@ -15,7 +15,7 @@ import { SET_MENU } from '../redux/actions'
 
 export default function Home() {
   const dispatch = useDispatch();
- 
+
   const { keycloak } = useSelector(({ auth }) => auth);
 
   console.log("auth", keycloak)
@@ -54,10 +54,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
+      {/* <Layout>
         <p>{name}</p>
-        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic architecto beatae similique, accusamus aspernatur itaque non earum eveniet sunt quidem nulla ipsum omnis error praesentium repellat commodi provident repellendus laudantium.</h1>
         <button onClick={() => { setName("Thunwa") }}>click</button>
+      </Layout> */}
+      <Layout>
+        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic architecto beatae similique, accusamus aspernatur itaque non earum eveniet sunt quidem nulla ipsum omnis error praesentium repellat commodi provident repellendus laudantium.</h1>
       </Layout>
     </>
   )

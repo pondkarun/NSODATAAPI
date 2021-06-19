@@ -9,6 +9,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '@material-ui/core/Container';
 import Headers from './Header';
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
 function Layouts({ children  }) {
     const classes = useStyles();
 
+    const {munu} = useSelector(({menu})=>menu);
+    console.log("Guest", munu);
+    const permission_data = munu.data.permission_data;
+
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -58,19 +63,10 @@ function Layouts({ children  }) {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {[
-                    { 'Menu': 'หน้าแรก', 'Url': '/' },
-                    { 'Menu': 'ข้อมูลของฉัน', 'Url': '/' },
-                    { 'Menu': 'ชุดข้อมูลยอดนิยม', 'Url': '/' },
-                    { 'Menu': 'เกี่ยวกับ', 'Url': '/' },
-                    { 'Menu': 'จัดการผู้ใช้งาน', 'Url': '/admin/user' },
-                    { 'Menu': 'จัดการกลุ่มผู้ใช้งาน', 'Url': '/admin/user_group' },
-                    { 'Menu': 'จัดการระดับการเข้าถึง', 'Url': '/admin/permission' },
-                    { 'Menu': 'จัดการฟังก์ชันโปรแกรม', 'Url': '/admin/system_feature' },
-                ].map((text, index) => (
-                    <ListItem button key={text.Menu}>
+                {permission_data.map((text, index) => (
+                    <ListItem button key={text.id}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text.Menu} />
+                        <ListItemText primary={text.application_name} />
                     </ListItem>
                 ))}
             </List>
