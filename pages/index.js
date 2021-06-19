@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,11 +10,17 @@ import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
+import { SET_MENU } from '../redux/actions'
 
 
 export default function Home() {
   const dispatch = useDispatch();
-  const name = "asdasdasd"
+ 
+  const { keycloak } = useSelector(({ auth }) => auth);
+
+  console.log("auth", keycloak)
+  const [name, setName] = useState("wwwwwww");
+
   useEffect(async () => {
     GetDataKeyCloak()
   }, []);
@@ -24,6 +30,7 @@ export default function Home() {
   const GetDataKeyCloak = () => {
     API.get('/services/v1/api/user/mydata').then((data) => {
       console.log(`data`, data)
+      dispatch(SET_MENU(data.data));
     }).catch((error) => {
       console.log('error :>> ', error);
     })
@@ -50,7 +57,11 @@ export default function Home() {
       <Layout>
         <p>{name}</p>
         <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic architecto beatae similique, accusamus aspernatur itaque non earum eveniet sunt quidem nulla ipsum omnis error praesentium repellat commodi provident repellendus laudantium.</h1>
+        <button onClick={() => { setName("Thunwa") }}>click</button>
       </Layout>
     </>
   )
 }
+
+
+
