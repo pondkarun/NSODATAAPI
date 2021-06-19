@@ -9,6 +9,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '@material-ui/core/Container';
 import Headers from './Header';
+import {useState} from 'react';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,10 +36,6 @@ const useStyles = makeStyles((theme) => ({
 function Layouts({ children  }) {
     const classes = useStyles();
 
-    const {munu} = useSelector(({menu})=>menu);
-    console.log("Guest", munu);
-    const permission_data = munu.data.permission_data;
-
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -53,6 +50,14 @@ function Layouts({ children  }) {
 
         setState({ ...state, [anchor]: open });
     };
+
+    var { munu } = useSelector(({ menu }) => menu);
+    var permission_data = [];
+    if (munu != null) {
+        permission_data = munu.data.permission_data;
+        console.log("permission_data", permission_data);
+    }
+
     const list = (anchor) => (
         <div
             className={clsx(classes.list, {
@@ -73,6 +78,9 @@ function Layouts({ children  }) {
 
         </div>
     );
+
+    
+
 
     return (
         <div className={classes.root}>
