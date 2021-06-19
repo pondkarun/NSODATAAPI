@@ -18,12 +18,3 @@ export const useAuthToken = () => {
 
 	return [loading];
 };
-
-export const useAuthUser = () => {
-	const { user } = useSelector(({ auth }) => auth);
-
-	if (user) {
-		return { id: 1, ...user };
-	}
-	return [null];
-};
