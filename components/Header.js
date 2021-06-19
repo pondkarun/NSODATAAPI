@@ -4,12 +4,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../styles/Home.module.scss';
-import Layout from './Layout';
 import Grid from '@material-ui/core/Grid';
 import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
+import { Avatar } from 'antd';
 
 
 export default function Header() {
@@ -50,29 +50,31 @@ export default function Header() {
       <div style={{ backgroundColor: '#F4D03F', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
         <Grid container>
           <Grid item xs={12}>
-            <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', }}>
-              <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
-              ระบบนามานุกรมข้อมูลภาครัฐ
-              <br />
-              (Goverment Directory Service)
-              <br />
-              <div style={{ backgroundColor: 'white', borderRadius: 10, }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", padding: 10 ,flexWrap:"wrap" }}>
+              <Avatar size={150} src={<img src={"/img/logo.png"}  style={{objectFit:"contain",backgroundColor:"#FFF"}}  />} />
+              <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder',marginLeft:"-80px" }}>
+                ระบบนามานุกรมข้อมูลภาครัฐ
+                <br />
+                (Goverment Directory Service)
+                <br />
+                <Grid container>
+                  <Grid item xs={12}>
+                    <div style={{ textAlign: 'center' }}>
+                      <TextField placeholder={'Search...'} />
+                      <button type="submit"><SearchButton /></button>
+                    </div>
+                    <br />
+                  </Grid>
+                </Grid>
+              </div>
+              <div>
 
               </div>
             </div>
-          </Grid>
-        </Grid>
-        <br />
-        <Grid container>
-          <Grid item xs={12}>
-            <div style={{ textAlign: 'center' }}>
 
-              <TextField placeholder={'Search...'} />
-              <button type="submit"><SearchButton /></button>
-            </div>
-            <br />
           </Grid>
         </Grid>
+
       </div>
       {/* </div> */}
     </>

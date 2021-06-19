@@ -38,8 +38,7 @@ export default function UserList(){
     const classes = useStyle();
 
     return (
-        <>
-        <Layout />
+        <Layout>
         <h1>ระบบจัดการผู้ใช้งานระบบ</h1>
 
         <TableContainer component={Paper}>
@@ -54,9 +53,9 @@ export default function UserList(){
                         <TableCell>เข้าระบบล่าสุด</TableCell>
                         <TableCell>สถานะผู้ใช้</TableCell>
                         <TableCell>จัดการ</TableCell>
-                        
+
                     </TableRow>
-                </TableHead>   
+                </TableHead>
                 <TableBody>
                     {rows.map((row, index) => (
                         <TableRow>
@@ -86,6 +85,6 @@ export default function UserList(){
             </Table>
         </TableContainer>
 
-        </>
+        </Layout>
     )
 }
