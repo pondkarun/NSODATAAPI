@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -21,7 +21,10 @@ import Logo from 'next/image';
 import Link from 'next/link';
 import Image from 'next/image';
 import { style } from '@material-ui/system';
+import Layout from '../components/Layouts';
 // import LogoPath from '../public/img/logo.png';
+import { Row, Col, Input, Button} from 'antd';
+import { black } from 'material-ui/styles/colors';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -77,7 +80,7 @@ export default function TemporaryDrawer() {
 
   return (
     <>
-      <div className="Layout" style={{ backgroundColor: '#21696f' }}>
+      {/* <div className="Layout" style={{ backgroundColor: '#21696f' }}>
         <Grid container spacing={3}>
           <Grid item xs={11}>
             {['Left'].map((anchor) => (
@@ -94,44 +97,14 @@ export default function TemporaryDrawer() {
             <ShoppingCartIcon />
           </Grid>
         </Grid>
-      </div>
-      {/* <div style={{ position: 'absolute', left: '50%', top: '50%', backgroundColor: 'orangered', borderRadius: 10 }}>
-        <Grid container spacing={3}>
-          <Grid item>
-            <div style={{ fontSize: 27, fontWeight: 'bolder', display: 'inline' }}>
-              ระบบนามานุกรมข้อมูลภาครัฐ
-            </div>
-            <div style={{ fontSize: 25, fontWeight: 'bolder' }}>
-              (Goverment Directory Service)
-            </div>
-            <div>
-              <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
-            </div>
-          </Grid>
-          <Grid item alignItems={'flex-end'}>
-            <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', height: '100%' }}>
-              เข้าสู่ระบบ
-              <br />
-              <TextField variant={'filled'} label={'Open ID account'} />
-              <br />
-              <TextField variant={'filled'} label={'Password'} />
-              <br />
-              <Link href="/" className={style.button}>
-                <a>Login</a>
-              </Link>
-            </div>
-          </Grid>
-        </Grid>
       </div> */}
-      ==================================================================
-
-      <div container>
+      {/* <div container>
         <div item xs={6}>
           <div style={{ fontSize: 27, fontWeight: 'bolder', display: 'inline' }}>
             ระบบนามานุกรมข้อมูลภาครัฐ
           </div>
           <div style={{ fontSize: 25, fontWeight: 'bolder' }}>
-            (Goverment Directory Service)
+            (Government Directory Service)
           </div>
           <div>
             <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
@@ -151,8 +124,35 @@ export default function TemporaryDrawer() {
             
           </div>        
           </div>
+      </div> */}
+<br />
+<br />
+<Layout>
+<div>
+        <Row>
+          <Col span={12} style={{textAlign: 'center', fontSize: 27, fontWeight: 'bolder'}}>
+            ระบบนามานุกรมข้อมูลภาครัฐ
+            <br />
+            (Government Directory Service)
+            <br />
+            <br />
+            <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
+          </Col>
+          <Col span={12} style={{textAlign: 'center', fontSize: 25, fontWeight: 'bold', backgroundColor: 'orange', borderTopLeftRadius: 60}}>
+            เข้าสู่ระบบ
+            <br />
+            <Row><Col span={24} style={{fontSize: 25,}}>Open ID account</Col></Row>
+            <Row><Col span={12} offset={6}><Input placeholder="Username" size="large" allowClear /></Col></Row>
+            <Row><Col span={12} offset={6}><Input.Password placeholder="Password" size="large" allowClear /></Col></Row>
+            <Row><Col span={12} offset={6} style={{textAlign: 'center'}}><Button type="primary" shape="round">Login</Button></Col></Row>
+            <Row><Col span={24} style={{}}><hr style={{color: black}} /></Col></Row>
+            <Row><Col span={24} style={{fontWeight: 'normal', fontSize: 17}}>หรือ</Col></Row>
+            <Row><Col span={12} offset={6} style={{textAlign: 'center'}}><Button type="primary" shape="round">Open ID</Button></Col></Row>
+          </Col>
+        </Row>
       </div>
-
+</Layout>
+      
 
     </>
   );
