@@ -129,7 +129,7 @@ export default function TemporaryDrawer() {
 <br />
 <Layout>
 <div>
-        <Row>
+        <Row style = {{}}>
           <Col span={12} style={{textAlign: 'center', fontSize: 27, fontWeight: 'bolder'}}>
             ระบบนามานุกรมข้อมูลภาครัฐ
             <br />

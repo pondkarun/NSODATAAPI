@@ -9,7 +9,7 @@ import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
-import { Avatar } from 'antd';
+import { Avatar, Input } from 'antd';
 
 
 export default function Header() {
@@ -60,8 +60,9 @@ export default function Header() {
                 <Grid container>
                   <Grid item xs={12}>
                     <div style={{ textAlign: 'center' }}>
-                      <TextField placeholder={'Search...'} />
-                      <button type="submit"><SearchButton /></button>
+                      {/* <TextField placeholder={'Search...'} />
+                      <button type="submit"><SearchButton /></button> */}
+                      <Input.Search placeholder="Search..."></Input.Search>
                     </div>
                     <br />
                   </Grid>
