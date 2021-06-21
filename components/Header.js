@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Head from 'next/head';
 import Image from 'next/image';
@@ -12,6 +12,7 @@ import Axios from 'axios'
 import { Avatar, Input, Row, Col } from 'antd';
 import {
   SettingFilled,
+  CloseOutlined
 } from '@ant-design/icons';
 
 export default function Header() {
@@ -88,14 +89,16 @@ export default function Header() {
               <br />
               (Goverment Directory Service)
               <br />
-              <div style={{ textAlign: 'center', marginTop: "25px",display:"flex",flexDirection:"row" }}>
+              <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
                 <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "2px solid white", borderRadius: "20px", }}></Input.Search>
-                <SettingFilled style={{margin:"5px 20px",color:"#2980B9"}} onClick={()=>setOpensetting(!opensetting)}  />
+                <SettingFilled style={{ margin: "5px 20px", color: "#2980B9" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
             </div>
-            <div style={{width:"100%",height:`${opensetting ? "200px":"0px"}`,backgroundColor:"#3D3D3D",position:"absolute",zIndex:99,borderRadius:"20px",transition:"2s",overflow: "hidden"}}>
-              <div style={{height:"50px",backgroundColor:"#F4D03F",borderBottomRightRadius:"10px",borderBottomLeftRadius:"10px"}}>
-
+            <div style={{ width: "100%", height: `${opensetting ? "200px" : "0px"}`, backgroundColor: "#3D3D3D", position: "absolute", zIndex: 99, borderRadius: "20px", transition: "2s", overflow: "hidden" }}>
+              <div style={{padding:"10px",backgroundColor: "#F4D03F", borderBottomRightRadius: "10px", borderBottomLeftRadius: "10px", display: "flex", justifyContent: "space-between" }}>
+                <SettingFilled style={{ margin: "5px 20px", color: "#2980B9" ,fontSize:"25px"}}  />
+                <span style={{fontSize:"20px",fontWeight:"bold", color: "#2980B9" }}>ตัวกรองค้นหาข้อมูล</span>
+                <CloseOutlined style={{ margin: "5px 20px", color: "#2980B9" ,fontSize:"25px"}} onClick={() => setOpensetting(!opensetting)} />
               </div>
             </div>
           </Col>

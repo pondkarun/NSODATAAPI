@@ -30,7 +30,7 @@ function Layouts({ children }) {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <PageHeader
-                style={{ backgroundColor: "#2980B9", padding: "3px 19px" }}
+                style={{ backgroundColor: "#2980B9", padding: "0px 19px" }}
                 ghost={false}
                 onBack={() => setOpen(!open)}
                 backIcon={<IconButton
