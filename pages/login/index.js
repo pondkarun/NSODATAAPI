@@ -21,7 +21,7 @@ import Logo from 'next/image';
 import Link from 'next/link';
 import Image from 'next/image';
 import { style } from '@material-ui/system';
-import Layout from '../components/Layouts';
+import Layout from '../../components/Layouts';
 // import LogoPath from '../public/img/logo.png';
 import { Row, Col, Input, Button} from 'antd';
 import { black } from 'material-ui/styles/colors';
@@ -108,7 +108,7 @@ export default function TemporaryDrawer() {
           </div>
           <div>
             <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} />
-          </div>        
+          </div>
         </div>
         <div item xs={6}>
           <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', height: '100%' }}>
@@ -121,8 +121,8 @@ export default function TemporaryDrawer() {
             <Link href="/" className={style.button}>
               <a>Login</a>
             </Link>
-            
-          </div>        
+
+          </div>
           </div>
       </div> */}
 <br />
@@ -152,7 +152,7 @@ export default function TemporaryDrawer() {
         </Row>
       </div>
 </Layout>
-      
+
 
     </>
   );

@@ -36,6 +36,7 @@ function configureStore(initialState = {}) {
     // if the token changes set the value in localStorage and axios headers
     if (previousState.auth.keycloak?.token !== currentState.auth.keycloak.token) {
       const token = currentState.auth.keycloak.token;
+      console.log('token :>> ', token);
       setAccessToken(token);
     }
   });
