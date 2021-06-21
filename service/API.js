@@ -1,4 +1,5 @@
 import API from '../util/Api';
+import { Cookies } from 'react-cookie'
 
 export const GetAPIkeyCloak = async () => {
   let gettoken = JSON.parse(localStorage.getItem('KEYCLOAK'));
@@ -15,6 +16,8 @@ export const GetAPIkeyCloak = async () => {
     await API.post('/services/v1/api/keycloak', formData).then(({ data: { data } }) => {
       // console.log('items :>> ', data);
       //   dispatch(SET_KEY_CLOAK(data));
+      const cookies = new Cookies();
+      cookies.set('token', data.token);
       localStorage.setItem('KEYCLOAK', JSON.stringify(data));
       succesdata = data;
 
