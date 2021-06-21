@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Head from 'next/head';
 import Image from 'next/image';
@@ -9,11 +9,14 @@ import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
-import { Avatar, Input } from 'antd';
-
+import { Avatar, Input, Row, Col } from 'antd';
+import {
+  SettingFilled,
+} from '@ant-design/icons';
 
 export default function Header() {
   const dispatch = useDispatch();
+  const [opensetting, setOpensetting] = useState(false);
 
   useEffect(async () => {
     GetDataKeyCloak()
@@ -48,21 +51,19 @@ export default function Header() {
       </Head>
 
       <div style={{ backgroundColor: '#F4D03F', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={12}>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", padding: 10 ,flexWrap:"wrap" }}>
-              <Avatar size={150} src={<img src={"/img/logo.png"}  style={{objectFit:"contain",backgroundColor:"#FFF"}}  />} />
-              <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder',marginLeft:"-80px" }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around",flexWrap: "wrap",alignItems:"center" }}>
+              <Avatar size={150} src={<img src={"/img/logo.png"} style={{ objectFit: "contain", backgroundColor: "#FFF" }} />} />
+              <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', marginLeft: "-80px" }}>
                 ระบบนามานุกรมข้อมูลภาครัฐ
                 <br />
                 (Goverment Directory Service)
                 <br />
                 <Grid container>
                   <Grid item xs={12}>
-                    <div style={{ textAlign: 'center' }}>
-                      {/* <TextField placeholder={'Search...'} />
-                      <button type="submit"><SearchButton /></button> */}
-                      <Input.Search placeholder="Search..."></Input.Search>
+                    <div style={{ textAlign: 'center',marginTop:"25px" }}>
+                      <Input.Search placeholder="Search..." style={{ border: "2px solid white", borderRadius: "20px",backgroundColor: "white" }}></Input.Search>
                     </div>
                     <br />
                   </Grid>
@@ -74,10 +75,64 @@ export default function Header() {
             </div>
 
           </Grid>
-        </Grid>
+        </Grid> */}
+        <Row style={{ padding: "20px" }} >
+          <Col xs={24} sm={24} md={6}>
+            <div style={{ textAlign: "center" }}>
+              <Avatar size={150} src={<img src={"/img/logo.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", }} />} />
+            </div>
+          </Col>
+          <Col xs={24} sm={24} md={12} >
+            <div style={{ display: "block", textAlign: 'center', fontSize: 27, fontWeight: 'bolder', }}>
+              ระบบนามานุกรมข้อมูลภาครัฐ
+              <br />
+              (Goverment Directory Service)
+              <br />
+              <div style={{ textAlign: 'center', marginTop: "25px",display:"flex",flexDirection:"row" }}>
+                <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "2px solid white", borderRadius: "20px", }}></Input.Search>
+                <SettingFilled style={{margin:"5px 20px",color:"#2980B9"}} onClick={()=>setOpensetting(!opensetting)}  />
+              </div>
+            </div>
+            <div style={{width:"100%",height:`${opensetting ? "200px":"0px"}`,backgroundColor:"#3D3D3D",position:"absolute",zIndex:99,borderRadius:"20px",transition:"2s",overflow: "hidden"}}>
+              <div style={{height:"50px",backgroundColor:"#F4D03F",borderBottomRightRadius:"10px",borderBottomLeftRadius:"10px"}}>
+
+              </div>
+            </div>
+          </Col>
+          <Col xs={24} sm={24} md={6}>
+
+          </Col>
+        </Row>
 
       </div>
-      {/* </div> */}
+      <style jsx global>
+        {`
+        .ant-input-group .ant-input {
+          float: left;
+        width: 100%;
+        margin-bottom: 0;
+        text-align: inherit;
+        border-radius: 20px;
+        }
+        .ant-input-search-button {
+            height: 32px;
+            border-radius: 20px !important;
+            border: none;
+            background-color:#2980B9;
+        }
+
+        .ant-input-group-addon {
+              border-radius: 20px;
+              border: none;
+              background-color:#2980B9;
+
+          }
+          .ant-input-search-button:hover, .ant-input-search-button:focus {
+          z-index: 1;
+          background-color:#2980B9;
+        }
+        `}
+      </style>
     </>
   )
 }

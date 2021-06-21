@@ -9,7 +9,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Headers from './Header';
 import { useSelector } from 'react-redux';
-import { Layout, Menu, PageHeader, Avatar } from 'antd';
+import { Layout, Menu, PageHeader, Avatar, Badge } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
@@ -43,8 +43,12 @@ function Layouts({ children }) {
                 </IconButton>}
                 extra={[
                     <Avatar size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
-                    <span style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>UserName</span>,
-                    <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
+                    <span style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</span>,
+                    <a href="#">
+                        <Badge count={5} style={{top:"10px"}}>
+                            <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
+                        </Badge>
+                    </a>,
                 ]}
             >
             </PageHeader>

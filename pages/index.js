@@ -13,7 +13,10 @@ import Axios from 'axios'
 // import { SET_MENU } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
 import { Row, Col } from 'antd';
-
+import {
+  BarsOutlined,
+  InsertRowLeftOutlined
+} from '@ant-design/icons';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -60,8 +63,15 @@ export default function Home() {
         <p>{name}</p>
         <button onClick={() => { setName("Thunwa") }}>click</button>
       </Layout> */}
-      <Layout>
-        <Row gutter={20} style={{padding:20}}>
+      <Layout style={{ padding: 20 }}>
+        <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ70ชุดข้อมูล`}</span>
+          <div>
+          <BarsOutlined style={{fontSize:"30px",fontWeight:"bold",color:"#2980B9"}} />
+          <InsertRowLeftOutlined style={{fontSize:"30px",fontWeight:"bold",color:"#2980B9"}} />
+          </div>
+        </div>
+        <Row gutter={20} >
           {["จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ", "จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ...", "จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ..."].map((item) =>
             <Col className="gutter-row" xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} >
               <Cardbox title={item} />
