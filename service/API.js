@@ -9,7 +9,7 @@ export const GetAPIkeyCloak = async () => {
     var formData = new FormData();
     formData.append("grant_type", "password");
     formData.append("client_id", "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq");
-    formData.append("client_secret", "b5e098c2-44b4-4cc4-a845-c3058de37add");
+    formData.append("client_secret", "94ce578f-0177-4c53-bff7-8aed392e276d");
     formData.append("username", "directory_service");
     formData.append("password", "4Dm!n2021pdwd03");
 

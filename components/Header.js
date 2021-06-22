@@ -9,11 +9,25 @@ import SearchButton from '@material-ui/icons/SearchOutlined';
 import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
-import { Avatar, Input, Row, Col } from 'antd';
+import { Avatar, Input, Row, Col, Switch, Checkbox } from 'antd';
 import {
   SettingFilled,
   CloseOutlined
 } from '@ant-design/icons';
+
+
+const options1 = [
+  { label: 'ระเบียน', value: 'Apple' },
+  { label: 'สถิติ', value: 'Pear' },
+  { label: 'ภูมิสารสนเทศ', value: 'Orange' },
+  { label: 'หลากหลาย', value: 'Orange' },
+  { label: 'อื่นๆ', value: 'Orange' },
+];
+const options2 = [
+  { label: 'กรมควบคุมมลพิษ', value: 'Apple' },
+  { label: 'กรมควบคุมโรค', value: 'Pear' },
+  { label: 'กรมการแพทย์', value: 'Orange' },
+];
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -90,15 +104,26 @@ export default function Header() {
               (Goverment Directory Service)
               <br />
               <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
-                <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "2px solid white", borderRadius: "20px", }}></Input.Search>
+                <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }}></Input.Search>
                 <SettingFilled style={{ margin: "5px 20px", color: "#2980B9" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
             </div>
-            <div style={{ width: "100%", height: `${opensetting ? "200px" : "0px"}`, backgroundColor: "#3D3D3D", position: "absolute", zIndex: 99, borderRadius: "20px", transition: "2s", overflow: "hidden" }}>
-              <div style={{padding:"10px",backgroundColor: "#F4D03F", borderBottomRightRadius: "10px", borderBottomLeftRadius: "10px", display: "flex", justifyContent: "space-between" }}>
-                <SettingFilled style={{ margin: "5px 20px", color: "#2980B9" ,fontSize:"25px"}}  />
-                <span style={{fontSize:"20px",fontWeight:"bold", color: "#2980B9" }}>ตัวกรองค้นหาข้อมูล</span>
-                <CloseOutlined style={{ margin: "5px 20px", color: "#2980B9" ,fontSize:"25px"}} onClick={() => setOpensetting(!opensetting)} />
+            <div style={{ width: "100%", height: `${opensetting ? "auto" : "0%"}`, backgroundColor: "#3D3D3D", position: "absolute", zIndex: 99, borderRadius: "20px", transition: "2s", overflow: "hidden" }}>
+              <div style={{ padding: "10px", backgroundColor: "#F4D03F", borderBottomRightRadius: "10px", borderBottomLeftRadius: "10px", display: "flex", justifyContent: "space-between" }}>
+                <SettingFilled style={{ margin: "5px 20px", color: "#2980B9", fontSize: "25px" }} />
+                <span style={{ fontSize: "20px", fontWeight: "bold", color: "#2980B9" }}>ตัวกรองค้นหาข้อมูล</span>
+                <CloseOutlined style={{ margin: "5px 20px", color: "#2980B9", fontSize: "25px" }} onClick={() => setOpensetting(!opensetting)} />
+              </div>
+              <div style={{ padding: "10px" }}>
+                <span style={{ color: "white" }}>ประเภทข้อมูล </span><Switch defaultChecked /> <br />
+                <div style={{ padding: "10px" }}>
+                  <Checkbox.Group options={options1}  />
+                </div>
+                <span style={{ color: "white" }}>หน่วยงาน</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Switch defaultChecked /> <br />
+                <div style={{ padding: "10px" }}>
+                  <Checkbox.Group options={options2}  />
+                </div>
+
               </div>
             </div>
           </Col>
@@ -133,6 +158,14 @@ export default function Header() {
           .ant-input-search-button:hover, .ant-input-search-button:focus {
           z-index: 1;
           background-color:#2980B9;
+        }
+        .ant-switch-checked {
+            background-color: #18ff4a;
+        }
+        .ant-checkbox + span {
+            color: aliceblue;
+            padding-right: 8px;
+            padding-left: 8px;
         }
         `}
       </style>
