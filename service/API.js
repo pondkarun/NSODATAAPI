@@ -1,5 +1,6 @@
 import API from '../util/Api';
 import { Cookies } from 'react-cookie'
+import { setAccessToken } from "../util/Utility";
 
 export const GetAPIkeyCloak = async () => {
   let gettoken = JSON.parse(localStorage.getItem('KEYCLOAK'));
@@ -9,7 +10,7 @@ export const GetAPIkeyCloak = async () => {
     var formData = new FormData();
     formData.append("grant_type", "password");
     formData.append("client_id", "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq");
-    formData.append("client_secret", "94ce578f-0177-4c53-bff7-8aed392e276d");
+    formData.append("client_secret", "0d833f84-0d7d-4ab5-8b61-d32900992ef7");
     formData.append("username", "directory_service");
     formData.append("password", "4Dm!n2021pdwd03");
 
@@ -18,6 +19,7 @@ export const GetAPIkeyCloak = async () => {
       //   dispatch(SET_KEY_CLOAK(data));
       const cookies = new Cookies();
       cookies.set('token', data.token);
+      setAccessToken(data.token);
       localStorage.setItem('KEYCLOAK', JSON.stringify(data));
       succesdata = data;
 

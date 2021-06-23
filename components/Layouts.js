@@ -16,7 +16,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 
-function Layouts({ children }) {
+function Layouts({ children,disableheader,disablecontainer }) {
     const [open, setOpen] = React.useState(true);
     var { munu } = useSelector(({ menu }) => menu);
     var permission_data = [];
@@ -45,7 +45,7 @@ function Layouts({ children }) {
                     <Avatar size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
                     <span style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</span>,
                     <a href="#">
-                        <Badge count={5} style={{top:"10px"}}>
+                        <Badge count={0} style={{top:"10px"}}>
                             <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
                         </Badge>
                     </a>,
@@ -66,8 +66,8 @@ function Layouts({ children }) {
                     </Menu>
                 </Sider>
                 <Layout>
-                    <Headers />
-                    <Layout style={{ padding: '0 50px 50px' }}>
+                   {!disableheader && <Headers />}
+                    <Layout style={{ padding: !disablecontainer ?? '0 50px 50px', }}>
                         {children}
                     </Layout>
                 </Layout>
