@@ -1,16 +1,11 @@
 import React from 'react'
-import clsx from 'clsx';
 import { AppBar, Toolbar, IconButton, Typography, ListItemText, ListItemIcon, ListItem, Divider, List, Drawer } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Headers from './Header';
 import { useSelector } from 'react-redux';
 import { Layout, Menu, PageHeader, Avatar, Badge } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -18,6 +13,7 @@ const { Header, Content, Sider } = Layout;
 
 function Layouts({ children,disableheader,disablecontainer }) {
     const [open, setOpen] = React.useState(true);
+    const { openid } = useSelector(({ auth }) => auth);
     var { munu } = useSelector(({ menu }) => menu);
     var permission_data = [];
     if (munu != null) {
@@ -43,7 +39,7 @@ function Layouts({ children,disableheader,disablecontainer }) {
                 </IconButton>}
                 extra={[
                     <Avatar size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
-                    <span style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</span>,
+                    <>{openid ? <span style={{color:"white"}}>{openid.user_name}</span>:<Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</>,
                     <a href="#">
                         <Badge count={0} style={{top:"10px"}}>
                             <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
@@ -67,7 +63,7 @@ function Layouts({ children,disableheader,disablecontainer }) {
                 </Sider>
                 <Layout>
                    {!disableheader && <Headers />}
-                    <Layout style={{ padding: !disablecontainer ?? '0 50px 50px', }}>
+                    <Layout style={{ padding: !disablecontainer ? '0 50px 50px':'0 0', }}>
                         {children}
                     </Layout>
                 </Layout>

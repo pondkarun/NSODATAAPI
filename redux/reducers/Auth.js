@@ -1,5 +1,6 @@
 const INIT_STATE = {
     keycloak: null,
+    openid:null,
   };
 
   export default (state = INIT_STATE, action) => {
@@ -8,6 +9,12 @@ const INIT_STATE = {
         return {
           ...state,
           keycloak: action.payload,
+        };
+      }
+      case "SET_OPENID": {
+        return {
+          ...state,
+          openid: action.payload,
         };
       }
 

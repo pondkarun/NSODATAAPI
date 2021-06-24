@@ -1,31 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Head from 'next/head';
-import Image from 'next/image';
+import { Cookies } from 'react-cookie'
 import Link from 'next/link';
-import styles from '../styles/Home.module.scss';
 import Layout from '../components/Layouts';
-import Grid from '@material-ui/core/Grid';
-import SearchButton from '@material-ui/icons/SearchOutlined';
-import TextField from '@material-ui/core/TextField';
 import API from '../util/Api';
 import Axios from 'axios'
-// import { SET_MENU } from '../redux/actions'
+import { SET_OPENID } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
 import { Row, Col } from 'antd';
 import {
   BarsOutlined,
   InsertRowLeftOutlined
 } from '@ant-design/icons';
+import { useRouter } from 'next/router'
+
 
 export default function Home() {
   const dispatch = useDispatch();
-
+  const router = useRouter()
+  const { id,user_name,e_mail,status,last_login,login_status,token,token_date,created_by,created_date,updated_by,updated_date,open_id} = router.query;
+  const cookies = new Cookies();
   const { keycloak } = useSelector(({ auth }) => auth);
 
   console.log("auth", keycloak)
   const [name, setName] = useState("wwwwwww");
 
+  useEffect(async () => {
+    console.log('tokenopenid :>> ', token);
+    if(token){
+      cookies.set('openid', {id,user_name,e_mail,status,last_login,login_status,token,token_date,created_by,created_date,updated_by,updated_date,open_id});
+      dispatch(SET_OPENID({id,user_name,e_mail,status,last_login,login_status,token,token_date,created_by,created_date,updated_by,updated_date,open_id}));
+    }
+  }, [token]);
   useEffect(async () => {
     GetDataKeyCloak()
   }, []);

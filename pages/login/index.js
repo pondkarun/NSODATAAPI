@@ -1,10 +1,27 @@
 import React from 'react'
 import Layouts from '../../components/Layouts';
 import { Row, Col, Image, Form, Input, Button, Checkbox } from 'antd';
+import API from '../../util/Api';
+import {useDispatch} from 'react-redux';
+import {SET_OPENID} from '../../redux/actions';
+import {Cookies} from 'react-cookie';
+import { useRouter } from 'next/router'
 
 function Login() {
-  const onFinish = (values) => {
+const dispatch =useDispatch();
+const cookies = new Cookies();
+const router = useRouter()
+
+const onFinish = (values) => {
     console.log('Success:', values);
+    API.post('http://dookdik2021.ddns.net/services/v1/api/login',values).then(({data:{data}})=>{
+      // console.log('data :>> ', data);
+      dispatch(SET_OPENID(data));
+      cookies.set("openid",data);
+      router.push('/');
+    }).catch((eror)=>{
+      console.log('eror :>> ', eror);
+    })
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -31,7 +48,7 @@ function Login() {
               >
                 <Form.Item
                   label=""
-                  name="username"
+                  name="user_name"
                   rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                     <Input placeholder="Username" />
@@ -52,17 +69,17 @@ function Login() {
 
                 <Form.Item>
                   <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
-                    <Button htmlType="submit" block style={{ width: "45%", backgroundColor: "#89EE89" }}>
+                    <Button htmlType="submit" block style={{ width: "45%", backgroundColor: "#89EE89",color:"white" }}>
                       Login
                     </Button>
-                    <Button htmlType="submit" block style={{ width: "45%" }}>
+                    <Button block style={{ width: "45%" }}>
                       Sign Up
                     </Button>
                   </div>
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 24 }}>
-                  <Button type="primary" block htmlType="submit">
-                    Login On OpenID
+                  <Button href="http://dookdik2021.ddns.net/services/v1/api/openid" type="primary" block htmlType="submit">
+                   Login On OpenID
                   </Button>
 
                 </Form.Item>

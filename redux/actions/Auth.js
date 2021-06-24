@@ -5,3 +5,10 @@ export const SET_KEY_CLOAK = (data) => {
     })
 
 }
+export const SET_OPENID = (data) => {
+    return (dispatch) => dispatch({
+        type: "SET_OPENID",
+        payload: data
+    })
+
+}
