@@ -35,9 +35,11 @@ export default function Home() {
   }, [token]);
   useEffect(async () => {
     GetDataKeyCloak()
+    GetDataCKan()
   }, []);
 
-
+  const oID = cookies.get('openid');
+console.log('getOpenIDCookies',oID);
 
   const GetDataKeyCloak = () => {
     // API.get('/services/v1/api/user/mydata').then((data) => {
@@ -58,6 +60,18 @@ export default function Home() {
     //   console.log('eror :>> ', eror);
     // })
   }
+
+  const [ckanData, dataList] = useState([]);
+
+  const GetDataCKan = () => {
+    API.get('http://dookdik2021.ddns.net/services/v1/api/ckan/all').then((data) => {
+      console.log(`GetDataCKan`, data);
+      dataList(data.data.data.results);
+    }).catch((error) => {
+      console.log('error :>> ', error);
+    })
+  }
+
   return (
     <>
       <Head>
@@ -79,9 +93,9 @@ export default function Home() {
           </div>
         </div>
         <Row gutter={20} >
-          {["จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ", "จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ...", "จำนวนผู้ติดโควิด-19 ประจำวันที่ 15 พ.ค. 2564 ..."].map((item) =>
+          {ckanData.map((item) =>
             <Col className="gutter-row" xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} >
-              <Cardbox title={item} />
+              <Cardbox key={item.id} title={item.maintainer} />
             </Col>
           )}
         </Row>
