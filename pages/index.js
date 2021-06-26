@@ -78,7 +78,7 @@ export default function Home() {
         <Row gutter={20} >
           {ckanData.map((item) =>
             <Col className="gutter-row" xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} >
-              <Cardbox key={item.id} title={item.maintainer} />
+              <Cardbox key={item.id} title={item.maintainer} image={item.organization.image_url} />
             </Col>
           )}
         </Row>
