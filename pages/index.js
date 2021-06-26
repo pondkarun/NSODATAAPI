@@ -8,7 +8,7 @@ import API from '../util/Api';
 import Axios from 'axios'
 import { SET_OPENID } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
-import { Row, Col } from 'antd';
+import { Row, Col,Button } from 'antd';
 import {
   BarsOutlined,
   InsertRowLeftOutlined,
@@ -63,16 +63,16 @@ export default function Home() {
   const oID = cookies.get('openid');
   console.log('getOpenIDCookies', oID);
 
-  const [ckanData, dataList] = useState([]);
+  const [ckanData, setCkandata] = useState([]);
 
   const GetDataCKan = () => {
-    API.get('http://dookdik2021.ddns.net/services/v1/api/ckan/all', {
+    API.get(`http://dookdik2021.ddns.net/services/v1/api/ckan/all?rows=${12}&start=${ckanData.length+1}&sort=views_recent+desc&q=ไทย`, {
       headers: {
         'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
-      }
+      },
     }).then((data) => {
       console.log(`GetDataCKan`, data);
-      dataList(data.data.data.results);
+      setCkandata([...ckanData,...data.data.data.results]);
     }).catch((error) => {
       console.log('error :>> ', error);
     })
@@ -86,26 +86,29 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout style={{ padding: 20 }}>
+      <Layout style={{ padding: 20 ,display:"flex"}}>
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ70ชุดข้อมูล`}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ${ckanData.length}ชุดข้อมูล`}</span>
           <div>
-          {
-            modeshow ?
-            <BarsOutlined onClick={()=>setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
-            :
-            <AppstoreFilled onClick={()=>setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
-          }
+            {
+              modeshow ?
+                <BarsOutlined onClick={() => setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+                :
+                <AppstoreFilled onClick={() => setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+            }
             <InsertRowLeftOutlined style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
           </div>
         </div>
         <Row gutter={20} >
-          {ckanData.map((item) =>
-            <Col className="gutter-row" {...changemode()} >
-              <Cardbox key={item.id} title={item.maintainer} image={item.organization.image_url} mode={modeshow} />
-            </Col>
+          {ckanData.map((item,index) =>
+            <Link href="/" key={index}>
+              <Col className="gutter-row" {...changemode()} >
+                <Cardbox  title={item.maintainer} image={item.organization.image_url} mode={modeshow} />
+              </Col>
+            </Link>
           )}
         </Row>
+            <Button onClick={()=>GetDataCKan()} type="primary" size="middle" style={{width:"200px",alignSelf:"flex-end",borderRadius:"50px",backgroundColor:"#2980B9"}}>แสดงชุดข้อมูลเพิ่มเติม</Button>
 
       </Layout>
     </>

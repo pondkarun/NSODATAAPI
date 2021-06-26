@@ -17,16 +17,16 @@ import {
 
 
 const options1 = [
-  { label: 'ระเบียน', value: 'Apple' },
-  { label: 'สถิติ', value: 'Pear' },
-  { label: 'ภูมิสารสนเทศ', value: 'Orange' },
-  { label: 'หลากหลาย', value: 'Orange' },
-  { label: 'อื่นๆ', value: 'Orange' },
+  {key:0, label: 'ระเบียน', value: 'Apple' },
+  {key:1, label: 'สถิติ', value: 'Pear' },
+  {key:2, label: 'ภูมิสารสนเทศ', value: '2' },
+  {key:3, label: 'หลากหลาย', value: '3' },
+  {key:4, label: 'อื่นๆ', value: '4' },
 ];
 const options2 = [
-  { label: 'กรมควบคุมมลพิษ', value: 'Apple' },
-  { label: 'กรมควบคุมโรค', value: 'Pear' },
-  { label: 'กรมการแพทย์', value: 'Orange' },
+  {key:0, label: 'กรมควบคุมมลพิษ', value: 'Apple' },
+  {key:1, label: 'กรมควบคุมโรค', value: 'Pear' },
+  {key:2, label: 'กรมการแพทย์', value: '5' },
 ];
 
 export default function Header() {

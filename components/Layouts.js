@@ -55,9 +55,9 @@ function Layouts({ children, disableheader, disablecontainer }) {
                     <MenuIcon style={{ color: "#FFF", fontSize: "40px", }} />
                 </IconButton>}
                 extra={[
-                    <Avatar size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
-                    <>{openid ? <span style={{ color: "white" }}>{openid.user_name}</span> : <Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</>,
-                    <a href="#">
+                    <Avatar key={0} size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
+                    <a key={1}>{openid ? <span style={{ color: "white" }}>{openid.user_name}</span> : <Link  href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</a>,
+                    <a key={3} href="#">
                         <Badge count={0} style={{ top: "10px" }}>
                             <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
                         </Badge>
@@ -74,7 +74,7 @@ function Layouts({ children, disableheader, disablecontainer }) {
                         style={{ height: '100%', borderRight: 0, backgroundColor: "#3D3D3D", color: "#FFF" }}
                     >
                         {permission_data.map((text, index) => (
-                            <Menu.Item key={text.id} >{text.application_name}</Menu.Item>
+                            <Menu.Item key={index} >{text.application_name}</Menu.Item>
                         ))}
                     </Menu>
                 </Sider>
