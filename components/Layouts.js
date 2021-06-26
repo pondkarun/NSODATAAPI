@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppBar, Toolbar, IconButton, Typography, ListItemText, ListItemIcon, ListItem, Divider, List, Drawer } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Headers from './Header';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { Layout, Menu, PageHeader, Avatar, Badge } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import API from '../util/Api';
+import { Cookies } from 'react-cookie'
+import { SET_MENU } from '../redux/actions'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 
-function Layouts({ children,disableheader,disablecontainer }) {
+function Layouts({ children, disableheader, disablecontainer }) {
+	const dispatch = useDispatch();
     const [open, setOpen] = React.useState(true);
-    const { openid } = useSelector(({ auth }) => auth);
+    const { openid,keycloak } = useSelector(({ auth }) => auth);
     var { munu } = useSelector(({ menu }) => menu);
     var permission_data = [];
     if (munu != null) {
@@ -21,7 +25,20 @@ function Layouts({ children,disableheader,disablecontainer }) {
         console.log("permission_data", permission_data);
     }
 
+    useEffect(() => {
+        !munu && keycloak && Getmydata();
+    }, [keycloak])
 
+    const Getmydata = () => API.get('/services/v1/api/user/mydata',{
+        headers:{
+            'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
+        }
+    }).then((data) => {
+        console.log(`data`, data)
+        dispatch(SET_MENU(data.data));
+    }).catch((error) => {
+        console.log('error :>> ', error);
+    })
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -39,9 +56,9 @@ function Layouts({ children,disableheader,disablecontainer }) {
                 </IconButton>}
                 extra={[
                     <Avatar size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
-                    <>{openid ? <span style={{color:"white"}}>{openid.user_name}</span>:<Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</>,
+                    <>{openid ? <span style={{ color: "white" }}>{openid.user_name}</span> : <Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</>,
                     <a href="#">
-                        <Badge count={0} style={{top:"10px"}}>
+                        <Badge count={0} style={{ top: "10px" }}>
                             <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
                         </Badge>
                     </a>,
@@ -49,7 +66,7 @@ function Layouts({ children,disableheader,disablecontainer }) {
             >
             </PageHeader>
             <Layout>
-                <Sider collapsedWidth={0} width={200} className="site-layout-background" style={{ position: "absolute", minHeight: '90%', backgroundColor: "#3D3D3D", zIndex: 99999 }} collapsed={open}>
+                <Sider collapsedWidth={0} width={200} className="site-layout-background" style={{ backgroundColor: "#3D3D3D", zIndex: 99999 }} collapsed={open}>{/*position: "absolute", minHeight: '90%',*/}
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
@@ -62,8 +79,8 @@ function Layouts({ children,disableheader,disablecontainer }) {
                     </Menu>
                 </Sider>
                 <Layout>
-                   {!disableheader && <Headers />}
-                    <Layout style={{ padding: !disablecontainer ? '0 50px 50px':'0 0', }}>
+                    {!disableheader && <Headers />}
+                    <Layout style={{ padding: !disablecontainer ? '0 50px 50px' : '0 0', }}>
                         {children}
                     </Layout>
                 </Layout>

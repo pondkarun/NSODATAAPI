@@ -30,9 +30,11 @@ function configureStore(initialState = {}) {
     store.dispatch(SET_OPENID(openidcookie));
 
   }
-  GetAPIkeyCloak().then((data) => {
-    console.log('data :>> ', data);
+  GetAPIkeyCloak().then(async(data) => {
+    console.log('datainstore :>> ', data);
     store.dispatch(SET_KEY_CLOAK(data));
+    setAccessToken(JSON.stringify(data.token));
+
   }).catch((error) => {
     console.log('error :>> ', error);
   })

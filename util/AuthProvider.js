@@ -1,6 +1,8 @@
 import React from "react";
 import {useAuthToken} from "./AppHooks";
 import PropTypes from "prop-types";
+import {Cookies} from 'react-cookie';
+import {setAccessToken} from '../util/Utility';
 
 const AuthRoutes = ({children}) => {
 	useAuthToken();

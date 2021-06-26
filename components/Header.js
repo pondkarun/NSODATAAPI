@@ -34,7 +34,7 @@ export default function Header() {
   const [opensetting, setOpensetting] = useState(false);
 
   useEffect(async () => {
-    GetDataKeyCloak()
+    // GetDataKeyCloak()
   }, []);
 
 
