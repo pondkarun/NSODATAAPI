@@ -11,7 +11,8 @@ import Cardbox from '../components/Cardbox'
 import { Row, Col } from 'antd';
 import {
   BarsOutlined,
-  InsertRowLeftOutlined
+  InsertRowLeftOutlined,
+  AppstoreFilled
 } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 
@@ -21,9 +22,31 @@ export default function Home() {
   const router = useRouter()
   const { id, user_name, e_mail, status, last_login, login_status, token, token_date, created_by, created_date, updated_by, updated_date, open_id } = router.query;
   const cookies = new Cookies();
-  const { keycloak,openid } = useSelector(({ auth }) => auth);
+  const { keycloak, openid } = useSelector(({ auth }) => auth);
+  const [modeshow, setModeshow] = useState(true);
 
-  const [name, setName] = useState("wwwwwww");
+  const changemode = () => {
+    let mode1 = {
+      xs: { span: 24 },
+      sm: { span: 12 },
+      md: { span: 6 },
+      lg: { span: 4 }
+    }
+    let mode2 = {
+      xs: { span: 24 },
+      sm: { span: 12 },
+      md: { span: 8 },
+      lg: { span: 8 }
+    }
+    if (modeshow) {
+      return mode1
+    } else {
+      return mode2
+    }
+
+  }
+
+
 
   useEffect(async () => {
     console.log('tokenopenid :>> ', token);
@@ -63,22 +86,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <Layout>
-        <p>{name}</p>
-        <button onClick={() => { setName("Thunwa") }}>click</button>
-      </Layout> */}
       <Layout style={{ padding: 20 }}>
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ70ชุดข้อมูล`}</span>
           <div>
-            <BarsOutlined style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+          {
+            modeshow ?
+            <BarsOutlined onClick={()=>setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+            :
+            <AppstoreFilled onClick={()=>setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+          }
             <InsertRowLeftOutlined style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
           </div>
         </div>
         <Row gutter={20} >
           {ckanData.map((item) =>
-            <Col className="gutter-row" xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 6 }} lg={{ span: 4 }} >
-              <Cardbox key={item.id} title={item.maintainer} image={item.organization.image_url} />
+            <Col className="gutter-row" {...changemode()} >
+              <Cardbox key={item.id} title={item.maintainer} image={item.organization.image_url} mode={modeshow} />
             </Col>
           )}
         </Row>
