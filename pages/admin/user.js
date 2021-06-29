@@ -1,4 +1,3 @@
-import styles from '../../styles/Home.module.scss';
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
@@ -7,25 +6,14 @@ import {Table} from 'antd';
 import {Cookies} from 'react-cookie';
 
 export default function UserList(){
-    const dataSource = [
-        {
-            key: '1',
-            name: 'Mike',
-            e_mail: 32,
-            group_name: '10 Downing Street',
-        },
-        {
-            key: '2',
-            name: 'John',
-            e_mail: 42,
-            group_name: '10 Downing Street',
-        },
-    ];
+    
     const columns = [
         {
             title: 'ลำดับ',
-            dataIndex: 'key',
-            key: 'key',
+            dataIndex: 'num',
+            key: 'num',
+            align:"center",
+            render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อเข้าใช้ระบบ',
@@ -61,10 +49,11 @@ export default function UserList(){
             title: 'จัดการ',
             dataIndex: '',
             key: '',
+            render: (text, record, index) => <button>click</button>
         }
     ];
 
-    useEffect(() => {
+    useEffect(async () => {
         userDataList();
     },[]);
 
@@ -80,21 +69,17 @@ export default function UserList(){
                 'Authorization': `Bearer ${oID.token}`
               },
         }).then((data) => {
-            console.log('UserList3 >>', data.data.data.data);
-
-            setUserData(userData,data.data.data.data);
-
+            setUserData(data.data.data.data);
+            console.log('userData',userData);
         }).catch((error) => {
             console.log('error :>> ', error);
         })
     }
 
-    console.log('userData',userData);
-
     return (
         <Layout disableheader>
             <h1  style={{fontSize: 27}}>ระบบจัดการผู้ใช้งานระบบ</h1>
-            <Table dataSource={dataSource} columns={columns} />;
+            <Table dataSource={userData} columns={columns} rowKey={(row)=>row.id} />;
         </Layout>
     )
 }
