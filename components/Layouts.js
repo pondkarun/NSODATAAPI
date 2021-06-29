@@ -14,7 +14,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 
-function Layouts({ children, disableheader, disablecontainer }) {
+function Layouts({ children, disableheader, disablecontainer,serch,onserch }) {
 	const dispatch = useDispatch();
     const [open, setOpen] = React.useState(true);
     const { openid,keycloak } = useSelector(({ auth }) => auth);
@@ -79,7 +79,7 @@ function Layouts({ children, disableheader, disablecontainer }) {
                     </Menu>
                 </Sider>
                 <Layout>
-                    {!disableheader && <Headers />}
+                    {!disableheader && <Headers serch={serch} onserch={onserch} />}
                     <Layout style={{ padding: !disablecontainer ? '0 50px 50px' : '0 0', }}>
                         {children}
                     </Layout>

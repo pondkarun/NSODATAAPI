@@ -29,7 +29,7 @@ const options2 = [
   {key:2, label: 'กรมการแพทย์', value: '5' },
 ];
 
-export default function Header() {
+export default function Header({serch,onserch}) {
   const dispatch = useDispatch();
   const [opensetting, setOpensetting] = useState(false);
 
@@ -104,7 +104,7 @@ export default function Header() {
               (Goverment Directory Service)
               <br />
               <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
-                <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }}></Input.Search>
+                <Input.Search  placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }} onChange={(e)=>serch(e.target.value)} onSearch={()=> onserch(true)} />
                 <SettingFilled style={{ margin: "5px 20px", color: "#2980B9" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
             </div>
