@@ -3,7 +3,6 @@ import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
 import {Table} from 'antd';
-import {InfoCircleTwoTone} from 'antd/lib/icon';
 import {Cookies} from 'react-cookie';
 
 export default function UserList(){
@@ -14,7 +13,7 @@ export default function UserList(){
             dataIndex: 'num',
             key: 'num',
             align:"center",
-            // render: (text, record, index) => index + 1,
+            render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อเข้าใช้ระบบ',
@@ -50,11 +49,11 @@ export default function UserList(){
             title: 'จัดการ',
             dataIndex: '',
             key: '',
-            // render: (text, record, index) => <button><InfoCircleTwoTone /></button>
+            render: (text, record, index) => <button>click</button>
         }
     ];
 
-    useEffect(() => {
+    useEffect(async () => {
         userDataList();
     },[]);
 
@@ -70,8 +69,7 @@ export default function UserList(){
                 'Authorization': `Bearer ${oID.token}`
               },
         }).then((data) => {
-            console.log('UserLIst >>', data.data.data.data);
-            setUserData(userData, data.data.data.data);
+            setUserData(data.data.data.data);
             console.log('userData',userData);
         }).catch((error) => {
             console.log('error :>> ', error);
