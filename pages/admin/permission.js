@@ -1,29 +1,19 @@
-
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
-import { Table} from 'antd';
+import API from '../../util/Api';
+import {Table} from 'antd';
+import {Cookies} from 'react-cookie';
 
 export default function PermissionList(){
 
-    const dataSource = [
-        {
-            key: '1',
-            access_name: 'Mike',
-            e_mail: 32,
-            group_name: '10 Downing Street',
-        },
-        {
-            key: '2',
-            access_name: 'John',
-            e_mail: 42,
-            group_name: '10 Downing Street',
-        },
-    ];
     const columns = [
         {
             title: 'ลำดับ',
-            dataIndex: 'key',
-            key: 'key',
+            dataIndex: 'num',
+            key: 'num',
+            align:"center",
+            render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อ',
@@ -39,15 +29,39 @@ export default function PermissionList(){
             title: 'จัดการ',
             dataIndex: '',
             key: '',
+            render: (text, record, index) => <button>click</button>
         }
     ];
+
+    useEffect(async () => {
+        permissionDataList();
+    },[]);
+
+    const cookies = new Cookies();
+    const {openid} = useSelector(({ auth }) => auth);
+    const oID = cookies.get('openid');
+    console.log('getOpenIDCookies', oID);
+
+    const [permissionData, setPermissionData] = useState([]);
+    const permissionDataList = () => {
+        API.get('http://dookdik2021.ddns.net/services/v1/api/access/all', {
+            headers: {
+                'Authorization': `Bearer ${oID.token}`
+              },
+        }).then((data) => {
+            setPermissionData(data.data.data.data);
+            console.log('permissionData',permissionData);
+        }).catch((error) => {
+            console.log('error :>> ', error);
+        })
+    }
 
 
     return (
         <>
             <Layout disableheader>
                 <h1 style={{fontSize: 27}}>รายการระดับการเข้าถึงระบบ</h1>
-                <Table dataSource={dataSource} columns={columns} />;
+                <Table dataSource={permissionData} columns={columns} rowKey={(row)=>row.id} />;
             </Layout>
         </>
     )

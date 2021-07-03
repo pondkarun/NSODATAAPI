@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
-import {Table } from 'antd';
+import API from '../../util/Api';
+import {Table} from 'antd';
+import {Cookies} from 'react-cookie';
 
 export default function UserList(){
     const dataSource = [
@@ -20,8 +23,10 @@ export default function UserList(){
     const columns = [
         {
             title: 'ลำดับ',
-            dataIndex: 'key',
-            key: 'key',
+            dataIndex: 'num',
+            key: 'num',
+            align:"center",
+            render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อ',
@@ -30,32 +35,56 @@ export default function UserList(){
         },
         {
             title: 'URL',
-            dataIndex: '',
-            key: '',
+            dataIndex: 'url',
+            key: 'url',
         },
         {
             title: 'Access',
-            dataIndex: '',
-            key: '',
+            dataIndex: 'access_name',
+            key: 'access_name',
         },
         {
             title: 'Parent Menu',
-            dataIndex: '',
-            key: '',
+            dataIndex: 'parent_menu',
+            key: 'parent_menu',
         },
         {
             title: 'จัดการ',
             dataIndex: '',
             key: '',
+            render: (text, record, index) => <button>click</button>
         }
     ];
+
+    useEffect(async () => {
+        featureDataList();
+    },[]);
+
+    const cookies = new Cookies();
+    const {openid} = useSelector(({ auth }) => auth);
+    const oID = cookies.get('openid');
+    console.log('getOpenIDCookies', oID);
+
+    const [featureData, setFeatureData] = useState([]);
+    const featureDataList = () => {
+        API.get('http://dookdik2021.ddns.net/services/v1/api/application/all', {
+            headers: {
+                'Authorization': `Bearer ${oID.token}`
+              },
+        }).then((data) => {
+            setFeatureData(data.data.data.data);
+            console.log('featureData',featureData);
+        }).catch((error) => {
+            console.log('error :>> ', error);
+        })
+    }
 
 
     return (
         <>
             <Layout disableheader>
                 <h1 style={{fontSize: 27}}>ระบบจัดการการเข้าถึง Application</h1>
-                <Table dataSource={dataSource} columns={columns} />;
+                <Table dataSource={featureData} columns={columns} rowKey={(row)=>row.id} />;
             </Layout>
         </>
     )

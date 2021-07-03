@@ -98,7 +98,7 @@ export default function Home() {
 
       <Layout style={{ padding: 20 ,display:"flex"}} serch={setSerch} onserch={GetDataCKan} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ${ckanData.length}ชุดข้อมูล`}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ ${' '} ${ckanData.length} ${' '} ชุดข้อมูล`}</span>
           <div>
             {
               modeshow ?
