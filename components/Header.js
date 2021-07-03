@@ -16,29 +16,31 @@ import {
 } from '@ant-design/icons';
 
 
-const options1 = [
-  {key:0, label: 'ระเบียน', value: 'Apple' },
-  {key:1, label: 'สถิติ', value: 'Pear' },
-  {key:2, label: 'ภูมิสารสนเทศ', value: '2' },
-  {key:3, label: 'หลากหลาย', value: '3' },
-  {key:4, label: 'อื่นๆ', value: '4' },
-];
-const options2 = [
-  {key:0, label: 'กรมควบคุมมลพิษ', value: 'Apple' },
-  {key:1, label: 'กรมควบคุมโรค', value: 'Pear' },
-  {key:2, label: 'กรมการแพทย์', value: '5' },
-];
 
-export default function Header({serch,onserch}) {
+export default function Header({ serch, onserch, dataserch }) {
   const dispatch = useDispatch();
   const [opensetting, setOpensetting] = useState(false);
-
+  const [checkpoperty, setCheckpoperty] = useState(null);
+  const [swicht, setSwicht] = useState({
+    s1:false,
+    s2:false,
+    s3:false,
+    s4:false,
+    s5:false,
+    s6:false,
+  });
   useEffect(async () => {
-    // GetDataKeyCloak()
-  }, []);
+    // checkpoperty && onserch(true,)
+    console.log('checkpoperty :>> ', JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+"));
+    let fqserch = JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+");
+    checkpoperty && onserch(true, fqserch);
+
+  }, [checkpoperty]);
 
 
-
+  const onCheckbox = (key, value) => {
+    setCheckpoperty({ ...checkpoperty, [key]: value });
+  }
   const GetDataKeyCloak = () => {
     API.get('/services/v1/api/user/mydata').then((data) => {
       console.log(`data`, data)
@@ -56,6 +58,7 @@ export default function Header({serch,onserch}) {
     //   console.log('eror :>> ', eror);
     // })
   }
+
   return (
     <>
       {/* <div className={styles.container}> */}
@@ -66,31 +69,6 @@ export default function Header({serch,onserch}) {
       </Head>
 
       <div style={{ backgroundColor: '#F4D03F', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
-        {/* <Grid container>
-          <Grid item xs={12}>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around",flexWrap: "wrap",alignItems:"center" }}>
-              <Avatar size={150} src={<img src={"/img/logo.png"} style={{ objectFit: "contain", backgroundColor: "#FFF" }} />} />
-              <div style={{ textAlign: 'center', fontSize: 27, fontWeight: 'bolder', marginLeft: "-80px" }}>
-                ระบบนามานุกรมข้อมูลภาครัฐ
-                <br />
-                (Goverment Directory Service)
-                <br />
-                <Grid container>
-                  <Grid item xs={12}>
-                    <div style={{ textAlign: 'center',marginTop:"25px" }}>
-                      <Input.Search placeholder="Search..." style={{ border: "2px solid white", borderRadius: "20px",backgroundColor: "white" }}></Input.Search>
-                    </div>
-                    <br />
-                  </Grid>
-                </Grid>
-              </div>
-              <div>
-
-              </div>
-            </div>
-
-          </Grid>
-        </Grid> */}
         <Row style={{ padding: "20px" }} >
           <Col xs={24} sm={24} md={6}>
             <div style={{ textAlign: "center" }}>
@@ -104,7 +82,7 @@ export default function Header({serch,onserch}) {
               (Goverment Directory Service)
               <br />
               <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
-                <Input.Search  placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }} onChange={(e)=>serch(e.target.value)} onSearch={()=> onserch(true)} />
+                <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }} onChange={(e) => serch(e.target.value)} onSearch={() => onserch(true)} />
                 <SettingFilled style={{ margin: "5px 20px", color: "#2980B9" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
             </div>
@@ -115,14 +93,92 @@ export default function Header({serch,onserch}) {
                 <CloseOutlined style={{ margin: "5px 20px", color: "#2980B9", fontSize: "25px" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
               <div style={{ padding: "10px" }}>
-                <span style={{ color: "white" }}>ประเภทข้อมูล </span><Switch defaultChecked /> <br />
-                <div style={{ padding: "10px" }}>
-                  <Checkbox.Group options={options1}  />
-                </div>
-                <span style={{ color: "white" }}>หน่วยงาน</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Switch defaultChecked /> <br />
-                <div style={{ padding: "10px" }}>
-                  <Checkbox.Group options={options2}  />
-                </div>
+
+                {!Array.isArray(dataserch.facets?.data_type) &&
+                  <>
+                    <span style={{ color: "white" }}>ประเภทข้อมูล </span><Switch checked={swicht.s1} onChange={(e)=>setSwicht({...swicht,s1:e})} /> <br />
+                    {swicht.s1 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.data_type.items.map((list, index) =>
+                        <Checkbox key={index} onChange={(e) => onCheckbox("data_type", e.target.checked && list.display_name)} >{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+                {!Array.isArray(dataserch.facets?.groups) &&
+                  <>
+                    <span style={{ color: "white" }}>กลุ่ม </span><Switch checked={swicht.s2} onChange={(e)=>setSwicht({...swicht,s2:e})} /> <br />
+                    {swicht.s2 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.groups.items.map((list, index) =>
+                        <Checkbox key={index} onChange={(e) => onCheckbox("groups", e.target.checked && list.display_name)}>{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+                {!Array.isArray(dataserch.facets?.license_id) &&
+                  <>
+                    <span style={{ color: "white" }}>สัญญาอนุญาต </span><Switch checked={swicht.s3} onChange={(e)=>setSwicht({...swicht,s3:e})} /> <br />
+                    {swicht.s3 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.license_id.items.map((list, index) =>
+                        <Checkbox key={index} onChange={(e) => onCheckbox("license_id", e.target.checked && list.display_name)}>{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+                {!Array.isArray(dataserch.facets?.tags) &&
+                  <>
+                    <span style={{ color: "white" }}>แท็ค </span><Switch checked={swicht.s4} onChange={(e)=>setSwicht({...swicht,s4:e})} /> <br />
+                    {swicht.s4 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.tags.items.map((list, index) =>
+                        <Checkbox key={index} onChange={(e) => onCheckbox("tags", e.target.checked && list.display_name)}>{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+                {!Array.isArray(dataserch.facets?.ministry) &&
+                  <>
+                    <span style={{ color: "white" }}>กระทรวง </span><Switch checked={swicht.s5} onChange={(e)=>setSwicht({...swicht,s5:e})} /> <br />
+                    {swicht.s5 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.ministry.items.map((list, index) =>
+                        <Checkbox key={index}>{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+                {!Array.isArray(dataserch.facets?.organization) &&
+                  <>
+                    <span style={{ color: "white" }}>องค์กร </span><Switch checked={swicht.s6} onChange={(e)=>setSwicht({...swicht,s6:e})} /> <br />
+                    {swicht.s6 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.organization.items.map((list, index) =>
+                        <Checkbox key={index}>{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+                {!Array.isArray(dataserch.facets?.res_format) &&
+                  <>
+                    <span style={{ color: "white" }}>รูปแบบ </span><Switch checked={swicht.s7} onChange={(e)=>setSwicht({...swicht,s7:e})} /> <br />
+                    {swicht.s7 &&
+                    <div style={{ padding: "10px" }}>
+                      {dataserch.search_facets?.res_format.items.map((list, index) =>
+                        <Checkbox key={index}>{list.display_name}</Checkbox>
+                      )}
+                    </div>
+                    }
+                  </>
+                }
+
 
               </div>
             </div>
@@ -166,6 +222,9 @@ export default function Header({serch,onserch}) {
             color: aliceblue;
             padding-right: 8px;
             padding-left: 8px;
+        }
+        .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+          margin-left: 0px;
         }
         `}
       </style>

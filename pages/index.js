@@ -5,7 +5,7 @@ import { Cookies } from 'react-cookie'
 import Link from 'next/link';
 import Layout from '../components/Layouts';
 import API from '../util/Api';
-import Headers from '../components/Header';
+import Axios from 'axios'
 import { SET_OPENID } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
 import { Row, Col,Button } from 'antd';
@@ -26,6 +26,7 @@ export default function Home() {
   const { keycloak, openid } = useSelector(({ auth }) => auth);
   const [modeshow, setModeshow] = useState(true);
   const [ckanData, setCkandata] = useState([]);
+  const [rawdata, setRawdata] = useState({});
   const [serch, setSerch] = useState("");
 
 
@@ -68,17 +69,19 @@ export default function Home() {
   console.log('getOpenIDCookies', oID);
 
 
-  const GetDataCKan = (isserch=false) => {
-    API.get(`http://dookdik2021.ddns.net/services/v1/api/ckan/all?rows=${12}&start=${isserch?1:ckanData.length+1}&sort=views_recent+desc&q=${serch}`, {
+  const GetDataCKan = (isserch=false,fq="") => {
+    API.get(`http://dookdik2021.ddns.net/services/v1/api/ckan/all?rows=${12}&start=${isserch?1:ckanData.length+1}&sort=views_recent+desc&q=${serch}&fq=${fq&&fq}`, {
       headers: {
         'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
       },
-    }).then((data) => {
+    }).then(({data:{data}}) => {
       console.log(`GetDataCKan`, data);
-      if(serch){
-        setCkandata(data.data.data.results);
+      if(serch&&fq!==""){
+        setCkandata(data.results);
+        setRawdata(data);
       }else{
-        setCkandata([...ckanData,...data.data.data.results]);
+        setCkandata([...ckanData,...data.results]);
+        setRawdata(data);
       }
     }).catch((error) => {
       console.log('error :>> ', error);
@@ -93,7 +96,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout  style={{ padding: 20 ,display:"flex"}} serch={setSerch} onserch={GetDataCKan} >
+      <Layout style={{ padding: 20 ,display:"flex"}} serch={setSerch} onserch={GetDataCKan} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`พบ${ckanData.length}ชุดข้อมูล`}</span>
           <div>
