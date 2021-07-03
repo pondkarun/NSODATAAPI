@@ -63,6 +63,7 @@ export default function Header({serch,onserch}) {
         <title>หน้าหลัก</title>
         <meta name="description" content="หน้าหลัก" />
         <link rel="icon" href="/favicon.ico" />
+
       </Head>
 
       <div style={{ backgroundColor: '#F4D03F', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
@@ -94,14 +95,14 @@ export default function Header({serch,onserch}) {
         <Row style={{ padding: "20px" }} >
           <Col xs={24} sm={24} md={6}>
             <div style={{ textAlign: "center" }}>
-              <Avatar size={150} src={<img src={"/img/logo.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", }} />} />
+              <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", }} />} />
             </div>
           </Col>
           <Col xs={24} sm={24} md={12} >
             <div style={{ display: "block", textAlign: 'center', fontSize: 27, fontWeight: 'bolder', }}>
-              ระบบนามานุกรมข้อมูลภาครัฐ
+              บริการนามานุกรมบัญชีข้อมูลภาครัฐ
               <br />
-              (Goverment Directory Service)
+              (GD Catalog Directory Service)
               <br />
               <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
                 <Input.Search  placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }} onChange={(e)=>serch(e.target.value)} onSearch={()=> onserch(true)} />
