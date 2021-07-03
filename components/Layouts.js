@@ -3,15 +3,16 @@ import { AppBar, Toolbar, IconButton, Typography, ListItemText, ListItemIcon, Li
 import MenuIcon from '@material-ui/icons/Menu';
 import Headers from './Header';
 import { useSelector,useDispatch } from 'react-redux';
-import { Layout, Menu, PageHeader, Avatar, Badge } from 'antd';
+import { Layout, Menu, PageHeader, Avatar, Badge, Row, Col } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import API from '../util/Api';
 import { Cookies } from 'react-cookie'
 import { SET_MENU } from '../redux/actions'
+import { blue100 } from 'material-ui/styles/colors';
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 
 
 function Layouts({ children, disableheader, disablecontainer,serch,onserch }) {
@@ -83,6 +84,45 @@ function Layouts({ children, disableheader, disablecontainer,serch,onserch }) {
                     <Layout style={{ padding: !disablecontainer ? '0 50px 50px' : '0 0', }}>
                         {children}
                     </Layout>
+                    <Footer style={{backgroundColor: blue100}}>
+                        <Row>
+                            <Col span={12}>
+                                <Row>
+                                    <Col span={1}>
+                                        ที่อยู่
+                                    </Col>
+                                    <Col span={23}>
+                                        สำนักงานสถิติแห่งชาติ กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคมศูนย์ราชการเฉลิมพระเกียรติ ๘๐ พรรษา
+                                        <br />
+                                        อาคารรัฐประศาสนภักดี ชั้น 2 ถนนแจ้งวัฒนะ เขตหลักสี่ กทม. 10210
+                                        <br />
+                                        โทรศัพท์: 0 2142-1234
+                                        <br />
+                                        โทรสาร: 0 2143-8109
+                                        <br />
+                                        อีเมล: services@nso.go.th
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col span={12}>
+                                <Row>
+                                    <Col>
+                                        <div style={{textAlign: 'right'}}>
+                                            <Link href={'/'}><a>Q & A</a></Link> | <Link href={'/'}><a>นโยบายเว็บไซต์</a></Link> | <Link href={'/'}><a> นโยบายข้อมูลส่วนบุคคล</a></Link> | <Link href={'/'}><a> นโยบายการรักษาความมั่นคงปลอดภัยเว็บไซต์</a></Link>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <div style={{position: 'revert',}}>
+                                                รุ่นโปรแกรม: 1.0.0
+                                                <br />
+                                                วันที่ 2021-01-01
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Footer>
                 </Layout>
 
             </Layout>
