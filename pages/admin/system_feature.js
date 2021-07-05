@@ -26,27 +26,32 @@ export default function UserList(){
             dataIndex: 'num',
             key: 'num',
             align:"center",
+            sorter:(a,b) => a.parent_id - b.parent_id,
             render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อ',
             dataIndex: 'access_name',
             key: 'access_name',
+            sorter:(a,b) => a.access_name - b.access_name,
         },
         {
             title: 'URL',
             dataIndex: 'url',
             key: 'url',
+            sorter:(a,b) => a.url - b.url,
         },
         {
             title: 'Access',
             dataIndex: 'access_name',
             key: 'access_name',
+            sorter:(a,b) => a.access_name - b.access_name,
         },
         {
             title: 'Parent Menu',
             dataIndex: 'parent_menu',
             key: 'parent_menu',
+            // sorter:(a,b) => a.parent_id - b.parent_id,
         },
         {
             title: 'จัดการ',

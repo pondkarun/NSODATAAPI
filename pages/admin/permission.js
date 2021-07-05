@@ -13,17 +13,20 @@ export default function PermissionList(){
             dataIndex: 'num',
             key: 'num',
             align:"center",
+            sorter:(a,b) => a.num - b.num,
             render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อ',
             dataIndex: 'access_name',
             key: 'access_name',
+            sorter:(a,b) => a.access_name - b.access_name,
         },
         {
             title: 'กลุ่มผู้ใช้งาน',
             dataIndex: 'group_name',
             key: 'group_name',
+            // sorter:(a,b) => a.group_name - b.group_name,
         },
         {
             title: 'จัดการ',

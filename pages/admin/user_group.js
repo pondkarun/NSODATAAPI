@@ -12,17 +12,20 @@ export default function UserList(){
             dataIndex: 'num',
             key: 'num',
             align:"center",
+            sorter:(a,b) => a.num - b.num,
             render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อ',
             dataIndex: 'group_name',
             key: 'group_name',
+            sorter:(a,b) => a.group_name - b.group_name,
         },
         {
             title: 'กลุ่มผู้ใช้งาน',
             dataIndex: 'parent_id',
             key: 'parent_id',
+            sorter:(a,b) => a.parent_id - b.parent_id,
         },
         {
             title: 'กลุ่มผู้ใช้งาน',
