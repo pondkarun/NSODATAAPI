@@ -91,7 +91,11 @@ export default function Header({ serch, onserch, dataserch }) {
         <Row style={{ padding: "20px" }} >
           <Col xs={24} sm={24} md={6}>
             <div style={{ textAlign: "center" }}>
-              <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", }} />} />
+              <Link href="/">
+                <a>
+                <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", }} />} />
+                </a>
+              </Link>
             </div>
           </Col>
           <Col xs={24} sm={24} md={12} >
