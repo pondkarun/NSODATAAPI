@@ -71,11 +71,13 @@ function Layouts({ children, disableheader, disablecontainer,dataserch }) {
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
+                        // defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0, backgroundColor: "#3D3D3D", color: "#FFF" }}
                     >
                         {permission_data.map((text, index) => (
-                            <Menu.Item key={index} >{text.application_name}</Menu.Item>
+                            
+                                <Menu.Item key={index} ><Link href={text.url}>{text.application_name}</Link></Menu.Item>
+                            
                         ))}
                     </Menu>
                 </Sider>
