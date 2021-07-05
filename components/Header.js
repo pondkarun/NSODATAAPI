@@ -27,15 +27,15 @@ export default function Header({ serch, onserch, dataserch }) {
     s6: false,
   });
   const { tags, data_type, groups, license_id, ministry, organization, res_format } = router.query;
-  useEffect(async () => {
-    // checkpoperty && onserch(true,)
-    // console.log('checkpoperty :>> ', JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+"));
-    let fqserch = JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+");
-    // console.log('fqserch :>> ', fqserch);
-    checkpoperty && onserch(true, fqserch);
-    console.log('path :>> ', router.query);
+  // useEffect(async () => {
+  //   // checkpoperty && onserch(true,)
+  //   // console.log('checkpoperty :>> ', JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+"));
+  //   let fqserch = JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+");
+  //   // console.log('fqserch :>> ', fqserch);
+  //   checkpoperty && onserch(true, fqserch);
+  //   console.log('path :>> ', router.query);
 
-  }, [checkpoperty]);
+  // }, [checkpoperty]);
 
 
   const onCheckbox = (key, value) => {
@@ -102,7 +102,7 @@ export default function Header({ serch, onserch, dataserch }) {
               <br />
               <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
                 <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }}
-                  onChange={(e) => serch(e.target.value)}
+                  // onChange={(e) => serch(e.target.value)}
                   onSearch={(value) => router.push({
                     pathname: '/',
                     query: { ...router.query, q: value },
@@ -116,105 +116,111 @@ export default function Header({ serch, onserch, dataserch }) {
                 <span style={{ fontSize: "20px", fontWeight: "bold", color: "#2980B9" }}>ตัวกรองค้นหาข้อมูล</span>
                 <CloseOutlined style={{ margin: "5px 20px", color: "#2980B9", fontSize: "25px" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
-              <div style={{ padding: "10px" }}>
+              {dataserch ?
+                <div style={{ padding: "10px" }}>
 
-                {!Array.isArray(dataserch.facets?.data_type) &&
-                  <>
-                    <span style={{ color: "white" }}>ประเภทข้อมูล </span><Switch checked={swicht.s1} onChange={(e) => setSwicht({ ...swicht, s1: e })} /> <br />
-                    {swicht.s1 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.data_type.items.map((list, index) =>
-                          <Checkbox key={index} checked={data_type && data_type == list.name ? true : false}
-                            onChange={(e) => onCheckbox("data_type", e.target.checked && list.name)} >{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
-                {!Array.isArray(dataserch.facets?.groups) &&
-                  <>
-                    <span style={{ color: "white" }}>กลุ่ม </span><Switch checked={swicht.s2} onChange={(e) => setSwicht({ ...swicht, s2: e })} /> <br />
-                    {swicht.s2 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.groups.items.map((list, index) =>
-                          <Checkbox key={index} checked={groups && groups == list.name ? true : false}
-                            onChange={(e) => onCheckbox("groups", e.target.checked && list.name)}>{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
-                {!Array.isArray(dataserch.facets?.license_id) &&
-                  <>
-                    <span style={{ color: "white" }}>สัญญาอนุญาต </span><Switch checked={swicht.s3} onChange={(e) => setSwicht({ ...swicht, s3: e })} /> <br />
-                    {swicht.s3 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.license_id.items.map((list, index) =>
-                          <Checkbox key={index} checked={license_id && license_id == list.name ? true : false}
-                            onChange={(e) => onCheckbox("license_id", e.target.checked && list.name)}>{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
-                {!Array.isArray(dataserch.facets?.tags) &&
-                  <>
-                    <span style={{ color: "white" }}>แท็ค </span><Switch checked={swicht.s4} onChange={(e) => setSwicht({ ...swicht, s4: e })} /> <br />
-                    {swicht.s4 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.tags.items.map((list, index) =>
-                          <Checkbox key={index} checked={tags && tags.indexOf(list.name) != -1 ? true : false}
-                            onChange={(e) => onCheckbox("tags", list.name)}>{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
-                {!Array.isArray(dataserch.facets?.ministry) &&
-                  <>
-                    <span style={{ color: "white" }}>กระทรวง </span><Switch checked={swicht.s5} onChange={(e) => setSwicht({ ...swicht, s5: e })} /> <br />
-                    {swicht.s5 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.ministry.items.map((list, index) =>
-                          <Checkbox key={index} checked={ministry && ministry == list.name ? true : false}
-                            onChange={(e) => onCheckbox("ministry", e.target.checked && list.name)}
-                          >{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
-                {!Array.isArray(dataserch.facets?.organization) &&
-                  <>
-                    <span style={{ color: "white" }}>องค์กร </span><Switch checked={swicht.s6} onChange={(e) => setSwicht({ ...swicht, s6: e })} /> <br />
-                    {swicht.s6 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.organization.items.map((list, index) =>
-                          <Checkbox key={index} checked={organization && organization == list.name ? true : false}
-                            onChange={(e) => onCheckbox("organization", e.target.checked && list.name)}
-                          >{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
-                {!Array.isArray(dataserch.facets?.res_format) &&
-                  <>
-                    <span style={{ color: "white" }}>รูปแบบ </span><Switch checked={swicht.s7} onChange={(e) => setSwicht({ ...swicht, s7: e })} /> <br />
-                    {swicht.s7 &&
-                      <div style={{ padding: "10px" }}>
-                        {dataserch.search_facets?.res_format.items.map((list, index) =>
-                          <Checkbox key={index} checked={res_format && res_format == list.name ? true : false}
-                            onChange={(e) => onCheckbox("res_format", e.target.checked && list.name)}
-                          >{list.display_name}</Checkbox>
-                        )}
-                      </div>
-                    }
-                  </>
-                }
+                  {!Array.isArray(dataserch.facets?.data_type) &&
+                    <>
+                      <span style={{ color: "white" }}>ประเภทข้อมูล </span><Switch checked={swicht.s1} onChange={(e) => setSwicht({ ...swicht, s1: e })} /> <br />
+                      {swicht.s1 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.data_type.items.map((list, index) =>
+                            <Checkbox key={index} checked={data_type && data_type == list.name ? true : false}
+                              onChange={(e) => onCheckbox("data_type", e.target.checked && list.name)} >{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
+                  {!Array.isArray(dataserch.facets?.groups) &&
+                    <>
+                      <span style={{ color: "white" }}>กลุ่ม </span><Switch checked={swicht.s2} onChange={(e) => setSwicht({ ...swicht, s2: e })} /> <br />
+                      {swicht.s2 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.groups.items.map((list, index) =>
+                            <Checkbox key={index} checked={groups && groups == list.name ? true : false}
+                              onChange={(e) => onCheckbox("groups", e.target.checked && list.name)}>{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
+                  {!Array.isArray(dataserch.facets?.license_id) &&
+                    <>
+                      <span style={{ color: "white" }}>สัญญาอนุญาต </span><Switch checked={swicht.s3} onChange={(e) => setSwicht({ ...swicht, s3: e })} /> <br />
+                      {swicht.s3 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.license_id.items.map((list, index) =>
+                            <Checkbox key={index} checked={license_id && license_id == list.name ? true : false}
+                              onChange={(e) => onCheckbox("license_id", e.target.checked && list.name)}>{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
+                  {!Array.isArray(dataserch.facets?.tags) &&
+                    <>
+                      <span style={{ color: "white" }}>แท็ค </span><Switch checked={swicht.s4} onChange={(e) => setSwicht({ ...swicht, s4: e })} /> <br />
+                      {swicht.s4 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.tags.items.map((list, index) =>
+                            <Checkbox key={index} checked={tags && tags.indexOf(list.name) != -1 ? true : false}
+                              onChange={(e) => onCheckbox("tags", list.name)}>{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
+                  {!Array.isArray(dataserch.facets?.ministry) &&
+                    <>
+                      <span style={{ color: "white" }}>กระทรวง </span><Switch checked={swicht.s5} onChange={(e) => setSwicht({ ...swicht, s5: e })} /> <br />
+                      {swicht.s5 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.ministry.items.map((list, index) =>
+                            <Checkbox key={index} checked={ministry && ministry == list.name ? true : false}
+                              onChange={(e) => onCheckbox("ministry", e.target.checked && list.name)}
+                            >{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
+                  {!Array.isArray(dataserch.facets?.organization) &&
+                    <>
+                      <span style={{ color: "white" }}>องค์กร </span><Switch checked={swicht.s6} onChange={(e) => setSwicht({ ...swicht, s6: e })} /> <br />
+                      {swicht.s6 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.organization.items.map((list, index) =>
+                            <Checkbox key={index} checked={organization && organization == list.name ? true : false}
+                              onChange={(e) => onCheckbox("organization", e.target.checked && list.name)}
+                            >{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
+                  {!Array.isArray(dataserch.facets?.res_format) &&
+                    <>
+                      <span style={{ color: "white" }}>รูปแบบ </span><Switch checked={swicht.s7} onChange={(e) => setSwicht({ ...swicht, s7: e })} /> <br />
+                      {swicht.s7 &&
+                        <div style={{ padding: "10px" }}>
+                          {dataserch.search_facets?.res_format.items.map((list, index) =>
+                            <Checkbox key={index} checked={res_format && res_format == list.name ? true : false}
+                              onChange={(e) => onCheckbox("res_format", e.target.checked && list.name)}
+                            >{list.display_name}</Checkbox>
+                          )}
+                        </div>
+                      }
+                    </>
+                  }
 
 
-              </div>
+                </div>
+                :
+                <div style={{textAlign:"center",padding:"30px",color:"white"}}>
+                  ยังไม่พบข้อมูล....
+                </div>
+              }
             </div>
           </Col>
           <Col xs={24} sm={24} md={6}>

@@ -162,7 +162,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout style={{ padding: 20, display: "flex" }} serch={setSerch} onserch={GetDataCKan} dataserch={rawdata}  >
+      <Layout style={{ padding: 20, display: "flex" }}  dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล (พบทั้งหมด ${rawdata.count} ชุดข้อมูล)`}</span>
           <div>
@@ -177,16 +177,16 @@ export default function Home() {
             </Dropdown>
           </div>
         </div>
-        <Row gutter={20} >
+        <Row gutter={[20, 24]}  >
           {ckanData.map((item, index) =>
             <Link href="/" key={index} >
-              <Col className="gutter-row" {...changemode()} >
+              <Col className="gutter-row" {...changemode()} style={{overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis" }}>
                 <Cardbox title={item.title} rawdata={item} image={item.organization.image_url} mode={modeshow} />
               </Col>
             </Link>
           )}
         </Row>
-        <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
+        <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ top:"20px",width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
 
       </Layout>
     </>
