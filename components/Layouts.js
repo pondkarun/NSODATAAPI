@@ -10,6 +10,8 @@ import API from '../util/Api';
 import { Cookies } from 'react-cookie'
 import { SET_MENU } from '../redux/actions'
 import { blue100 } from 'material-ui/styles/colors';
+import {useRouter} from 'next/router';
+import { route } from 'next/dist/next-server/server/router';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -19,6 +21,8 @@ function Layouts({ children, disableheader, disablecontainer,dataserch }) {
 	const dispatch = useDispatch();
     const [open, setOpen] = React.useState(true);
     const { openid,keycloak } = useSelector(({ auth }) => auth);
+    const path = useRouter();
+
     var { munu } = useSelector(({ menu }) => menu);
     var permission_data = [];
     if (munu != null) {
@@ -40,6 +44,8 @@ function Layouts({ children, disableheader, disablecontainer,dataserch }) {
     }).catch((error) => {
         console.log('error :>> ', error);
     })
+
+    console.log('path.pathname >>', path.pathname);
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -70,16 +76,15 @@ function Layouts({ children, disableheader, disablecontainer,dataserch }) {
                 <Sider collapsedWidth={0} width={200} className="site-layout-background" style={{ backgroundColor: "#3D3D3D", zIndex: 99999 }} collapsed={open}>{/*position: "absolute", minHeight: '90%',*/}
                     <Menu
                         mode="inline"
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={[path.pathname]}
                         // defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0, backgroundColor: "#3D3D3D", color: "#FFF" }}
                     >
                         {permission_data.map((text, index) => (
-                            
-                                <Menu.Item key={index} ><Link href={text.url}>{text.application_name}</Link></Menu.Item>
-                            
+                                <Menu.Item key={text.url} ><Link href={text.url}>{text.application_name}</Link></Menu.Item>
                         ))}
                     </Menu>
+                    <p></p>
                 </Sider>
                 <Layout>
                     {!disableheader && <Headers dataserch={dataserch} />}
