@@ -82,7 +82,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                         style={{ height: '100%', borderRight: 0, backgroundColor: "#3D3D3D", color: "#FFF" }}
                     >
                         {permission_data.map((text, index) => (
-                                <Menu.Item key={text.url} ><Link href={text.url}>{text.application_name}</Link></Menu.Item>
+                                <Menu.Item key={text.url} ><Link href={text.url}><span style={{color:"white"}}>{text.application_name}</span></Link></Menu.Item>
                         ))}
                     </Menu>
                     <p></p>
@@ -134,6 +134,11 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                 </Layout>
 
             </Layout>
+            <style jsx global>{`
+            .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+                background-color: #2980b9;
+            }
+            `}</style>
         </Layout>
     )
 }
