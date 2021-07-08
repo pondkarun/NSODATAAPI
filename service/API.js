@@ -9,16 +9,16 @@ export const GetAPIkeyCloak = async () => {
   let succesdata;
   console.log('gettoken :>> ', gettoken);
   let GETKEYCLOAK = async () => {
-    const getapi =()=>  API.post('/services/v1/api/keycloak', {
+    const getapi = () => API.post('/services/v1/api/keycloak', {
       grant_type: "password",
       client_id: "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq",
       client_secret: "ab907cf6-0135-4fda-9447-d9885877a498",
       username: "directory_service",
       password: "4Dm!n2021@Pa55w0rd",
-    }).then(({data})=>data.data);
+    }).then(({ data }) => data.data);
     succesdata = getapi();
-    await cookies.set('token', await getapi().then((data)=>data));
-    await setAccessToken(await getapi().then((data)=>data.token));
+    await cookies.set('token', await getapi().then((data) => data));
+    await setAccessToken(await getapi().then((data) => data.token));
     return succesdata;
   }
 
@@ -36,4 +36,8 @@ export const GetAPIkeyCloak = async () => {
   }
 
   return succesdata;
+}
+
+export const Getdatalist = async () => {
+  return API.get(`/services/v1/api/datalist/all`);
 }

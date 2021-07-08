@@ -6,9 +6,10 @@ import Link from 'next/link';
 import Layout from '../components/Layouts';
 import API from '../util/Api';
 import Axios from 'axios'
-import { SET_OPENID } from '../redux/actions'
+import { SET_OPENID, SET_DATALIST } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
 import { Row, Col, Button, Dropdown, Radio, Space, Menu } from 'antd';
+import { Getdatalist } from '../service/API';
 import {
   BarsOutlined,
   InsertRowLeftOutlined,
@@ -91,6 +92,8 @@ export default function Home() {
       return;
     }
     GetDataCKan(true);
+
+
   }, [tags, data_type, groups, license_id, ministry, organization, res_format, q, sort]);
 
   useEffect(async () => {
@@ -102,18 +105,27 @@ export default function Home() {
   }, [token]);
   useEffect(async () => {
     // GetDataKeyCloak()
-    keycloak && GetDataCKan();
+    if (keycloak) {
+      GetDataCKan();
+      Getdatalists();
+    }
+
   }, [keycloak]);
 
   const oID = cookies.get('openid');
   // console.log('getOpenIDCookies', oID);
 
-
+  const Getdatalists = async () => {
+    Getdatalist().then(({ data: { data } }) => {
+      // console.log('data :>> ', data);
+      dispatch(SET_DATALIST(data));
+    })
+  }
   const GetDataCKan = (isserch = false) => {
     let qy = { tags, data_type, groups, license_id, ministry, organization, res_format, };
-    let checkall = { tags, data_type, groups, license_id, ministry, organization, res_format, q ,sort};
+    let checkall = { tags, data_type, groups, license_id, ministry, organization, res_format, q, sort };
     let checkempty = Object.keys(JSON.parse(JSON.stringify(checkall))).length === 0 && JSON.parse(JSON.stringify(checkall)).constructor === Object;
-    API.get(`http://dookdik2021.ddns.net/services/v1/api/ckan/all?rows=${12}&start=${isserch ? 0 : ckanData.length}&sort=${router.query.sort?router.query.sort:"title_string+asc"}&q=${q ? q : ""}&fq=${stringify({ ...qy, tags: tags?.toString() }).replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+")}`, {
+    API.get(`http://dookdik2021.ddns.net/services/v1/api/ckan/all?rows=${12}&start=${isserch ? 0 : ckanData.length}&sort=${router.query.sort ? router.query.sort : "title_string+asc"}&q=${q ? q : ""}&fq=${stringify({ ...qy, tags: tags?.toString() }).replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+")}`, {
       headers: {
         'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
       },
@@ -132,15 +144,15 @@ export default function Home() {
   }
 
   const renderSorter = () => {
-    function changsort(e){
+    function changsort(e) {
       router.push({
         pathname: '/',
-        query: {...router.query,sort:e.target.value},
+        query: { ...router.query, sort: e.target.value },
       })
     }
     return (
       <Menu style={{ padding: "5px 20px", borderRadius: 10 }}>
-        <Radio.Group  defaultValue={"title_string+asc"}>
+        <Radio.Group defaultValue={"title_string+asc"}>
           <Space direction="vertical" onChange={changsort}>
             <Radio value={"score+desc%2C+metadata_modified+desc"}>ความสัมพันธ์</Radio>
             <Radio value={"title_string+asc"}>เรียงชื่อตามลำดับตัวอักษร (ก-ฮ)</Radio>
@@ -162,7 +174,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout style={{ padding: 20, display: "flex" }}  dataserch={rawdata}  >
+      <Layout style={{ padding: 20, display: "flex" }} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล (พบทั้งหมด ${rawdata.count} ชุดข้อมูล)`}</span>
           <div>
@@ -179,14 +191,14 @@ export default function Home() {
         </div>
         <Row gutter={[20, 24]}  >
           {ckanData.map((item, index) =>
-            <Link href="/" key={index} >
-              <Col className="gutter-row" {...changemode()} style={{overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis" }}>
+            <Link href={`/dataset?dataid=${item.id}`} key={index} >
+              <Col className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
                 <Cardbox title={item.title} rawdata={item} image={item.organization.image_url} mode={modeshow} />
               </Col>
             </Link>
           )}
         </Row>
-        <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ top:"20px",width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
+        <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ top: "20px", width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
 
       </Layout>
     </>
