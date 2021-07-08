@@ -5,6 +5,7 @@ import API from '../util/Api';
 import {Table, Col, Row} from 'antd';
 import {Cookies} from 'react-cookie';
 import Head from 'next/head';
+import {DeleteFilled} from '@ant-design/icons'
 
 export default function UserList(){
     
@@ -67,6 +68,7 @@ export default function UserList(){
 
     useEffect(async () => {
         Dataset();
+        DatasetDetail();
     },[]);
 
     const cookies = new Cookies();
@@ -75,6 +77,8 @@ export default function UserList(){
     console.log('getOpenIDCookies', oID);
 
     const [datasetData, setDatasetData] = useState([]);
+    const [datasetDataResult, setDatasetDataResult] = useState([]);
+
     const [datasetDetailData, setDatasetDetailData] = useState([]);
 
     const Dataset = () => {
@@ -83,21 +87,27 @@ export default function UserList(){
                 'Authorization': `Bearer ${oID.token}`
               },
         }).then((data) => {
-            setDatasetData(data.data.data.data);
-            console.log('userData',datasetData);
+            setDatasetData(data.data.data);
+            setDatasetDataResult(data.data.data.result)
+            console.log('datasetData',datasetData);
+            console.log('datasetDataResult',datasetDataResult);
         }).catch((error) => {
             console.log('error :>> ', error);
         })
     }
 
-    const DatasetDetail = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/all', {
+    const DatasetDetail = (datasetID) => {
+
+        console.log('DatasetDetail.ID >>', datasetID);
+
+        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/getbyid/'+datasetID, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },
         }).then((data) => {
-            setDatasetDetailData(data.data.data.data);
-            console.log('userData',datasetDetailData);
+            console.log('datasetDetailData >>', data.data.data[0].dataset); 
+            setDatasetDetailData(data.data.data[0].dataset);
+            console.log('datasetDetailData',datasetDetailData);
         }).catch((error) => {
             console.log('error :>> ', error);
         })
@@ -111,7 +121,7 @@ export default function UserList(){
         </Head>
         <Layout>
             <Row style={{paddingTop:25, paddingBottom: 25}}>
-            <h3>พบ ชุดข้อมูล</h3>
+            <h3>พบ {' '} {datasetData.count} {' '} ชุดข้อมูล</h3>
             </Row>
             <Row>
                 <Col span={7} style={{backgroundColor: '#F9EAC9', height: 200}}>
@@ -119,13 +129,19 @@ export default function UserList(){
                             รายการข้อมูลของคุณ
                     </Col>
                     <Col style={{textAlign: 'left', paddingLeft: 10}}>
-                        {testData.map((text, index) =>(
-                            <div style={{paddingTop: 10}}><a>{text.dataset_list_name}</a> ({text.count})</div>
+                        {datasetDataResult.map((text, index) =>(
+                            <div style={{paddingTop: 10, fontSize: 15,}} onClick = {() => DatasetDetail(text.id)}><a>{text.dataset_list_name}</a> ({text.count})</div>
                         ))}
                     </Col>
                 </Col>
                 <Col span={17}>
+                    <Col style={{paddingLeft: 30}}>
+                    {datasetDetailData.map((text,index) => (
+                        <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}>{text.data_source} <DeleteFilled style={{fontSize:30}} /></div>
+                    ))}
 
+
+                    </Col>
                 </Col>
             </Row>
         </Layout>
