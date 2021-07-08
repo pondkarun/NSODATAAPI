@@ -13,37 +13,50 @@ export default function UserList(){
             dataIndex: 'num',
             key: 'num',
             align:"center",
+            sorter:(a,b) => a.num - b.num,
             render: (text, record, index) => index + 1,
         },
         {
             title: 'ชื่อเข้าใช้ระบบ',
             dataIndex: 'user_name',
             key: 'user_name',
+            sorter:(a,b) => a.user_name - b.user_name,
         },
         {
-            title: 'ชื่อ - นามสกุล',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'ชื่อ',
+            dataIndex: 'first_name',
+            key: 'first_name',
+            sorter:(a,b) => a.first_name - b.first_name,
+        },
+        {
+            title: 'นามสกุล',
+            dataIndex: 'last_name',
+            key: 'last_name',
+            sorter:(a,b) => a.last_name - b.last_name,
         },
         {
             title: 'อีเมล',
             dataIndex: 'e_mail',
             key: 'e_mail',
+            sorter:(a,b) => a.e_mail - b.e_mail,
         },
         {
             title: 'กลุ่มผู้ใช้งาน',
             dataIndex: 'group_name',
             key: 'group_name',
+            sorter:(a,b) => a.group_name - b.group_name,
         },
         {
             title: 'เข้าระบบล่าสุด',
             dataIndex: 'last_login',
             key: 'last_login',
+            sorter:(a,b) => a.last_login - b.last_login,
         },
         {
             title: 'สถานะผู้ใช้',
             dataIndex: 'status',
             key: 'status',
+            sorter:(a,b) => a.status - b.status,
         },
         {
             title: 'จัดการ',
@@ -79,7 +92,11 @@ export default function UserList(){
     return (
         <Layout disableheader>
             <h1  style={{fontSize: 27}}>ระบบจัดการผู้ใช้งานระบบ</h1>
-            <Table dataSource={userData} columns={columns} rowKey={(row)=>row.id} />;
+            <Table dataSource={userData} columns={columns} rowKey={(row)=>row.id} onChange={onChange} />;
         </Layout>
     )
 }
+
+function onChange(pagination, filters, sorter, extra) {
+    console.log('tableParams >> ', pagination, filters, sorter, extra);
+  }
