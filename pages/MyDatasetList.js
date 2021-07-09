@@ -137,7 +137,7 @@ export default function UserList(){
                 <Col span={17}>
                     <Col style={{paddingLeft: 30}}>
                     {datasetDetailData.map((text,index) => (
-                        <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}>{text.data_source} <DeleteFilled style={{fontSize:30}} /></div>
+                        <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}>{text.title} <DeleteFilled style={{fontSize:30}} /></div>
                     ))}
 
 
