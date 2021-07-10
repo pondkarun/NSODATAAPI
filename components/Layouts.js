@@ -74,7 +74,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
             >
             </PageHeader>
             <Layout>
-                <Sider collapsedWidth={0} width={200} className="site-layout-background" style={{ backgroundColor: "#3D3D3D", zIndex: 99999 }} collapsed={open}>{/*position: "absolute", minHeight: '90%',*/}
+                <Sider collapsedWidth={0} width={405} className="site-layout-background" style={{ backgroundColor: "#3D3D3D", zIndex: 99999 }} collapsed={open}>{/*position: "absolute", minHeight: '90%',*/}
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={[path.pathname]}
