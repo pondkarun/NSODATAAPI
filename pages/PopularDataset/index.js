@@ -1,4 +1,4 @@
-import Layouts from '../components/Layouts';
+import Layouts from '../../components/Layouts';
 import Head from 'next/head';
 
 export default function AboutUS() {

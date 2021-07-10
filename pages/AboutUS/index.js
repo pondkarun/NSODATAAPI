@@ -1,4 +1,4 @@
-import Layouts from '../components/Layouts';
+import Layouts from '../../components/Layouts';
 
 
 export default function AboutUS() {

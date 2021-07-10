@@ -78,12 +78,34 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={[path.pathname]}
-                        // defaultOpenKeys={['sub1']}
+                        //defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0, backgroundColor: "#3D3D3D", color: "#FFF" }}
                     >
-                        {permission_data.map((text, index) => (
+                        {/* {permission_data.map((text, index) => (
                                 <Menu.Item key={text.url} ><Link href={text.url}><span style={{color:"white"}}>{text.application_name}</span></Link></Menu.Item>
-                        ))}
+                        ))} */}
+                        {
+                            permission_data.map(text => {
+                                return text.child && text.child.length > 0 ?
+                                    <SubMenu key={text.id} title={text.application_name}>
+                                        {
+                                            // text.child.map(sub => {
+                                            //     return
+                                            //     <Menu.Item key={sub.url}>
+                                            //         <Link href={sub.url}><span style={{color:"white"}}>{sub.application_name}</span></Link>
+                                            //     </Menu.Item>
+                                            // })
+                                            text.child.map((sub, index) => (
+                                                <Menu.Item key={sub.id}>
+                                                    <Link href={sub.url}><span style={{ color: "orange" }}>{sub.application_name}</span></Link>
+                                                </Menu.Item>
+                                            ))
+                                        }
+                                    </SubMenu>
+                                    :
+                                    <Menu.Item key={text.url} ><Link href={text.url}><span style={{ color: "white" }}>{text.application_name}</span></Link></Menu.Item>
+                            })
+                        }
                     </Menu>
                     <p></p>
                 </Sider>

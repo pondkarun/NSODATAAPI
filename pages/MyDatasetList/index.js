@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import Layout from '../components/Layouts';
-import API from '../util/Api';
+import Layout from '../../components/Layouts';
+import API from '../../util/Api';
 import {Table, Col, Row} from 'antd';
 import {Cookies} from 'react-cookie';
 import Head from 'next/head';
@@ -137,6 +137,11 @@ export default function UserList(){
                 <Col span={17}>
                     <Col style={{paddingLeft: 30}}>
                     {datasetDetailData.map((text,index) => (
+                        // <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}
+                        // onMouseEnter={e => {
+                        //     alert('Mouse Hover');
+                        // }}
+                        // >{text.title} <DeleteFilled style={{fontSize:30}} /></div>
                         <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}>{text.title} <DeleteFilled style={{fontSize:30}} /></div>
                     ))}
 
