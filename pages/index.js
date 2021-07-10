@@ -8,7 +8,7 @@ import API from '../util/Api';
 import Axios from 'axios'
 import { SET_OPENID, SET_DATALIST } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
-import { Row, Col, Button, Dropdown, Radio, Space, Menu } from 'antd';
+import { Row, Col, Button, Dropdown, Radio, Space, Menu, Skeleton } from 'antd';
 import { Getdatalist } from '../service/API';
 import {
   BarsOutlined,
@@ -30,6 +30,9 @@ export default function Home() {
   const [ckanData, setCkandata] = useState([]);
   const [rawdata, setRawdata] = useState({});
   const [serch, setSerch] = useState("");
+  const [windowWidth, setWindowWidth] = useState(null);
+  const [Skalatonshow, setSkalatonshow] = useState([]);
+  const [load, setLoad] = useState(false);
   const firstUpdate = useRef(true);
 
 
@@ -85,6 +88,12 @@ export default function Home() {
 
 
   useLayoutEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const skelaton = []
+    for (let i = 0; i < 12; i++) {
+      skelaton.push(i)
+    }
+    setSkalatonshow(skelaton);
     // let qy = { tags, data_type, groups, license_id, ministry, organization, res_format };
     //  console.log( JSON.stringify({...qy,tags:tags?.toString()}).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+"));
     if (firstUpdate.current) {
@@ -122,6 +131,7 @@ export default function Home() {
     })
   }
   const GetDataCKan = (isserch = false) => {
+    setLoad(true);
     let qy = { tags, data_type, groups, license_id, ministry, organization, res_format, };
     let checkall = { tags, data_type, groups, license_id, ministry, organization, res_format, q, sort };
     let checkempty = Object.keys(JSON.parse(JSON.stringify(checkall))).length === 0 && JSON.parse(JSON.stringify(checkall)).constructor === Object;
@@ -138,8 +148,12 @@ export default function Home() {
         setCkandata([...ckanData, ...data.results]);
         setRawdata(data);
       }
+      setLoad(false);
+
     }).catch((error) => {
       console.log('error :>> ', error);
+      setLoad(false);
+
     })
   }
 
@@ -166,6 +180,8 @@ export default function Home() {
 
 
   }
+
+
   return (
     <>
       <Head>
@@ -190,13 +206,26 @@ export default function Home() {
           </div>
         </div>
         <Row gutter={[20, 24]}  >
-          {ckanData.map((item, index) =>
-            <Link href={`/dataset?dataid=${item.id}`} key={index} >
-              <Col className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
-                <Cardbox title={item.title} rawdata={item} image={item.organization.image_url} mode={modeshow} />
+          {
+            ckanData.map((item, index) =>
+              <Link href={`/dataset?dataid=${item.id}`} key={index} >
+                <Col className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+                  <Cardbox title={item.title} rawdata={item} image={item.organization.image_url} mode={modeshow} />
+                </Col>
+              </Link>
+            )
+          }
+          {
+            load && Skalatonshow.map((i,index) =>
+              <Col key={index} className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+              {modeshow ?
+              <Skeleton.Button size={windowWidth / 7.5} shape={"square"} />
+              :
+              <Skeleton.Input style={{ width: "60rem" }}  size={60} />
+              }
               </Col>
-            </Link>
-          )}
+            )
+          }
         </Row>
         <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ top: "20px", width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
 

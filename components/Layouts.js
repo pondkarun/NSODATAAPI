@@ -3,14 +3,14 @@ import { AppBar, Toolbar, IconButton, Typography, ListItemText, ListItemIcon, Li
 import MenuIcon from '@material-ui/icons/Menu';
 import Headers from './Header';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Menu, PageHeader, Avatar, Badge, Row, Col } from 'antd';
+import { Layout, Menu, PageHeader, Avatar, Badge, Row, Col, Dropdown } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import API from '../util/Api';
 import { Cookies } from 'react-cookie'
 import { SET_MENU } from '../redux/actions'
 import { blue100 } from 'material-ui/styles/colors';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import { route } from 'next/dist/next-server/server/router';
 
 const { SubMenu } = Menu;
@@ -21,33 +21,44 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
     const dispatch = useDispatch();
     const datalist = useSelector(({ datalist }) => datalist);
     const [open, setOpen] = React.useState(true);
-    const { openid,keycloak } = useSelector(({ auth }) => auth);
+    const { openid, keycloak } = useSelector(({ auth }) => auth);
     const path = useRouter();
 
     var { munu } = useSelector(({ menu }) => menu);
-    var permission_data = [];
-    if (munu != null) {
-        permission_data = munu.data.permission_data;
-        console.log("permission_data", permission_data);
-    }
+    // var permission_data = [];
+    // if (munu != null) {
+    //     permission_data = munu.data.permission_data;
+    //     console.log("permission_data", permission_data);
+    // }
 
     useEffect(() => {
-        !munu && keycloak && Getmydata();
-    }, [keycloak])
+        keycloak && Getmydata();
+        openid && Getmydata();
+    }, [keycloak, openid])
 
     const Getmydata = () => API.get('/services/v1/api/user/mydata', {
         headers: {
             'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
         }
     }).then((data) => {
-        console.log(`data`, data)
+        // console.log(`data`, data)
         dispatch(SET_MENU(data.data));
     }).catch((error) => {
         console.log('error :>> ', error);
     })
 
-    console.log('path.pathname >>', path.pathname);
-
+    // console.log('path.pathname >>', path.pathname);
+    const Rendermenuuser = () => {
+        return (
+            <Menu style={{ minWidth: 150 }}>
+                <Menu.Item key="0">
+                    {openid.user_name}
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item key="1" style={{ backgroundColor: "#2980B9", color: "white" }}>Logout</Menu.Item>
+            </Menu>
+        )
+    }
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <PageHeader
@@ -64,12 +75,13 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                 </IconButton>}
                 extra={[
                     <Avatar key={0} size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
-                    <a key={1}>{openid ? <span style={{ color: "white" }}>{openid.user_name}</span> : <Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</a>,
-                    <a key={3} href="#">
-                        <Badge count={datalist?.count} style={{ top: "10px" }}>
-                            <ShoppingCartOutlined style={{ color: "yellow", fontSize: "40px", top: "10px", position: "relative" }} />
-                        </Badge>
-                    </a>,
+                    <a key={1}>{openid ? <Dropdown overlay={Rendermenuuser} trigger={['click']}><span style={{ color: "white" }}>{openid.user_name}</span></Dropdown> : <Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</a>,
+                    <Badge key={3} count={openid?datalist?.count:0} showZero style={{ top: "10px" }}>
+                        <Link  href={`${openid?"/MyDatasetList":"#"}`}>
+                            <ShoppingCartOutlined style={{ color: `${openid?"yellow":"#bac0c9"}`, fontSize: "40px", top: "10px", position: "relative" }} />
+                        </Link>
+                    </Badge>
+                        ,
                 ]}
             >
             </PageHeader>
@@ -81,8 +93,8 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                         // defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0, backgroundColor: "#3D3D3D", color: "#FFF" }}
                     >
-                        {permission_data.map((text, index) => (
-                                <Menu.Item key={text.url} ><Link href={text.url}><span style={{color:"white"}}>{text.application_name}</span></Link></Menu.Item>
+                        {munu?.data?.permission_data.map((text, index) => (
+                            <Menu.Item key={text.url} ><Link href={text.url}><span style={{ color: "white" }}>{text.application_name}</span></Link></Menu.Item>
                         ))}
                     </Menu>
                     <p></p>
@@ -137,6 +149,9 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
             <style jsx global>{`
             .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
                 background-color: #2980b9;
+            }
+            .ant-page-header-heading-left {
+                overflow: unset;
             }
             `}</style>
         </Layout>

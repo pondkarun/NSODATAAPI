@@ -26,7 +26,7 @@ export default function Header({ serch, onserch, dataserch }) {
     s5: false,
     s6: false,
   });
-  const { tags, data_type, groups, license_id, ministry, organization, res_format } = router.query;
+  const { q,tags, data_type, groups, license_id, ministry, organization, res_format } = router.query;
   // useEffect(async () => {
   //   // checkpoperty && onserch(true,)
   //   // console.log('checkpoperty :>> ', JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+"));
@@ -105,7 +105,7 @@ export default function Header({ serch, onserch, dataserch }) {
               (GD Catalog Directory Service)
               <br />
               <div style={{ textAlign: 'center', marginTop: "25px", display: "flex", flexDirection: "row" }}>
-                <Input.Search placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }}
+                <Input.Search defaultValue={q} placeholder="พิมพ์ชื่อข้อมูลที่ต้องการค้นหา..." style={{ border: "4px solid white", borderRadius: "20px", }}
                   // onChange={(e) => serch(e.target.value)}
                   onSearch={(value) => router.push({
                     pathname: '/',
@@ -270,6 +270,10 @@ export default function Header({ serch, onserch, dataserch }) {
         .ant-checkbox-wrapper + .ant-checkbox-wrapper {
           margin-left: 0px;
         }
+        .ant-input-search-button ,.ant-btn > span {
+          color: white !important;
+      }
+
         `}
       </style>
     </>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie'
-import {GetAPIkeyCloak} from '../service/API';
+import { GetAPIkeyCloak } from '../service/API';
+import { setAccessToken } from "../util/Utility";
 
 
 const token = new Cookies().get('token');
@@ -16,6 +17,15 @@ export default axios.create({
     const getopenid = cookies.get('openid');
     const token = cookies.get('token');
     if (token) {
+      if (new Date() > new Date(new Date(token.time_stamps.date).getTime() + (token.refresh_expires_in-100) * 1000).getTime()) {
+        console.log("หมดเวลาtoken")
+        RefreshToken(token.refresh_token);
+      } else {
+        console.log("ยังไม่รีเฟรชนะจ้ะ");
+      }
+    }
+
+    if (token) {
       if (getopenid) {
         headers.Authorization = "Bearer " + getopenid.token;
       } else {
@@ -25,3 +35,18 @@ export default axios.create({
     return JSON.stringify(data);
   }],
 });
+const RefreshToken = async(refreshtokenval) => {
+  let succesdata;
+  const getapi = () => axios.post(process.env.NEXT_PUBLIC_APIURL+'/services/v1/api/keycloak', {
+    grant_type: "refresh_token",
+    client_id: "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq",
+    client_secret: "ab907cf6-0135-4fda-9447-d9885877a498",
+    username: "directory_service",
+    password: "4Dm!n2021@Pa55w0rd",
+    refresh_token:refreshtokenval
+  }).then(({ data }) => data.data);
+  succesdata = getapi();
+  await cookies.set('token', await getapi().then((data) => data));
+  await setAccessToken(await getapi().then((data) => data.token));
+  return succesdata;
+}

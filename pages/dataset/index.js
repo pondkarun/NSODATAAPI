@@ -88,7 +88,7 @@ const Dataset = () => {
 
         if (e) {//ถ้าเช็ค
             let arr = Array.isArray(data.dataset) ? data?.dataset : [];
-            arr.push({id:dataid});
+            arr.push({ id: dataid });
             const formData = new FormData();
             arr.forEach((list, index) => {
                 formData.append(`dataset[${index}]`, JSON.stringify(list));
@@ -191,11 +191,13 @@ const Dataset = () => {
                             <h1 style={{ fontSize: "2rem" }}>{data.title}</h1>
                             <p>{data.notes}</p>
                             <p>Tags : {data.tags?.map((item, index) => <Tag key={index} color="#108ee9" style={{ borderRadius: 10 }}>{item.name}</Tag>)}</p>
-                            <Popover style={{ backgroundColor: "#272323" }} placement="bottom" content={
-                                RenderDropdrawnmenu
-                            }>
-                                <Button type="text" style={{ color: "white", alignSelf: "flex-end", borderRadius: "20px", backgroundColor: `${count > 0 ? '#FF7B91' : '#108ee9'}` }}>{count < 1 ? <PlusSquareTwoTone style={{ fontSize: 20 }} /> : <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 20 }} />}เพิ่มเข้าไปในรายการของคุณ{count > 0 && 'แล้ว'}</Button>
-                            </Popover>
+                            {
+                                openid && <Popover style={{ backgroundColor: "#272323" }} placement="bottom" content={
+                                    RenderDropdrawnmenu
+                                }>
+                                    <Button type="text" style={{ color: "white", alignSelf: "flex-end", borderRadius: "20px", backgroundColor: `${count > 0 ? '#FF7B91' : '#108ee9'}` }}>{count < 1 ? <PlusSquareTwoTone style={{ fontSize: 20 }} /> : <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 20 }} />}เพิ่มเข้าไปในรายการของคุณ{count > 0 && 'แล้ว'}</Button>
+                                </Popover>
+                            }
                         </Col>
                     </Row>
                 </div>
@@ -349,7 +351,7 @@ const Dataset = () => {
                                     renderItem={item => (
                                         <List.Item key={item.id}
                                             actions={[
-                                                item.url && <Avatar icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} />,
+                                                item.url_type && <Avatar icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} />,
                                                 item.original_url && <Avatar icon={<LinkOutlined onClick={() => copyToClipboard(item.url)} />} />,
                                                 item.original_url && <Avatar icon={<MonitorOutlined onClick={() => window.open(item.url)} />} />,
                                             ]}
@@ -358,8 +360,8 @@ const Dataset = () => {
                                                 avatar={
                                                     <Image preview={false} src={`/img/${item.format ? item.format : "url"}.png`} width={60} />
                                                 }
-                                                title={<h3 style={{ fontWeight: "bold", fontSize: 14 }}>{item.name.substring(0, 30) + "..."}</h3>}
-                                                description={item.url.substring(0, 30) + "..."}
+                                                title={<h3 title={item.name} style={{ fontWeight: "bold", fontSize: 14, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{item.name}</h3>}
+                                                description={<a href={item.url} target="_blank" ><h5 style={{ color: "blue", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{item.url}</h5></a>}
                                             />
 
                                         </List.Item>
