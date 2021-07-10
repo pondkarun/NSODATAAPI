@@ -128,7 +128,7 @@ export default function UserList(){
                     <Col style={{textAlign: 'center', fontWeight: 'bold', fontSize: 17}}>
                             รายการข้อมูลของคุณ
                     </Col>
-                    <Col style={{textAlign: 'left', paddingLeft: 10}}>
+                    <Col style={{textAlign: 'left', paddingLeft: 10, backgroundColor: '#F9EAC9'}}>
                         {datasetDataResult.map((text, index) =>(
                             <div style={{paddingTop: 10, fontSize: 15,}} onClick = {() => DatasetDetail(text.id)}><a>{text.dataset_list_name}</a> ({text.count})</div>
                         ))}
