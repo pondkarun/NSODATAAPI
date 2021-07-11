@@ -17,7 +17,7 @@ export default axios.create({
     const getopenid = cookies.get('openid');
     const token = cookies.get('token');
     if (token) {
-      if (new Date() > new Date(new Date(token.time_stamps.date).getTime() + (token.refresh_expires_in-100) * 1000).getTime()) {
+      if (new Date() > new Date(new Date(token.time_stamps?.date).getTime() + (token.refresh_expires_in-1000) * 1000).getTime()) {
         console.log("หมดเวลาtoken")
         RefreshToken(token.refresh_token);
       } else {
@@ -44,7 +44,9 @@ const RefreshToken = async(refreshtokenval) => {
     username: "directory_service",
     password: "4Dm!n2021@Pa55w0rd",
     refresh_token:refreshtokenval
-  }).then(({ data }) => data.data);
+  }).then(({ data }) => data.data).catch((error)=>{
+    GetAPIkeyCloak();
+  })
   succesdata = getapi();
   await cookies.set('token', await getapi().then((data) => data));
   await setAccessToken(await getapi().then((data) => data.token));

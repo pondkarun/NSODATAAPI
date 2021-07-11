@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react'
 import { AppBar, Toolbar, IconButton, Typography, ListItemText, ListItemIcon, ListItem, Divider, List, Drawer } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Headers from './Header';
@@ -10,7 +10,7 @@ import API from '../util/Api';
 import { Cookies } from 'react-cookie'
 import { SET_MENU } from '../redux/actions'
 import { blue100 } from 'material-ui/styles/colors';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { route } from 'next/dist/next-server/server/router';
 
 const { SubMenu } = Menu;
@@ -23,8 +23,11 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
     const [open, setOpen] = React.useState(true);
     const { openid, keycloak } = useSelector(({ auth }) => auth);
     const path = useRouter();
-
+    const cookie = new Cookies();
+    const [stateCookie, setStateCookie] = useState(false);
     var { munu } = useSelector(({ menu }) => menu);
+    const firstUpdate = useRef(true);
+
     // var permission_data = [];
     // if (munu != null) {
     //     permission_data = munu.data.permission_data;
@@ -35,6 +38,14 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
         keycloak && Getmydata();
         openid && Getmydata();
     }, [keycloak, openid])
+    useLayoutEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            setStateCookie(cookie.get('yes')?true:false);
+            return;
+        }
+
+    }, [])
 
     const Getmydata = () => API.get('/services/v1/api/user/mydata', {
         headers: {
@@ -47,6 +58,16 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
         console.log('error :>> ', error);
     })
 
+    const Logout = () => {
+        API.post('/services/v1/api/logout').then((data) => {
+            const cookie = new Cookies();
+            console.log('data :>> ', data);
+            cookie.remove("openid");
+            window.location.href = "/";
+        }).catch((eror) => {
+            console.log(`eror`, eror)
+        })
+    }
     // console.log('path.pathname >>', path.pathname);
     const Rendermenuuser = () => {
         return (
@@ -55,9 +76,13 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                     {openid.user_name}
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="1" style={{ backgroundColor: "#2980B9", color: "white" }}>Logout</Menu.Item>
+                <Menu.Item key="1" style={{ backgroundColor: "#2980B9", color: "white" }} onClick={Logout}>Logout</Menu.Item>
             </Menu>
         )
+    }
+    const acceptCookie = () => {
+        cookie.set("yes", true);
+        setStateCookie(true);
     }
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -76,12 +101,12 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                 extra={[
                     <Avatar key={0} size={45} icon={<UserOutlined />} style={{ backgroundColor: "#FFF", color: "#000" }} />,
                     <a key={1}>{openid ? <Dropdown overlay={Rendermenuuser} trigger={['click']}><span style={{ color: "white" }}>{openid.user_name}</span></Dropdown> : <Link href="/login"><a style={{ color: "#FFF", fontSize: "20px", top: "5px", position: "relative" }}>Login</a></Link>}</a>,
-                    <Badge key={3} count={openid?datalist?.count:0} showZero style={{ top: "10px" }}>
-                        <Link  href={`${openid?"/MyDatasetList":"#"}`}>
-                            <ShoppingCartOutlined style={{ color: `${openid?"yellow":"#bac0c9"}`, fontSize: "40px", top: "10px", position: "relative" }} />
+                    <Badge key={3} count={openid ? datalist?.count : 0} showZero style={{ top: "10px" }}>
+                        <Link href={`${openid ? "/MyDatasetList" : "#"}`}>
+                            <ShoppingCartOutlined style={{ color: `${openid ? "yellow" : "#bac0c9"}`, fontSize: "40px", top: "10px", position: "relative" }} />
                         </Link>
                     </Badge>
-                        ,
+                    ,
                 ]}
             >
             </PageHeader>
@@ -99,7 +124,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                         {
                             munu?.data?.permission_data.map(text => {
                                 return text.child && text.child.length > 0 ?
-                                    <SubMenu key={text.id} title={text.application_name}>
+                                    <SubMenu key={text.id} title={text.application_name}  >
                                         {
                                             // text.child.map(sub => {
                                             //     return
@@ -108,8 +133,8 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                             //     </Menu.Item>
                                             // })
                                             text.child.map((sub, index) => (
-                                                <Menu.Item key={sub.id}>
-                                                    <Link href={sub.url}><span style={{ color: "orange" }}>{sub.application_name}</span></Link>
+                                                <Menu.Item key={sub.id} >
+                                                    <Link href={sub.url}><span style={{ color: "white" }}>{sub.application_name}</span></Link>
                                                 </Menu.Item>
                                             ))
                                         }
@@ -123,7 +148,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                 </Sider>
                 <Layout>
                     {!disableheader && <Headers dataserch={dataserch} />}
-                    <Layout style={{ padding: !disablecontainer ? '0 50px 50px' : '0 0', }}>
+                    <Layout className={!disablecontainer ? "container" : ""}>
                         {children}
                     </Layout>
                     <Footer style={{ backgroundColor: blue100 }}>
@@ -164,7 +189,15 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                 </Row>
                             </Col>
                         </Row>
+
                     </Footer>
+                    <div className="myDiv" style={{ display: `${stateCookie == true ? "none" : "block"}` }}>
+                        <p className="txt-cookie">เว็บไซต์นี้ใช้ "คุกกี้" เพื่อวัตถุประสงค์ในการพัฒนาการเข้าถึงบริการของผู้ใช้ให้ดียิ่งขึ้น
+                            หากต้องการเปิดใช้งานคุกกี้</p>
+                        <p className="txt-cookie">โปรดคลิก "ยอมรับ" คุณสามารถถอนการยินยอมของคุณได้ตลอดเวลา โดยไปที่ "การตั้งค่าคุกกี้"</p>
+                        <button onClick={acceptCookie} className="button-accept txt-cookie">ยอมรับคุกกี้</button>
+                        <div id="mydiv1" className="close-cookies">x</div>
+                    </div>
                 </Layout>
 
             </Layout>
@@ -174,6 +207,31 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
             }
             .ant-page-header-heading-left {
                 overflow: unset;
+            }
+            .ant-menu-sub.ant-menu-inline {
+                background: #414040;
+            }
+            .myDiv {
+                background-color: #b5b4b4;
+                opacity: 0.9;
+                text-align: center;
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                padding: 10px;
+                color: white;
+                z-index: 1;
+            }
+            .close-cookies {
+                text-align: right;
+                position: absolute;
+                top: 0;
+                right: 40px;
+                color: #fff;
+                font-size: 20px;
+                font-weight: 400;
+                cursor: pointer;
             }
             `}</style>
         </Layout>

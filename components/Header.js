@@ -93,7 +93,7 @@ export default function Header({ serch, onserch, dataserch }) {
             <div style={{ textAlign: "center" }}>
               <Link href="/">
                 <a>
-                <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", }} />} />
+                <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF",padding:10 }} />} />
                 </a>
               </Link>
             </div>
@@ -149,7 +149,7 @@ export default function Header({ serch, onserch, dataserch }) {
                       }
                     </>
                   }
-                  {!Array.isArray(dataserch.facets?.license_id) &&
+                  {/* {!Array.isArray(dataserch.facets?.license_id) &&
                     <>
                       <span style={{ color: "white" }}>สัญญาอนุญาต </span><Switch checked={swicht.s3} onChange={(e) => setSwicht({ ...swicht, s3: e })} /> <br />
                       {swicht.s3 &&
@@ -161,8 +161,8 @@ export default function Header({ serch, onserch, dataserch }) {
                         </div>
                       }
                     </>
-                  }
-                  {!Array.isArray(dataserch.facets?.tags) &&
+                  } */}
+                  {/* {!Array.isArray(dataserch.facets?.tags) &&
                     <>
                       <span style={{ color: "white" }}>แท็ค </span><Switch checked={swicht.s4} onChange={(e) => setSwicht({ ...swicht, s4: e })} /> <br />
                       {swicht.s4 &&
@@ -174,7 +174,7 @@ export default function Header({ serch, onserch, dataserch }) {
                         </div>
                       }
                     </>
-                  }
+                  } */}
                   {!Array.isArray(dataserch.facets?.ministry) &&
                     <>
                       <span style={{ color: "white" }}>กระทรวง </span><Switch checked={swicht.s5} onChange={(e) => setSwicht({ ...swicht, s5: e })} /> <br />
@@ -203,7 +203,7 @@ export default function Header({ serch, onserch, dataserch }) {
                       }
                     </>
                   }
-                  {!Array.isArray(dataserch.facets?.res_format) &&
+                  {/* {!Array.isArray(dataserch.facets?.res_format) &&
                     <>
                       <span style={{ color: "white" }}>รูปแบบ </span><Switch checked={swicht.s7} onChange={(e) => setSwicht({ ...swicht, s7: e })} /> <br />
                       {swicht.s7 &&
@@ -216,7 +216,7 @@ export default function Header({ serch, onserch, dataserch }) {
                         </div>
                       }
                     </>
-                  }
+                  } */}
 
 
                 </div>

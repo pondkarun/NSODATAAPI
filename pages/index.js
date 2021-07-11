@@ -8,12 +8,13 @@ import API from '../util/Api';
 import Axios from 'axios'
 import { SET_OPENID, SET_DATALIST } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
-import { Row, Col, Button, Dropdown, Radio, Space, Menu, Skeleton } from 'antd';
+import { Row, Col, Button, Dropdown, Radio, Space, Menu, Skeleton,  } from 'antd';
 import { Getdatalist } from '../service/API';
 import {
   BarsOutlined,
   InsertRowLeftOutlined,
-  AppstoreFilled
+  AppstoreFilled,
+  GroupOutlined
 } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 
@@ -128,6 +129,8 @@ export default function Home() {
     Getdatalist().then(({ data: { data } }) => {
       // console.log('data :>> ', data);
       dispatch(SET_DATALIST(data));
+    }).catch((eror)=>{
+      console.log('eror :>> ', eror);
     })
   }
   const GetDataCKan = (isserch = false) => {
@@ -192,11 +195,11 @@ export default function Home() {
 
       <Layout style={{ padding: 20, display: "flex" }} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล (พบทั้งหมด ${rawdata.count} ชุดข้อมูล)`}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล (พบทั้งหมด ${rawdata.count?rawdata.count:"กำลังโหลด.."} ชุดข้อมูล)`}</span>
           <div>
             {
               modeshow ?
-                <BarsOutlined onClick={() => setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+                <GroupOutlined onClick={() => setModeshow(!modeshow)} title="รูปแบบการแสดงผล" style={{ fontSize: "28px", fontWeight: "bold", color: "#2980B9" }} />
                 :
                 <AppstoreFilled onClick={() => setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
             }
@@ -209,7 +212,7 @@ export default function Home() {
           {
             ckanData.map((item, index) =>
               <Link href={`/dataset?dataid=${item.id}`} key={index} >
-                <Col className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+                <Col className="gutter-row cut-text-multi" {...changemode()} >
                   <Cardbox title={item.title} rawdata={item} image={item.organization.image_url} mode={modeshow} />
                 </Col>
               </Link>
@@ -219,7 +222,7 @@ export default function Home() {
             load && Skalatonshow.map((i,index) =>
               <Col key={index} className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
               {modeshow ?
-              <Skeleton.Button size={windowWidth / 7.5} shape={"square"} />
+              <Skeleton.Button  style={{width:"60rem",height:"10rem"}} shape={"square"} />
               :
               <Skeleton.Input style={{ width: "60rem" }}  size={60} />
               }
@@ -228,7 +231,14 @@ export default function Home() {
           }
         </Row>
         <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ top: "20px", width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
-
+          <style jsx global>{`
+          .cut-text-multi{
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          }
+          `}</style>
       </Layout>
     </>
   )

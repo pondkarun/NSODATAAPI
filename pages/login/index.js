@@ -2,24 +2,24 @@ import React from 'react'
 import Layouts from '../../components/Layouts';
 import { Row, Col, Image, Form, Input, Button, Checkbox } from 'antd';
 import API from '../../util/Api';
-import {useDispatch} from 'react-redux';
-import {SET_OPENID} from '../../redux/actions';
-import {Cookies} from 'react-cookie';
+import { useDispatch } from 'react-redux';
+import { SET_OPENID } from '../../redux/actions';
+import { Cookies } from 'react-cookie';
 import { useRouter } from 'next/router'
 
 function Login() {
-const dispatch =useDispatch();
-const cookies = new Cookies();
-const router = useRouter()
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
+  const router = useRouter()
 
-const onFinish = (values) => {
+  const onFinish = (values) => {
     console.log('Success:', values);
-    API.post('http://dookdik2021.ddns.net/services/v1/api/login',values).then(({data:{data}})=>{
+    API.post('http://dookdik2021.ddns.net/services/v1/api/login', values).then(({ data: { data } }) => {
       // console.log('data :>> ', data);
       dispatch(SET_OPENID(data));
-      cookies.set("openid",data);
+      cookies.set("openid", data);
       router.push('/');
-    }).catch((eror)=>{
+    }).catch((eror) => {
       console.log('eror :>> ', eror);
     })
   };
@@ -30,7 +30,19 @@ const onFinish = (values) => {
   return (
     <Layouts disableheader disablecontainer>
       <Row style={{ height: '100%' }}>
-        <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F", }}>
+        <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F" }}>
+          <ul className="background">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
         </Col>
         <Col span={10} xs={24} md={10}>
           <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
@@ -51,7 +63,7 @@ const onFinish = (values) => {
                   name="user_name"
                   rules={[{ required: true, message: 'Please input your username!' }]}
                 >
-                    <Input placeholder="Username" />
+                  <Input placeholder="Username" />
 
                 </Form.Item>
 
@@ -69,7 +81,7 @@ const onFinish = (values) => {
 
                 <Form.Item>
                   <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
-                    <Button htmlType="submit" block style={{ width: "45%", backgroundColor: "#89EE89",color:"white" }}>
+                    <Button htmlType="submit" block style={{ width: "45%", backgroundColor: "#89EE89", color: "white" }}>
                       Login
                     </Button>
                     <Button block style={{ width: "45%" }}>
@@ -79,7 +91,7 @@ const onFinish = (values) => {
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 24 }}>
                   <Button href="http://dookdik2021.ddns.net/services/v1/api/openid" type="primary" block htmlType="submit">
-                   Login On OpenID
+                    Login On OpenID
                   </Button>
 
                 </Form.Item>

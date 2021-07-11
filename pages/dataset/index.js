@@ -67,6 +67,8 @@ const Dataset = () => {
         Getdatalist().then(({ data: { data } }) => {
             // console.log('data :>> ', data);
             dispatch(SET_DATALIST(data));
+        }).catch((eror)=>{
+            console.log('eror :>> ', eror);
         })
     }
     function copyToClipboard(text) {
@@ -176,7 +178,7 @@ const Dataset = () => {
     }
     return (
         <Layouts>
-            <div style={{ padding: "0 50px" }}>
+            <div className="container">
                 <div style={{ padding: 10, borderBottom: "1px solid" }}>
                     <Row gutter={15}>
                         <Col md={5} xs={24}>

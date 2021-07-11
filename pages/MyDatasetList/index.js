@@ -1,78 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
-import {Table, Col, Row} from 'antd';
-import {Cookies} from 'react-cookie';
+import axios from 'axios';
+import { notification, Col, Row } from 'antd';
+import { Cookies } from 'react-cookie';
 import Head from 'next/head';
-import {DeleteFilled} from '@ant-design/icons'
+import { DeleteFilled } from '@ant-design/icons'
+import { Getdatalist } from '../../service/API';
+import { SET_DATALIST } from '../../redux/actions';
 
-export default function UserList(){
-    
-    const testData = [
-        {
-            "id": "92ce32f9-c1b4-4d06-9c70-54d899cbf1fa",
-            "user_id": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "dataset_list_name": "ข้อมูลของฉัน",
-            "dataset": [
-                {
-                    "id": "98f9a1db-7847-4838-8d1e-6cc609d2d365"
-                },
-                {
-                    "id": "df394221-774c-416f-872a-2363df462d99"
-                },
-                {
-                    "id": "e9752fd8-d75b-4c21-aa28-d67da7c804bf"
-                }
-            ],
-            "created_by": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "created_date": "2021-06-20 12:58:53",
-            "updated_by": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "updated_date": "2021-06-28 16:23:22",
-            "count": 3
-        },
-        {
-            "id": "c2f8add4-60ab-438f-9636-6d3d4a31c921",
-            "user_id": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "dataset_list_name": "my play list 4",
-            "dataset": [
-                {
-                    "id": "98f9a1db-7847-4838-8d1e-6cc609d2d365"
-                },
-                {
-                    "id": "e9752fd8-d75b-4c21-aa28-d67da7c804bf"
-                }
-            ],
-            "created_by": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "created_date": "2021-06-20 13:34:05",
-            "updated_by": null,
-            "updated_date": null,
-            "count": 2
-        },
-        {
-            "id": "94af95c3-8dbf-4f44-88c1-ab3d8df80528",
-            "user_id": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "dataset_list_name": "my",
-            "dataset": [
-                {
-                    "id": "98f9a1db-7847-4838-8d1e-6cc609d2d365"
-                }
-            ],
-            "created_by": "0f16ff56-0547-49c5-aa7e-20741c7d4ca0",
-            "created_date": "2021-06-28 10:58:10",
-            "updated_by": null,
-            "updated_date": null,
-            "count": 1
-        },
-    ];
 
-    useEffect(async () => {
-        Dataset();
-        DatasetDetail();
-    },[]);
-
+export default function UserList() {
     const cookies = new Cookies();
-    const {openid} = useSelector(({ auth }) => auth);
+    const dispatch = useDispatch();
+    const { openid, keycloak } = useSelector(({ auth }) => auth);
+    const datalist = useSelector(({ datalist }) => datalist);
     const oID = cookies.get('openid');
     console.log('getOpenIDCookies', oID);
 
@@ -81,75 +24,131 @@ export default function UserList(){
 
     const [datasetDetailData, setDatasetDetailData] = useState([]);
 
+    useEffect(async () => {
+        Dataset();
+        DatasetDetail();
+        Getdatalists();
+    }, []);
+
+
+
     const Dataset = () => {
         API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/all', {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
-              },
+            },
         }).then((data) => {
             setDatasetData(data.data.data);
             setDatasetDataResult(data.data.data.result)
-            console.log('datasetData',datasetData);
-            console.log('datasetDataResult',datasetDataResult);
+            console.log('datasetData', datasetData);
+            console.log('datasetDataResult', datasetDataResult);
         }).catch((error) => {
             console.log('error :>> ', error);
         })
     }
-
+    const Getdatalists = async () => {
+        Getdatalist().then(({ data: { data } }) => {
+            // console.log('data :>> ', data);
+            dispatch(SET_DATALIST(data));
+        }).catch((eror) => {
+            console.log('eror :>> ', eror);
+        })
+    }
     const DatasetDetail = (datasetID) => {
 
-        console.log('DatasetDetail.ID >>', datasetID);
-
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/getbyid/'+datasetID, {
+        // console.log('DatasetDetail.ID >>', datasetID);
+        // let serchlist = datalist?.result.filter((listall,index)=>listall.id === datasetID);
+        // console.log('serchlist :>> ', serchlist);
+        // setDatasetDetailData(serchlist[0]);
+        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/getbyid/' + datasetID, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
-              },
+            },
         }).then((data) => {
-            console.log('datasetDetailData >>', data.data.data[0].dataset); 
-            setDatasetDetailData(data.data.data[0].dataset);
-            console.log('datasetDetailData',datasetDetailData);
+            console.log('datasetDetailData >>', data.data.data[0]);
+            setDatasetDetailData(data.data.data[0]);
+            console.log('datasetDetailData', datasetDetailData);
         }).catch((error) => {
             console.log('error :>> ', error);
         })
     }
-
+    const Delitemlist = (item) => {
+        let cutdata = Array.isArray(datasetDetailData?.dataset) ? datasetDetailData?.dataset.filter((list) => list.id !== item.id) : [];
+        console.log(cutdata);
+        let cutid = [];
+        cutdata.forEach((list) => {
+            cutid.push({ id: list.id });
+        })
+        const formData = new FormData();
+        if (cutid.length > 0) {
+            cutid.forEach((list, index) => {
+                formData.append(`dataset[${index}]`, JSON.stringify(list));
+            })
+        } else {
+            formData.append(`dataset[0]`,'empty');
+        }
+        axios.post(`${process.env.NEXT_PUBLIC_APIURL}/services/v1/api/datalist/update/${datasetDetailData.id}`, formData, {
+            headers: { "Content-Type": "multipart/form-data", 'Authorization': `Bearer ${openid ? openid.token : keycloak.token}` }
+        }).then(({ data: { data } }) => {
+            // console.log('data :>> ', data);
+            Getdatalists();
+            DatasetDetail(datasetDetailData.id);
+            notification.open({
+                message: <span style={{ color: "white" }}>ลบชุดข้อมูล<span style={{ color: "#F4D03F" }}>{item.title}</span>ออกจากรายการของคุณแล้ว</span>,
+                style: { backgroundColor: "#44daff", }
+            });
+        }).catch((error) => {
+            console.log('error :>> ', error);
+        })
+    }
 
     return (
         <>
-        <Head>
-            <title>รายการข้อมูลของคุณ</title>
-        </Head>
-        <Layout>
-            <Row style={{paddingTop:25, paddingBottom: 25}}>
-            <h3>พบ {' '} {datasetData.count} {' '} ชุดข้อมูล</h3>
-            </Row>
-            <Row>
-                <Col span={7} style={{backgroundColor: '#F9EAC9', height: 200}}>
-                    <Col style={{textAlign: 'center', fontWeight: 'bold', fontSize: 17}}>
-                            รายการข้อมูลของคุณ
+            <Head>
+                <title>รายการข้อมูลของคุณ</title>
+            </Head>
+            <Layout>
+                <Row style={{ paddingTop: 25, paddingBottom: 25 }}>
+                    <h2 style={{color:"#046af0",fontWeight:"bold"}}>พบ {' '} {datasetData.count} {' '} ชุดข้อมูล</h2>
+                </Row>
+                <Row gutter={25}>
+                    <Col span={7}>
+                        <div style={{ backgroundColor: '#F9EAC9', borderRadius: 10, padding: 15 }}>
+                            <Col style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>
+                                รายการข้อมูลของคุณ
+                            </Col>
+                            <Col style={{ textAlign: 'left', paddingLeft: 10, backgroundColor: '#F9EAC9' }}>
+                                {datalist?.result.map((text, index) => (
+                                    <div key={index} style={{ paddingTop: 10, fontSize: 15, }} onClick={() => DatasetDetail(text.id)}><span style={{ cursor: "pointer" }}>{text.dataset_list_name}</span> <span style={{ color: "#F4D03F" }}>({text.count})</span></div>
+                                ))}
+                            </Col>
+                        </div>
                     </Col>
-                    <Col style={{textAlign: 'left', paddingLeft: 10, backgroundColor: '#F9EAC9'}}>
-                        {datasetDataResult.map((text, index) =>(
-                            <div style={{paddingTop: 10, fontSize: 15,}} onClick = {() => DatasetDetail(text.id)}><a>{text.dataset_list_name}</a> ({text.count})</div>
-                        ))}
+                    <Col span={17}>
+                        <Row gutter={[15, 15]}>
+                            <Col span={24}>
+                                { Array.isArray(datasetDetailData?.dataset) ? datasetDetailData?.dataset?.map((text, index) => (
+                                    <div key={index} className="listitemdel" style={{ position: "relative", display: "flex", width: "100%", backgroundColor: '#F9EAC9', fontSize: 15, marginBottom: 10, borderRadius: 10, overflow: 'hidden' }}>
+                                        <div style={{ width: "100%", padding: 10, display: "flex", flexDirection: "column", justifyContent: "center", }}>
+                                            <span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+                                                <img src={text.organization.image_url} width="40" alt="" style={{ margin: "0 10px 0 0" }} />
+                                                <a>{text.title}</a></span>
+                                        </div>
+                                        <div className="itemdel" style={{ position: "absolute", height: "100%", borderTopRightRadius: 10, borderBottomRightRadius: 10, width: "10%", backgroundColor: "#FF7B91", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                            <DeleteFilled onClick={() => Delitemlist(text)} style={{ fontSize: 30, color: "white" }} />
+                                        </div>
+                                    </div>
+                                )):
+                                <div style={{textAlign:"center"}}>
+                                    ไม่มีลิสรายการข้อมูล
+                                </div>
+                                }
+                            </Col>
+                        </Row>
                     </Col>
-                </Col>
-                <Col span={17}>
-                    <Col style={{paddingLeft: 30}}>
-                    {datasetDetailData.map((text,index) => (
-                        // <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}
-                        // onMouseEnter={e => {
-                        //     alert('Mouse Hover');
-                        // }}
-                        // >{text.title} <DeleteFilled style={{fontSize:30}} /></div>
-                        <div style={{ backgroundColor: '#F9EAC9', paddingLeft: 10, paddingBottom: 10, fontSize: 15, margin: 10}}>{text.title} <DeleteFilled style={{fontSize:30}} /></div>
-                    ))}
-
-
-                    </Col>
-                </Col>
-            </Row>
-        </Layout>
+                </Row>
+            </Layout>
         </>
+
     )
 }
