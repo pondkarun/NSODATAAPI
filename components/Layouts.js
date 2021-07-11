@@ -173,7 +173,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                             </Col>
                             <Col span={12}>
                                 <Row>
-                                    <Col>
+                                    <Col span={24}>
                                         <div style={{ textAlign: 'right' }}>
                                             <Link href={'/'}><a>Q & A</a></Link> | <Link href={'/'}><a>นโยบายเว็บไซต์</a></Link> | <Link href={'/'}><a> นโยบายข้อมูลส่วนบุคคล</a></Link> | <Link href={'/'}><a> นโยบายการรักษาความมั่นคงปลอดภัยเว็บไซต์</a></Link>
                                             <br />
