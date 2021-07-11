@@ -58,7 +58,7 @@ export default function PermissionList(){
             console.log('error :>> ', error);
         })
     }
-
+//
 
     return (
         <>

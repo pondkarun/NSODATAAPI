@@ -5,7 +5,8 @@ import API from '../../util/Api';
 import {Table} from 'antd';
 import {Cookies} from 'react-cookie';
 
-export default function UserList(){
+export default function PermissionList(){
+
     const columns = [
         {
             title: 'ลำดับ',
@@ -17,28 +18,15 @@ export default function UserList(){
         },
         {
             title: 'ชื่อ',
+            dataIndex: 'access_name',
+            key: 'access_name',
+            sorter:(a,b) => a.access_name - b.access_name,
+        },
+        {
+            title: 'กลุ่มผู้ใช้งาน',
             dataIndex: 'group_name',
             key: 'group_name',
-            sorter:(a,b) => a.group_name - b.group_name,
-        },
-        {
-            title: 'กลุ่มผู้ใช้งาน',
-            dataIndex: 'parent_id',
-            key: 'parent_id',
-            sorter:(a,b) => a.parent_id - b.parent_id,
-        },
-        {
-            title: 'กลุ่มผู้ใช้งาน',
-            dataIndex: 'access',
-            key: 'access',
-            // render: (text, row, index) => {
-            //     console.log('access log >>', text);
-            // },
-            render: (text, row, index) => {
-                text.map((acc, k) => (
-                    <p>{acc}</p>
-                ))
-            },
+            // sorter:(a,b) => a.group_name - b.group_name,
         },
         {
             title: 'จัดการ',
@@ -49,7 +37,7 @@ export default function UserList(){
     ];
 
     useEffect(async () => {
-        userGroupDataList();
+        permissionDataList();
     },[]);
 
     const cookies = new Cookies();
@@ -57,26 +45,26 @@ export default function UserList(){
     const oID = cookies.get('openid');
     console.log('getOpenIDCookies', oID);
 
-    const [userGroupData, setUserGroupData] = useState([]);
-    const userGroupDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/group/all', {
+    const [permissionData, setPermissionData] = useState([]);
+    const permissionDataList = () => {
+        API.get('http://dookdik2021.ddns.net/services/v1/api/access/all', {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },
         }).then((data) => {
-            console.log('user group list >>', data.data.data.data);
-            setUserGroupData(data.data.data.data);
-            console.log('userGroupData',userGroupData);
+            setPermissionData(data.data.data.data);
+            console.log('permissionData',permissionData);
         }).catch((error) => {
             console.log('error :>> ', error);
         })
     }
+//
 
     return (
         <>
             <Layout disableheader>
-                <h1 style={{fontSize: 27}}>รายการกลุ่มผู้ใช้งานระบบ</h1>
-                <Table dataSource={userGroupData} columns={columns} rowKey={(row)=>row.id} />
+                <h1 style={{fontSize: 27}}>รายการระดับการเข้าถึงระบบ</h1>
+                <Table dataSource={permissionData} columns={columns} rowKey={(row)=>row.id} />;
             </Layout>
         </>
     )
