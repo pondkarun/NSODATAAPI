@@ -30,9 +30,9 @@ function Login() {
   };
   return (
     <Layouts disableheader disablecontainer>
-      <Head>
-        <title>เข้าสู่ระบบ</title>
-      </Head>
+        <Head>
+            <title>เข้าสู่ระบบ (ผู้ดูแลระบบ)</title>
+        </Head>
       <Row style={{ height: '100%' }}>
         <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F" }}>
           <ul className="background">
@@ -51,7 +51,7 @@ function Login() {
         <Col span={10} xs={24} md={10}>
           <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
             <Image preview={false} src={"/img/logobg.png"} width={200} height={200} />
-            <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>บริการนามานุกรมบัญชีข้อมูลภาครัฐ</h2>
+            <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>ระบบนามานุกรมข้อมูลภาครัฐ</h2>
             <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>(GD Catalog Directory Service)</h2>
             <div style={{ width: "80%" }}>
               <Form
