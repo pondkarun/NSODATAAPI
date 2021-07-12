@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
-import {Table} from 'antd';
+import {Table, Row, Col, Button} from 'antd';
 import {Cookies} from 'react-cookie';
+import Head from 'next/head';
+import {CheckCircleOutlined, CloseCircleOutlined, ReloadOutlined, EyeOutlined, EditOutlined} from '@ant-design/icons';
 
 export default function UserList(){
     
@@ -56,13 +58,22 @@ export default function UserList(){
             title: 'สถานะผู้ใช้',
             dataIndex: 'status',
             key: 'status',
-            sorter:(a,b) => a.status - b.status,
+            // sorter:(a,b) => a.status - b.status,
+            // render: (text, record, index) => {parseInt(text) == 1 ? <CheckCircleOutlined style={{color: 'green', fontSize: 27}} /> : <CloseCircleOutlined style={{color: 'red', fontSize: 27}} />}
+            render: (text, record, index) => <CheckCircleOutlined style={{color: 'green', fontSize: 27}} />
+            
         },
         {
             title: 'จัดการ',
             dataIndex: '',
             key: '',
-            render: (text, record, index) => <button>click</button>
+            render: (text, record, index) => (
+                // <div>
+                <>
+                    <Button type="link"><EyeOutlined style={{fontSize: 23, color: 'gray'}} /></Button><Button type="link"><EditOutlined style={{fontSize: 23, color: 'blue'}} /></Button>
+                </>
+                // </div>
+            )
         }
     ];
 
@@ -90,9 +101,28 @@ export default function UserList(){
     }
 
     return (
+        // <Layout disableheader>
+        //     <h1  style={{fontSize: 27}}>ระบบจัดการผู้ใช้งานระบบ</h1>
+        //     <Table dataSource={userData} columns={columns} rowKey={(row)=>row.id} onChange={onChange} />;
+        // </Layout>
         <Layout disableheader>
+            <Head>
+                <title>ระบบจัดการผู้ใช้งานระบบ</title>
+            </Head>
             <h1  style={{fontSize: 27}}>ระบบจัดการผู้ใช้งานระบบ</h1>
-            <Table dataSource={userData} columns={columns} rowKey={(row)=>row.id} onChange={onChange} />;
+
+            <Row>
+                <Col span={24} style={{textAlign: 'right', display: 'inline', paddingBottom: 10}}>
+                    <Button type="default">เพิ่ม</Button>
+                    {' '}
+                    <Button type="default"><ReloadOutlined /></Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Table dataSource={userData} columns={columns} rowKey={(row) => row.id} onChange={onChange} />
+                </Col>
+            </Row>
         </Layout>
     )
 }
