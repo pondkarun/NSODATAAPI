@@ -1,16 +1,24 @@
+import React, { useEffect, useState, } from 'react'
 import Layouts from '../../components/Layouts';
+import Page from '../../pages/index';
 import Head from 'next/head';
+import { useRouter } from 'next/router'
 
-export default function AboutUS() {
+
+const Populardataset = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        router.push({
+            pathname: router.pathname,
+            query: { sort:"views_recent+desc" },
+          })
+
+    }, []);
+
     return (
-        <Layouts>
-            <Head>
-                <title>ข้อมูลยอดนิยม</title>
-            </Head>
-            <h3 style={{fontSize: 30}}>
-                ข้อมูลยอดนิยม 0 รายการ
-            </h3>
-        </Layouts>
-        
+        <Page poppular={true} />
     )
 }
+
+export default Populardataset

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Head from 'next/head';
 import Link from 'next/link';
 import API from '../util/Api';
@@ -26,7 +26,7 @@ export default function Header({ serch, onserch, dataserch }) {
     s5: false,
     s6: false,
   });
-  const { q,tags, data_type, groups, license_id, ministry, organization, res_format } = router.query;
+  const { q, tags, data_type, groups, license_id, ministry, organization, res_format } = router.query;
   // useEffect(async () => {
   //   // checkpoperty && onserch(true,)
   //   // console.log('checkpoperty :>> ', JSON.stringify(checkpoperty).replace(/"/g, "").replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+"));
@@ -79,21 +79,20 @@ export default function Header({ serch, onserch, dataserch }) {
 
   return (
     <>
-      {/* <div className={styles.container}> */}
       <Head>
         <title>หน้าหลัก</title>
         <meta name="description" content="หน้าหลัก" />
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-
+      {/* <div style={{ backgroundImage: `url('/img/bg.png')`, borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}> */}
       <div style={{ backgroundColor: '#F4D03F', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, }}>
         <Row style={{ padding: "20px" }} >
           <Col xs={24} sm={24} md={6}>
             <div style={{ textAlign: "center" }}>
               <Link href="/">
                 <a>
-                <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF",padding:10 }} />} />
+                  <Avatar size={150} src={<img src={"https://gdcatalog.go.th/assets/images/gdcatalog_logo/gdcatalog.png"} style={{ objectFit: "contain", backgroundColor: "#FFF", padding: 10 }} />} />
                 </a>
               </Link>
             </div>
@@ -221,7 +220,7 @@ export default function Header({ serch, onserch, dataserch }) {
 
                 </div>
                 :
-                <div style={{textAlign:"center",padding:"30px",color:"white"}}>
+                <div style={{ textAlign: "center", padding: "30px", color: "white" }}>
                   ยังไม่พบข้อมูล....
                 </div>
               }
@@ -271,9 +270,8 @@ export default function Header({ serch, onserch, dataserch }) {
           margin-left: 0px;
         }
         .ant-input-search-button ,.ant-btn > span {
-          color: white !important;
+          color: white ;
       }
-
         `}
       </style>
     </>

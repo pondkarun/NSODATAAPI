@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
 import axios from 'axios';
-import { notification, Col, Row } from 'antd';
+import { notification, Col, Row, Popconfirm, message } from 'antd';
 import { Cookies } from 'react-cookie';
 import Head from 'next/head';
 import { DeleteFilled } from '@ant-design/icons'
 import { Getdatalist } from '../../service/API';
 import { SET_DATALIST } from '../../redux/actions';
+import Link from 'next/link'
 
 
 export default function UserList() {
@@ -85,7 +86,7 @@ export default function UserList() {
                 formData.append(`dataset[${index}]`, JSON.stringify(list));
             })
         } else {
-            formData.append(`dataset[0]`,'empty');
+            formData.append(`dataset[0]`, 'empty');
         }
         axios.post(`${process.env.NEXT_PUBLIC_APIURL}/services/v1/api/datalist/update/${datasetDetailData.id}`, formData, {
             headers: { "Content-Type": "multipart/form-data", 'Authorization': `Bearer ${openid ? openid.token : keycloak.token}` }
@@ -101,47 +102,75 @@ export default function UserList() {
             console.log('error :>> ', error);
         })
     }
+    function confirm(id) {
+        API.delete(`/services/v1/api/datalist/delete/${id}`).then((data) => {
+            console.log('data :>> ', data);
+            Getdatalists();
+            DatasetDetail(null);
+            message.success('ลบรายการที่เลือกแล้ว');
 
+        }).catch((eror) => {
+            console.log('eror :>> ', eror);
+            message.error('ลบรายการที่เลือกไม่สำเร็จ');
+        })
+    }
+
+    function cancel(e) {
+        console.log(e);
+        message.error('ยกเลิกการลบแล้ว');
+    }
     return (
         <>
             <Head>
                 <title>รายการข้อมูลของคุณ</title>
             </Head>
             <Layout>
-                <Row style={{ paddingTop: 25, paddingBottom: 25 }}>
-                    <h2 style={{color:"#046af0",fontWeight:"bold"}}>พบ {' '} {datasetData.count} {' '} ชุดข้อมูล</h2>
+                <Row style={{ paddingTop: 20, paddingBottom: 15 }}>
+                    <h2 style={{ color: "#046af0", fontWeight: "bold" }}>พบ {' '} {datalist?.count} {' '} ชุดข้อมูล</h2>
                 </Row>
                 <Row gutter={25}>
-                    <Col span={7}>
+                    <Col span={10}>
                         <div style={{ backgroundColor: '#F9EAC9', borderRadius: 10, padding: 15 }}>
                             <Col style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>
                                 รายการข้อมูลของคุณ
                             </Col>
                             <Col style={{ textAlign: 'left', paddingLeft: 10, backgroundColor: '#F9EAC9' }}>
                                 {datalist?.result.map((text, index) => (
-                                    <div key={index} style={{ paddingTop: 10, fontSize: 15, }} onClick={() => DatasetDetail(text.id)}><span style={{ cursor: "pointer" }}>{text.dataset_list_name}</span> <span style={{ color: "#F4D03F" }}>({text.count})</span></div>
+                                    <div className={`${datasetDetailData?.id === text.id && "listmeitem-active"} listmeitem`} key={index} style={{ fontSize: 15, cursor: "pointer", }} onClick={() => DatasetDetail(text.id)}>
+                                        <span style={{ cursor: "pointer" }}>{text.dataset_list_name}</span>
+                                        <span style={{ color: "#F4D03F" }}> ({text.count})</span>
+                                        <Popconfirm
+                                            title="คุณต้องการลบรายการนี้ใช่หรือไม่?"
+                                            onConfirm={()=>confirm(text.id)}
+                                            onCancel={cancel}
+                                            okText="ใช่"
+                                            cancelText={<p>ไม่</p>}
+                                        >
+                                            <span className="listmeitemdel" style={{ float: "right", cursor: "pointer", color: "red", }}>x</span>
+                                        </Popconfirm>
+                                    </div>
                                 ))}
                             </Col>
                         </div>
                     </Col>
-                    <Col span={17}>
+                    <Col span={14}>
                         <Row gutter={[15, 15]}>
                             <Col span={24}>
-                                { Array.isArray(datasetDetailData?.dataset) ? datasetDetailData?.dataset?.map((text, index) => (
+                                {Array.isArray(datasetDetailData?.dataset) ? datasetDetailData?.dataset?.map((text, index) => (
                                     <div key={index} className="listitemdel" style={{ position: "relative", display: "flex", width: "100%", backgroundColor: '#F9EAC9', fontSize: 15, marginBottom: 10, borderRadius: 10, overflow: 'hidden' }}>
-                                        <div style={{ width: "100%", padding: 10, display: "flex", flexDirection: "column", justifyContent: "center", }}>
+                                        <div style={{ width: "100%", padding: 5, display: "flex", flexDirection: "column", justifyContent: "center", }}>
                                             <span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
                                                 <img src={text.organization.image_url} width="40" alt="" style={{ margin: "0 10px 0 0" }} />
-                                                <a>{text.title}</a></span>
+                                                <Link href={`dataset?dataid=${text.id}`}>{text.title}</Link></span>
                                         </div>
                                         <div className="itemdel" style={{ position: "absolute", height: "100%", borderTopRightRadius: 10, borderBottomRightRadius: 10, width: "10%", backgroundColor: "#FF7B91", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                             <DeleteFilled onClick={() => Delitemlist(text)} style={{ fontSize: 30, color: "white" }} />
                                         </div>
                                     </div>
-                                )):
-                                <div style={{textAlign:"center"}}>
-                                    ไม่มีลิสรายการข้อมูล
-                                </div>
+                                )) :
+                                    <div style={{ textAlign: "center" }}>
+                                        ไม่มีลิสรายการข้อมูล
+                                    </div>
                                 }
                             </Col>
                         </Row>
