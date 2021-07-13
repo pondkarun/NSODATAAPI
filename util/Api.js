@@ -37,7 +37,7 @@ export default axios.create({
 });
 const RefreshToken = async(refreshtokenval) => {
   let succesdata;
-  const getapi = () => axios.post(process.env.NEXT_PUBLIC_APIURL+'/services/v1/api/keycloak', {
+  const getapi = () => axios.post(process.env.NEXT_PUBLIC_APIURL+'/keycloak', {
     grant_type: "refresh_token",
     client_id: "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq",
     client_secret: "ab907cf6-0135-4fda-9447-d9885877a498",

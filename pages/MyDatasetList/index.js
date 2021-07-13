@@ -34,7 +34,7 @@ export default function UserList() {
 
 
     const Dataset = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/all', {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/datalist/all`, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
             },
@@ -61,7 +61,7 @@ export default function UserList() {
         // let serchlist = datalist?.result.filter((listall,index)=>listall.id === datasetID);
         // console.log('serchlist :>> ', serchlist);
         // setDatasetDetailData(serchlist[0]);
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/getbyid/' + datasetID, {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/datalist/getbyid/` + datasetID, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
             },
@@ -88,7 +88,7 @@ export default function UserList() {
         } else {
             formData.append(`dataset[0]`, 'empty');
         }
-        axios.post(`${process.env.NEXT_PUBLIC_APIURL}/services/v1/api/datalist/update/${datasetDetailData.id}`, formData, {
+        axios.post(`${process.env.NEXT_PUBLIC_APIURL}/datalist/update/${datasetDetailData.id}`, formData, {
             headers: { "Content-Type": "multipart/form-data", 'Authorization': `Bearer ${openid ? openid.token : keycloak.token}` }
         }).then(({ data: { data } }) => {
             // console.log('data :>> ', data);
@@ -103,7 +103,7 @@ export default function UserList() {
         })
     }
     function confirm(id) {
-        API.delete(`/services/v1/api/datalist/delete/${id}`).then((data) => {
+        API.delete(`/datalist/delete/${id}`).then((data) => {
             console.log('data :>> ', data);
             Getdatalists();
             DatasetDetail(null);

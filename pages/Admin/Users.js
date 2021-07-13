@@ -8,7 +8,7 @@ import Head from 'next/head';
 import {CheckCircleOutlined, CloseCircleOutlined, ReloadOutlined, EyeOutlined, EditOutlined} from '@ant-design/icons';
 
 export default function UserList(){
-    
+
     const columns = [
         {
             title: 'ลำดับ',
@@ -61,7 +61,7 @@ export default function UserList(){
             // sorter:(a,b) => a.status - b.status,
             // render: (text, record, index) => {parseInt(text) == 1 ? <CheckCircleOutlined style={{color: 'green', fontSize: 27}} /> : <CloseCircleOutlined style={{color: 'red', fontSize: 27}} />}
             render: (text, record, index) => <CheckCircleOutlined style={{color: 'green', fontSize: 27}} />
-            
+
         },
         {
             title: 'จัดการ',
@@ -88,7 +88,7 @@ export default function UserList(){
 
     const [userData, setUserData] = useState([]);
     const userDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/user/all', {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/user/all`, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },

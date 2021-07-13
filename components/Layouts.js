@@ -48,7 +48,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
 
     }, [])
 
-    const Getmydata = () => API.get('/services/v1/api/user/mydata', {
+    const Getmydata = () => API.get('/user/mydata', {
         headers: {
             'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
         }
@@ -60,7 +60,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
     })
 
     const Logout = () => {
-        API.post('/services/v1/api/logout').then((data) => {
+        API.post('/logout').then((data) => {
             const cookie = new Cookies();
             console.log('data :>> ', data);
             cookie.remove("openid");

@@ -56,7 +56,7 @@ const Dataset = () => {
 
     }
     const Getdataid = () => {
-        API.get(`/services/v1/api/ckan/getbyid/${dataid}`).then(({ data: { data } }) => {
+        API.get(`/ckan/getbyid/${dataid}`).then(({ data: { data } }) => {
             console.log('data :>> ', data);
             setData(data);
             Getdatalists();
@@ -96,7 +96,7 @@ const Dataset = () => {
             arr.forEach((list, index) => {
                 formData.append(`dataset[${index}]`, JSON.stringify(list));
             })
-            axios.post(`${process.env.NEXT_PUBLIC_APIURL}/services/v1/api/datalist/update/${data.id}`, formData, {
+            axios.post(`${process.env.NEXT_PUBLIC_APIURL}/datalist/update/${data.id}`, formData, {
                 headers: { "Content-Type": "multipart/form-data", 'Authorization': `Bearer ${openid ? openid.token : keycloak.token}` }
             }).then(({ data: { data } }) => {
                 // console.log('data :>> ', data);
@@ -115,7 +115,7 @@ const Dataset = () => {
             cutdata.forEach((list, index) => {
                 formData.append(`dataset[${index}]`, JSON.stringify(list));
             })
-            axios.post(`${process.env.NEXT_PUBLIC_APIURL}/services/v1/api/datalist/update/${data.id}`, formData, {
+            axios.post(`${process.env.NEXT_PUBLIC_APIURL}/datalist/update/${data.id}`, formData, {
                 headers: { "Content-Type": "multipart/form-data", 'Authorization': `Bearer ${openid ? openid.token : keycloak.token}` }
             }).then(({ data: { data } }) => {
                 // console.log('data :>> ', data);
@@ -133,7 +133,7 @@ const Dataset = () => {
 
     }
     const OnCliskAdd = () => {
-        API.post(`/services/v1/api/datalist/add`, {
+        API.post(`/datalist/add`, {
             dataset_list_name: inputname,
         }).then(({ data: { data } }) => {
             setInputname("");

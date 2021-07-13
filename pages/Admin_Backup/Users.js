@@ -6,7 +6,7 @@ import {Table} from 'antd';
 import {Cookies} from 'react-cookie';
 
 export default function UserList(){
-    
+
     const columns = [
         {
             title: 'ลำดับ',
@@ -77,7 +77,7 @@ export default function UserList(){
 
     const [userData, setUserData] = useState([]);
     const userDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/user/all', {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/user/all`, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },

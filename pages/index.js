@@ -138,7 +138,7 @@ export default function Home({poppular}) {
     let qy = { tags, data_type, groups, license_id, ministry, organization, res_format, };
     let checkall = { tags, data_type, groups, license_id, ministry, organization, res_format, q, sort };
     let checkempty = Object.keys(JSON.parse(JSON.stringify(checkall))).length === 0 && JSON.parse(JSON.stringify(checkall)).constructor === Object;
-    API.get(`http://dookdik2021.ddns.net/services/v1/api/ckan/all?rows=${12}&start=${isserch ? 0 : ckanData.length}&sort=${router.query.sort ? router.query.sort : "title_string+asc"}&q=${q ? q : ""}&fq=${stringify({ ...qy, tags: tags?.toString() }).replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+")}`, {
+    API.get(`${process.env.NEXT_PUBLIC_APIURL}/ckan/all?rows=${12}&start=${isserch ? 0 : ckanData.length}&sort=${router.query.sort ? router.query.sort : "title_string+asc"}&q=${q ? q : ""}&fq=${stringify({ ...qy, tags: tags?.toString() }).replace(/{/g, "").replace(/}/g, "").replace(/,/g, "+")}`, {
       headers: {
         'Authorization': `Bearer ${openid ? openid.token : keycloak.token}`
       },
@@ -196,7 +196,7 @@ export default function Home({poppular}) {
 
       <Layout style={{ padding: 20, display: "flex" }} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล${poppular&&"ยอดนิยม"} (พบทั้งหมด ${rawdata.count?rawdata.count:"กำลังโหลด.."} ชุดข้อมูล)`}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล${poppular?"ยอดนิยม":""} (พบทั้งหมด ${rawdata.count?rawdata.count:"กำลังโหลด.."} ชุดข้อมูล)`}</span>
           <div>
             {
               modeshow ?

@@ -78,7 +78,7 @@ export default function UserList(){
 
     const [featureData, setFeatureData] = useState([]);
     const featureDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/application/all', {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/application/all`, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },

@@ -9,7 +9,7 @@ export const GetAPIkeyCloak = async () => {
   let succesdata;
   console.log('gettoken :>> ', gettoken);
   let GETKEYCLOAK = async () => {
-    const getapi = () => API.post('/services/v1/api/keycloak', {
+    const getapi = () => API.post('/keycloak', {
       grant_type: "password",
       client_id: "IvbIEAOufH6b5xQQpJlulVPGGHMBUeeq",
       client_secret: "ab907cf6-0135-4fda-9447-d9885877a498",
@@ -39,5 +39,5 @@ export const GetAPIkeyCloak = async () => {
 }
 
 export const Getdatalist = async () => {
-  return API.get(`/services/v1/api/datalist/all`);
+  return API.get(`/datalist/all`);
 }

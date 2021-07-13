@@ -8,7 +8,7 @@ import Head from 'next/head';
 import {DeleteFilled} from '@ant-design/icons'
 
 export default function UserList(){
-    
+
     const testData = [
         {
             "id": "92ce32f9-c1b4-4d06-9c70-54d899cbf1fa",
@@ -82,7 +82,7 @@ export default function UserList(){
     const [datasetDetailData, setDatasetDetailData] = useState([]);
 
     const Dataset = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/all', {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/datalist/all`, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },
@@ -100,12 +100,12 @@ export default function UserList(){
 
         console.log('DatasetDetail.ID >>', datasetID);
 
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/getbyid/'+datasetID, {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/datalist/getbyid/`+datasetID, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },
         }).then((data) => {
-            console.log('datasetDetailData >>', data.data.data[0].dataset); 
+            console.log('datasetDetailData >>', data.data.data[0].dataset);
             setDatasetDetailData(data.data.data[0].dataset);
             console.log('datasetDetailData',datasetDetailData);
         }).catch((error) => {

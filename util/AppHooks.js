@@ -12,7 +12,7 @@ export const useAuthToken = () => {
 	const auth = useSelector(({auth})=>auth);
 	const [loading, setLoading] = useState(true);
 
-	const Getmydata=() => API.get('/services/v1/api/user/mydata',{
+	const Getmydata=() => API.get('/user/mydata',{
 	}).then((data) => {
 		console.log(`data`, data)
 		dispatch(SET_MENU(data.data));

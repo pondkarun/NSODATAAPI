@@ -15,7 +15,7 @@ function Login() {
 
   const onFinish = (values) => {
     console.log('Success:', values);
-    API.post('http://dookdik2021.ddns.net/services/v1/api/login', values).then(({ data: { data } }) => {
+    API.post(`${process.env.NEXT_PUBLIC_APIURL}/login`, values).then(({ data: { data } }) => {
       // console.log('data :>> ', data);
       dispatch(SET_OPENID(data));
       cookies.set("openid", data);
@@ -94,7 +94,7 @@ function Login() {
                   </div>
                 </Form.Item> */}
                 <Form.Item wrapperCol={{ span: 24 }} style={{textAlign: 'center'}}>
-                  <Button href="http://api.directory.gdcatalog.go.th/v1/api/openid" type="primary" block htmlType="submit" style={{width: '30%'}}>
+                  <Button href={`${process.env.NEXT_PUBLIC_APIURL}/openid`} type="primary" block htmlType="submit" style={{width: '30%'}}>
                     Login On OpenID
                   </Button>
 

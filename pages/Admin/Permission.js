@@ -55,7 +55,7 @@ export default function PermissionList(){
 
     const [permissionData, setPermissionData] = useState([]);
     const permissionDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/access/all', {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/access/all`, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },
