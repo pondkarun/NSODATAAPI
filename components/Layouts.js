@@ -4,6 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Headers from './Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout, Menu, PageHeader, Avatar, Badge, Row, Col, Dropdown } from 'antd';
+import Btn from 'antd/lib/button';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import API from '../util/Api';
@@ -184,6 +185,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                                 <br />
                                                 วันที่ 2021-01-01
                                             </div>
+                                            <Btn type="ghost"><Link href={'/login/Admin'}><a>ผู้ดูแลระบบ</a></Link></Btn>
                                         </div>
                                     </Col>
                                 </Row>

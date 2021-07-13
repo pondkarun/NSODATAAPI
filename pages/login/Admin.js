@@ -30,11 +30,11 @@ function Login() {
   };
   return (
     <Layouts disableheader disablecontainer>
-      <Head>
-        <title>เข้าสู่ระบบ</title>
-      </Head>
-      <Row className="background" style={{ height: '100%', paddingTop: '7%', paddingBottom: '7%', backgroundColor: "#F4D03F" }}>
-        {/* <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F" }}>
+        <Head>
+            <title>เข้าสู่ระบบ (ผู้ดูแลระบบ)</title>
+        </Head>
+      <Row style={{ height: '100%' }}>
+        <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F" }}>
           <ul className="background">
             <li></li>
             <li></li>
@@ -47,11 +47,11 @@ function Login() {
             <li></li>
             <li></li>
           </ul>
-        </Col> */}
-        <Col span={24} xs={24} md={24}>
-          <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", }}>
+        </Col>
+        <Col span={10} xs={24} md={10}>
+          <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
             <Image preview={false} src={"/img/logobg.png"} width={200} height={200} />
-            <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>บริการนามานุกรมบัญชีข้อมูลภาครัฐ</h2>
+            <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>ระบบนามานุกรมข้อมูลภาครัฐ</h2>
             <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>(GD Catalog Directory Service)</h2>
             <div style={{ width: "80%" }}>
               <Form
@@ -62,7 +62,7 @@ function Login() {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
               >
-                {/* <Form.Item
+                <Form.Item
                   label=""
                   name="user_name"
                   rules={[{ required: true, message: 'Please input your username!' }]}
@@ -92,9 +92,9 @@ function Login() {
                       Sign Up
                     </Button>
                   </div>
-                </Form.Item> */}
-                <Form.Item wrapperCol={{ span: 24 }} style={{textAlign: 'center'}}>
-                  <Button href="http://api.directory.gdcatalog.go.th/v1/api/openid" type="primary" block htmlType="submit" style={{width: '30%'}}>
+                </Form.Item>
+                <Form.Item wrapperCol={{ span: 24 }}>
+                  <Button href="http://dookdik2021.ddns.net/services/v1/api/openid" type="primary" block htmlType="submit">
                     Login On OpenID
                   </Button>
 

@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
-import {Table} from 'antd';
+import {Table, Row, Col, Button} from 'antd';
 import {Cookies} from 'react-cookie';
+import Head from 'next/head';
+import {CheckCircleOutlined, CloseCircleOutlined, ReloadOutlined, EyeOutlined, EditOutlined} from '@ant-design/icons';
+
 
 export default function PermissionList(){
 
@@ -32,7 +35,12 @@ export default function PermissionList(){
             title: 'จัดการ',
             dataIndex: '',
             key: '',
-            render: (text, record, index) => <button>click</button>
+            align: 'center',
+            render: (text, record, index) => (
+                <>
+                    <Button type="link"><EyeOutlined style={{fontSize: 23, color: 'gray'}} /></Button><Button type="link"><EditOutlined style={{fontSize: 23, color: 'blue'}} /></Button>
+                </>
+            )
         }
     ];
 
@@ -62,10 +70,30 @@ export default function PermissionList(){
 
     return (
         <>
-            <Layout disableheader>
-                <h1 style={{fontSize: 27}}>รายการระดับการเข้าถึงระบบ</h1>
+            {/* <Layout disableheader>
+                <h1 style={{fontSize: 27}}>ระบบจัดการระดับการเข้าถึงระบบ</h1>
                 <Table dataSource={permissionData} columns={columns} rowKey={(row)=>row.id} />;
-            </Layout>
+            </Layout> */}
+
+<Layout disableheader>
+            <Head>
+                <title>ระบบจัดการระดับการเข้าถึงระบบ</title>
+            </Head>
+            <h1  style={{fontSize: 27}}>ระบบจัดการระดับการเข้าถึงระบบ</h1>
+
+            <Row>
+                <Col span={24} style={{textAlign: 'right', display: 'inline', paddingBottom: 10}}>
+                    <Button type="default">เพิ่ม</Button>
+                    {' '}
+                    <Button type="default"><ReloadOutlined /></Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                        <Table dataSource={permissionData} columns={columns} rowKey={(row) => row.id} />;
+                </Col>
+            </Row>
+        </Layout>
         </>
     )
 }
