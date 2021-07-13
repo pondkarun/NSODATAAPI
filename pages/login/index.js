@@ -15,7 +15,7 @@ function Login() {
 
   const onFinish = (values) => {
     console.log('Success:', values);
-    API.post('http://dookdik2021.ddns.net/services/v1/api/login', values).then(({ data: { data } }) => {
+    API.post('http://api.directory.gdcatalog.go.th/v1/api/login', values).then(({ data: { data } }) => {
       // console.log('data :>> ', data);
       dispatch(SET_OPENID(data));
       cookies.set("openid", data);

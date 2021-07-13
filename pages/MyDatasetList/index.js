@@ -33,7 +33,7 @@ export default function UserList() {
 
 
     const Dataset = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/all', {
+        API.get('http://api.directory.gdcatalog.go.th/v1/api/datalist/all', {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
             },
@@ -60,7 +60,7 @@ export default function UserList() {
         // let serchlist = datalist?.result.filter((listall,index)=>listall.id === datasetID);
         // console.log('serchlist :>> ', serchlist);
         // setDatasetDetailData(serchlist[0]);
-        API.get('http://dookdik2021.ddns.net/services/v1/api/datalist/getbyid/' + datasetID, {
+        API.get('http://api.directory.gdcatalog.go.th/v1/api/datalist/getbyid/' + datasetID, {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
             },

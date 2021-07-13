@@ -67,7 +67,7 @@ export default function UserList(){
 
     const [userGroupData, setUserGroupData] = useState([]);
     const userGroupDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/group/all', {
+        API.get('http://api.directory.gdcatalog.go.th/v1/api/group/all', {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },

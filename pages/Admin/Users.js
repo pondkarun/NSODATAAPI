@@ -88,7 +88,7 @@ export default function UserList(){
 
     const [userData, setUserData] = useState([]);
     const userDataList = () => {
-        API.get('http://dookdik2021.ddns.net/services/v1/api/user/all', {
+        API.get('http://api.directory.gdcatalog.go.th/v1/api/user/all', {
             headers: {
                 'Authorization': `Bearer ${oID.token}`
               },
