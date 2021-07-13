@@ -33,8 +33,8 @@ function Login() {
       <Head>
         <title>เข้าสู่ระบบ</title>
       </Head>
-      <Row className="background" style={{ height: '100%', paddingTop: '7%', paddingBottom: '7%', backgroundColor: "#F4D03F" }}>
-        {/* <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F" }}>
+      <Row style={{ height: '100%'}}>
+        <Col span={14} xs={0} md={14} style={{ backgroundColor: "#F4D03F" }}>
           <ul className="background">
             <li></li>
             <li></li>
@@ -47,9 +47,9 @@ function Login() {
             <li></li>
             <li></li>
           </ul>
-        </Col> */}
-        <Col span={24} xs={24} md={24}>
-          <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", }}>
+        </Col>
+        <Col span={10} xs={24} md={10}>
+          <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", paddingTop: '15%', paddingBottom: '10%' }}>
             <Image preview={false} src={"/img/logobg.png"} width={200} height={200} />
             <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>บริการนามานุกรมบัญชีข้อมูลภาครัฐ</h2>
             <h2 style={{ fontWeight: "bold", fontSize: "25px" }}>(GD Catalog Directory Service)</h2>
@@ -97,7 +97,6 @@ function Login() {
                   <Button href={`${process.env.NEXT_PUBLIC_APIURL}/openid`} type="primary" block htmlType="submit" style={{width: '30%'}}>
                     Login On OpenID
                   </Button>
-
                 </Form.Item>
               </Form>
             </div>
