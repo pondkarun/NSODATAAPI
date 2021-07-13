@@ -94,7 +94,7 @@ function Login() {
                   </div>
                 </Form.Item> */}
                 <Form.Item wrapperCol={{ span: 24 }} style={{textAlign: 'center'}}>
-                  <Button href="http://dookdik2021.ddns.net/services/v1/api/openid" type="primary" block htmlType="submit" style={{width: '27%'}}>
+                  <Button href="http://api.directory.gdcatalog.go.th/v1/api/openid" type="primary" block htmlType="submit" style={{width: '30%'}}>
                     Login On OpenID
                   </Button>
 
