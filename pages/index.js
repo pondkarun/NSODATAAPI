@@ -20,7 +20,7 @@ import { useRouter } from 'next/router'
 
 
 
-export default function Home() {
+export default function Home({poppular}) {
   const dispatch = useDispatch();
   const router = useRouter()
   const { id, user_name, e_mail, status, last_login, login_status, token, token_date, created_by, created_date, updated_by, updated_date, open_id } = router.query;
@@ -163,19 +163,20 @@ export default function Home() {
   const renderSorter = () => {
     function changsort(e) {
       router.push({
-        pathname: '/',
+        pathname: router.pathname,
         query: { ...router.query, sort: e.target.value },
       })
     }
     return (
       <Menu style={{ padding: "5px 20px", borderRadius: 10 }}>
-        <Radio.Group defaultValue={"title_string+asc"}>
-          <Space direction="vertical" onChange={changsort}>
+        <Radio.Group defaultValue={"title_string+asc"} value={sort}>
+          <Space direction="vertical" onChange={changsort} >
             <Radio value={"score+desc%2C+metadata_modified+desc"}>ความสัมพันธ์</Radio>
             <Radio value={"title_string+asc"}>เรียงชื่อตามลำดับตัวอักษร (ก-ฮ)</Radio>
             <Radio value={"title_string+desc"}>เรียงชื่อตามลำดับตัวอักษร (ฮ-ก)</Radio>
             <Radio value={"metadata_modified+desc"}>ถูกแก้ไขครั้งสุดท้าย</Radio>
             <Radio value={"views_recent+desc"}>ได้รับความสนใจ</Radio>
+
           </Space>
         </Radio.Group>
       </Menu>
@@ -195,7 +196,7 @@ export default function Home() {
 
       <Layout style={{ padding: 20, display: "flex" }} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล (พบทั้งหมด ${rawdata.count?rawdata.count:"กำลังโหลด.."} ชุดข้อมูล)`}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล${poppular&&"ยอดนิยม"} (พบทั้งหมด ${rawdata.count?rawdata.count:"กำลังโหลด.."} ชุดข้อมูล)`}</span>
           <div>
             {
               modeshow ?

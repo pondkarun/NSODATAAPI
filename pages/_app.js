@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/globals.scss'
 import Head from 'next/head'
 import withRedux from 'next-redux-wrapper';
 import initStore from '../redux/store';

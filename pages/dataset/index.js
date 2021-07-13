@@ -18,6 +18,7 @@ import {
 
 const { Title } = Typography;
 
+const checktype =["XLSX","XLS","CSV","JSON"]
 
 const Dataset = () => {
     const router = useRouter()
@@ -353,8 +354,8 @@ const Dataset = () => {
                                     renderItem={item => (
                                         <List.Item key={item.id}
                                             actions={[
-                                                item.url_type && <Avatar icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} />,
-                                                item.original_url && <Avatar icon={<LinkOutlined onClick={() => copyToClipboard(item.url)} />} />,
+                                                checktype.some((type)=>type == item.format)&& <Avatar icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} />,
+                                                item.url && <Avatar icon={<LinkOutlined onClick={() => copyToClipboard(item.url)} />} />,
                                                 item.original_url && <Avatar icon={<MonitorOutlined onClick={() => window.open(item.url)} />} />,
                                             ]}
                                         >

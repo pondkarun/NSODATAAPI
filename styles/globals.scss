@@ -30,6 +30,33 @@ a {
     right: 0px;
 }
 
+.listmeitem {
+    padding: 2px 10px;
+    margin: 15px 0;
+    transition: 0.1s ease-in-out;
+}
+
+.listmeitem-active {
+    background-color: white;
+    border-radius: 25px;
+    .listmeitemdel {
+        display: block;
+    }
+}
+
+.listmeitem:hover {
+    background-color: white;
+    border-radius: 25px;
+}
+
+.listmeitemdel {
+    display: none;
+}
+
+.listmeitem:hover>.listmeitemdel {
+    display: block;
+}
+
 @media only screen and (max-width: 800px) {
     .container {
         padding: 0 10px 10px;
