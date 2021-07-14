@@ -59,11 +59,11 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
         console.log('error :>> ', error);
     })
 
-    const Logout = () => {
-        API.post('/logout').then((data) => {
+    const Logout = async() => {
+        API.post('/logout').then(async(data) => {
             const cookie = new Cookies();
             console.log('data :>> ', data);
-            cookie.remove("openid");
+            await cookie.remove("openid");
             window.location.href = "/";
         }).catch((eror) => {
             console.log(`eror`, eror)

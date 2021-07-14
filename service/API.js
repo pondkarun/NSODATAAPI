@@ -3,7 +3,7 @@ import { Cookies } from 'react-cookie'
 import { setAccessToken } from "../util/Utility";
 const cookies = new Cookies();
 
-export const GetAPIkeyCloak = async () => {
+export const GetAPIkeyCloak = async () => {//----------------------------------------ดึงข้อมูลtokenจากKeyKlock
   // let gettoken = JSON.parse(localStorage.getItem('KEYCLOAK'));
   let gettoken = cookies.get('token');
   let succesdata;
@@ -22,7 +22,7 @@ export const GetAPIkeyCloak = async () => {
     return succesdata;
   }
 
-  if (gettoken) {
+  if (gettoken == null || gettoken == undefined) {
     let checktokentime = new Date() > new Date(new Date(gettoken?.time_stamps?.date).getTime() + gettoken.expires_in * 1000).getTime()
     // console.log('checktokentime :>> ', checktokentime);
     if (checktokentime) {
@@ -37,7 +37,12 @@ export const GetAPIkeyCloak = async () => {
 
   return succesdata;
 }
-
+//------------------------------------ดึงลิสรายการข้อมูลของฉันทั้งหมด-----------------------------------------------------------------------//
 export const Getdatalist = async () => {
-  return API.get(`/datalist/all`);
+  let getopenidlogin = cookies.get('openid');
+  if (getopenidlogin !== null && getopenidlogin !== undefined){
+    return API.get(`/datalist/all`);
+  }else{
+    return null;
+  }
 }

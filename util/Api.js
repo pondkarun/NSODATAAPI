@@ -22,6 +22,7 @@ export default axios.create({
         RefreshToken(token.refresh_token);
       } else {
         console.log("ยังไม่รีเฟรชนะจ้ะ");
+        // RefreshToken(token.refresh_token)
       }
     }
 
@@ -44,7 +45,11 @@ const RefreshToken = async(refreshtokenval) => {
     username: "directory_service",
     password: "4Dm!n2021@Pa55w0rd",
     refresh_token:refreshtokenval
-  }).then(({ data }) => data.data).catch((error)=>{
+  }).then(({ data }) => {
+    console.log('datatoken :>> ', data);
+    return data.data
+  }).catch((error)=>{
+    console.log('erortokenrefresh :>> ', error);
     GetAPIkeyCloak();
   })
   succesdata = getapi();
