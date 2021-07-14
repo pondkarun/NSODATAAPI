@@ -156,7 +156,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                         <Row>
                             <Col span={12}>
                                 <Row>
-                                    <Col span={1}>
+                                    <Col span={1} style={{whiteSpace: 'nowrap', marginRight: '10px'}}>
                                         ที่อยู่
                                     </Col>
                                     <Col span={23}>
