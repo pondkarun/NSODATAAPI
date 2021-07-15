@@ -185,7 +185,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                                 <br />
                                                 วันที่ 2021-01-01
                                             </div>
-                                            <Btn type="text" placeholder="ผู้ดูแลระบบ"><Link href={'/login/Admin'} style={{color: 'blue100',}}><a style={{color: 'blue100',}}>ผู้ดูแลระบบ</a></Link></Btn>
+                                            {/* <Btn type="text" placeholder="ผู้ดูแลระบบ"><Link href={'/login/Admin'} style={{color: 'blue100',}}><a style={{color: 'blue100',}}>ผู้ดูแลระบบ</a></Link></Btn> */}
                                         </div>
                                     </Col>
                                 </Row>
