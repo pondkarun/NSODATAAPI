@@ -22,7 +22,7 @@ export const GetAPIkeyCloak = async () => {//-----------------------------------
     return succesdata;
   }
 
-  if (gettoken == null || gettoken == undefined) {
+  if (gettoken !== null && gettoken !== undefined) {
     let checktokentime = new Date() > new Date(new Date(gettoken?.time_stamps?.date).getTime() + gettoken.expires_in * 1000).getTime()
     // console.log('checktokentime :>> ', checktokentime);
     if (checktokentime) {
