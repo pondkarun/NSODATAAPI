@@ -18,7 +18,9 @@ function Login() {
     API.post(`${process.env.NEXT_PUBLIC_APIURL}/login`, values).then(({ data: { data } }) => {
       // console.log('data :>> ', data);
       dispatch(SET_OPENID(data));
-      cookies.set("openid", data);
+      cookies.set("openid", data,{
+        path: "/"
+      });
       router.push('/');
     }).catch((eror) => {
       console.log('eror :>> ', eror);

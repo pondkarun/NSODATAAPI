@@ -17,8 +17,9 @@ export const GetAPIkeyCloak = async () => {//-----------------------------------
       password: "4Dm!n2021@Pa55w0rd",
     }).then(({ data }) => data.data);
     succesdata = getapi();
-    await cookies.set('token', await getapi().then((data) => data));
-    await setAccessToken(await getapi().then((data) => data.token));
+    let gettokenkeyklock = await getapi().then((data) => data)
+    await cookies.set('token', gettokenkeyklock);
+    await setAccessToken(gettokenkeyklock.token);
     return succesdata;
   }
 

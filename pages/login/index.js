@@ -94,7 +94,7 @@ function Login() {
                   </div>
                 </Form.Item> */}
                 <Form.Item wrapperCol={{ span: 24 }} style={{textAlign: 'center'}}>
-                  <Button href={`${process.env.NEXT_PUBLIC_APIURL}/openid`} type="primary" block htmlType="submit" style={{width: '30%'}}>
+                  <Button href={`${process.env.NEXT_PUBLIC_APIURL}/openid`} type="primary" block htmlType="submit" >
                     Login On OpenID
                   </Button>
                 </Form.Item>

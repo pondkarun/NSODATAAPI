@@ -134,14 +134,14 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                             //     </Menu.Item>
                                             // })
                                             text.child.map((sub, index) => (
-                                                <Menu.Item key={sub.id} >
-                                                    <Link href={sub.url}><span style={{ color: "white" }}>{sub.application_name}</span></Link>
+                                                <Menu.Item key={sub.id} onClick={()=>path.push(sub.url)}>
+                                                    <Link href={sub.url} prefetch ><span style={{ color: "white" }}>{sub.application_name}</span></Link>
                                                 </Menu.Item>
                                             ))
                                         }
                                     </SubMenu>
                                     :
-                                    <Menu.Item key={text.url} ><Link href={text.url}><span style={{ color: "white" }}>{text.application_name}</span></Link></Menu.Item>
+                                    <Menu.Item key={text.url} onClick={()=>path.push(text.url)} ><Link href={text.url} prefetch ><span style={{ color: "white" }}>{text.application_name}</span></Link></Menu.Item>
                             })
                         }
                     </Menu>
@@ -185,7 +185,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                                 <br />
                                                 วันที่ 2021-01-01
                                             </div>
-                                            {/* <Btn type="text" placeholder="ผู้ดูแลระบบ"><Link href={'/login/Admin'} style={{color: 'blue100',}}><a style={{color: 'blue100',}}>ผู้ดูแลระบบ</a></Link></Btn> */}
+                                            <Btn type="text" placeholder="ผู้ดูแลระบบ"><Link href={'/login/Admin'} style={{color: 'blue100',}}><a style={{color: 'blue100',}}>ผู้ดูแลระบบ</a></Link></Btn>
                                         </div>
                                     </Col>
                                 </Row>
