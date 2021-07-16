@@ -8,7 +8,7 @@ function Cardbox({ title, image, mode, rawdata }) {
         <>
             {mode ?
                 <>
-                    <Badge.Ribbon text={rawdata.maintainer.substring(0, 15) + "..."} color={"#F54"}>
+                    <Badge.Ribbon text={`${rawdata.data_type.substring(0, 20)}${rawdata.data_type.length > 20 ? "..." : ""}`} color={"#F54"}>
                         <div style={{ cursor: "pointer", position: "relative", border: "2px solid transparent",padding:"10px 0px",  width: '100%', borderRadius: "10px", backgroundColor: "#F9EAC9", display: 'flex', flexDirection: "column", justifyContent: "center" }}>
                             <Icon component={() => <img src={image ? image : "https://www.researchgate.net/profile/Adugna-Oluma/publication/343381585/figure/fig1/AS:919995320111104@1596355385430/Pie-chart-illustrating-the-level-of-food-insecurity-among-the-respondents-among-people.png"} style={{ width: '100%', height: "10em", borderRadius: '10px', alignSelf: "center", objectFit: "contain" }} />} />
                         </div>
