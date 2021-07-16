@@ -1,5 +1,5 @@
 import React from 'react'
-import Layouts from '../../components/Layouts';
+import Layouts from '../../../components/Layouts';
 import { Table, Tag, Space, Form, DatePicker, Select, Row, Col } from 'antd';
 
 const { RangePicker } = DatePicker;
