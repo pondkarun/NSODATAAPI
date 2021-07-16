@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
-import {Table, Row, Col, Button} from 'antd';
+import {Table, Row, Col, Button, Modal, Input} from 'antd';
 import {Cookies} from 'react-cookie';
 import Head from 'next/head';
 import {CheckCircleOutlined, CloseCircleOutlined, ReloadOutlined, EyeOutlined, EditOutlined} from '@ant-design/icons';
@@ -100,6 +100,20 @@ export default function UserList(){
         })
     }
 
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
     return (
         // <Layout disableheader>
         //     <h1  style={{fontSize: 27}}>ระบบจัดการผู้ใช้งานระบบ</h1>
@@ -113,7 +127,7 @@ export default function UserList(){
 
             <Row>
                 <Col span={24} style={{textAlign: 'right', display: 'inline', paddingBottom: 10}}>
-                    <Button type="default">เพิ่ม</Button>
+                    <Button type="default" onClick={showModal}>เพิ่ม</Button>
                     {' '}
                     <Button type="default"><ReloadOutlined /></Button>
                 </Col>
@@ -123,6 +137,172 @@ export default function UserList(){
                     <Table dataSource={userData} columns={columns} rowKey={(row) => row.id} onChange={onChange} />
                 </Col>
             </Row>
+ {/* -------------------------------------------------------------------------------------------------------------------------            */}
+            <Modal title="เพิ่มผู้ใช้งาน" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        ชื่อผู้ใช้:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        ชื่อ:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        นามสกุล:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        รหัสผ่าน:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input.Password placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        อีเมล์:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        เบอร์โทรศัพท์:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        หมายเลขประจำตัว:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        สถานะ:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        กลุ่มผู้ใช้งาน:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        หมายเหตุ:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+            </Modal>
+
+            <Modal title="แก้ไขข้อมูลผู้ใช้งาน" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        ชื่อผู้ใช้:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        ชื่อ:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        นามสกุล:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        รหัสผ่าน:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input.Password placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        อีเมล์:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        เบอร์โทรศัพท์:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        หมายเลขประจำตัว:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        สถานะ:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        กลุ่มผู้ใช้งาน:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        หมายเหตุ:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input placeholder="Input" />
+                    </Col>
+                </Row>
+            </Modal>
         </Layout>
     )
 }

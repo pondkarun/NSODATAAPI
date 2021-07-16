@@ -14,7 +14,8 @@ import {
   BarsOutlined,
   InsertRowLeftOutlined,
   AppstoreFilled,
-  GroupOutlined
+  GroupOutlined,
+  SortAscendingOutlined
 } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 
@@ -202,10 +203,10 @@ export default function Home({poppular}) {
               modeshow ?
                 <GroupOutlined onClick={() => setModeshow(!modeshow)} title="รูปแบบการแสดงผล" style={{ fontSize: "28px", fontWeight: "bold", color: "#2980B9" }} />
                 :
-                <AppstoreFilled onClick={() => setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+                <GroupOutlined onClick={() => setModeshow(!modeshow)} style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
             }
             <Dropdown overlay={renderSorter}>
-              <InsertRowLeftOutlined style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
+              <SortAscendingOutlined style={{ fontSize: "30px", fontWeight: "bold", color: "#2980B9" }} />
             </Dropdown>
           </div>
         </div>
