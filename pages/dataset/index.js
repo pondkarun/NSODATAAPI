@@ -356,7 +356,7 @@ const Dataset = () => {
                                             actions={[
                                                 checktype.some((type)=>type == item.format)&& <Avatar icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} />,
                                                 item.url && <Avatar icon={<LinkOutlined onClick={() => copyToClipboard(item.url)} />} />,
-                                                item.datastore_active && <Avatar icon={<MonitorOutlined onClick={() => window.open(item.url)} />} />,
+                                                item.datastore_active && <Avatar icon={<MonitorOutlined onClick={() => window.open('/dataset/Contens?id='+item.id, '_blank')} />} />,
                                             ]}
                                         >
                                             <List.Item.Meta

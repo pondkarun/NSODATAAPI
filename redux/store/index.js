@@ -42,7 +42,7 @@ function configureStore(initialState = {}) {
     // keep track of the previous and current state to compare changesAppLayout/index.j
     let previousState = currentState;
     currentState = store.getState();
-    console.log('currentState :>> ', currentState, previousState);
+    // console.log('currentState :>> ', currentState, previousState);
     // if the token changes set the value in localStorage and axios headers
     if (previousState.auth.keycloak&&previousState.auth.keycloak.token !== currentState.auth.keycloak.token) {
       const token = currentState.auth.keycloak.token;
