@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Layouts from '../../components/Layouts';
-import { Row, Col, Button, Popover, Image, Tag, List, Avatar, notification, Typography, Checkbox, Input } from 'antd';
+import {Tooltip, Row, Col, Button, Popover, Image, Tag, List, Avatar, notification, Typography, Checkbox, Input } from 'antd';
 import { Getdatalist } from '../../service/API';
 import API from '../../util/Api';
 import axios from 'axios';
@@ -41,7 +41,7 @@ const Dataset = () => {
             Getdataid();
             CheckMelist();
         }
-    }, [])
+    }, [router.query])
     const CheckMelist = () => {
         let count = 0;
         datalist?.result?.map((listname) => {
@@ -220,7 +220,7 @@ const Dataset = () => {
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">ยินยอมให้นำชื่อชุดข้อมูลไปใช้ที่ GD-Catalog	</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.allow_harvest&&"ยินยอม"}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">* ชื่อผู้ติดต่อ</div>
@@ -244,7 +244,7 @@ const Dataset = () => {
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">ค่าความถี่ของการปรับปรุงข้อมูล (ความถี่น้อยที่สุด)</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.update_frequency_interval}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">* ขอบเขตเชิงภูมิศาสตร์หรือเชิงพื้นที่</div>
@@ -271,11 +271,11 @@ const Dataset = () => {
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">เงื่อนไขในการเข้าถึงข้อมูล</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.accessible_condition}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">URL ข้อมูลเพิ่มเติม</div>
-                                        <div className="listitems">{data.url}</div>
+                                        <div className="listitems" style={{overflowWrap:"anywhere"}}>{decodeURI(data.url)}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">ภาษาที่ใช้</div>
@@ -287,11 +287,11 @@ const Dataset = () => {
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">วันที่ปรับปรุงข้อมูลล่าสุด</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.last_updated_date}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">วันที่กำหนดเผยแพร่ข้อมูล</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.created_date}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">ปีข้อมูลที่เริ่มต้นจัดทำ (สำหรับชุดข้อมูลสถิติ)</div>
@@ -303,7 +303,7 @@ const Dataset = () => {
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">การจัดจำแนก (สำหรับชุดข้อมูลสถิติ)</div>
-                                        <div className="listitems">xxx</div>
+                                        <div className="listitems">{data.disaggregate}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">หน่วยวัด (สำหรับชุดข้อมูลสถิติ)</div>
@@ -315,19 +315,19 @@ const Dataset = () => {
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">วิธีการคำนวณ (สำหรับชุดข้อมูลสถิติ)</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.calculation_method}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">มาตรฐานการจัดทำข้อมูล (สำหรับชุดข้อมูลสถิติ)</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.official_statistics?"ใช่":"ไม่ใช่"}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">สถิติทางการ</div>
-                                        <div className="listitems">-</div>
+                                        <div className="listitems">{data.official_statistics?"ใช่":"ไม่ใช่"}</div>
                                     </List.Item>
                                     <List.Item>
                                         <div className="listitemstitle">สร้างในระบบเมื่อ</div>
-                                        <div className="listitems">{new Date(data.harvesting_metadata_modified).toLocaleDateString('th-TH', {
+                                        <div className="listitems">{new Date(data.metadata_created).toLocaleDateString('th-TH', {
                                             year: 'numeric',
                                             month: 'long',
                                             day: 'numeric',
@@ -354,9 +354,9 @@ const Dataset = () => {
                                     renderItem={item => (
                                         <List.Item key={item.id}
                                             actions={[
-                                                checktype.some((type)=>type == item.format)&& <Avatar icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} />,
-                                                item.url && <Avatar icon={<LinkOutlined onClick={() => copyToClipboard(item.url)} />} />,
-                                                item.datastore_active && <Avatar icon={<MonitorOutlined onClick={() => window.open('/dataset/Contens?id='+item.id, '_blank')} />} />,
+                                                checktype.some((type)=>type == item.format)&& <Tooltip title="ดาวน์โหลด"><Avatar  icon={<DownloadOutlined onClick={() => window.open(item.original_url)} />} /></Tooltip>,
+                                                item.url && <Tooltip title="คัดลอกลิ้งค์"><Avatar icon={<LinkOutlined onClick={() => copyToClipboard(item.url)} />} /></Tooltip>,
+                                                item.datastore_active && <Tooltip title="ดูตัวอย่าง"><Avatar icon={<MonitorOutlined onClick={() => window.open('/dataset/Contens?id='+item.id, '_blank')} />} /></Tooltip>,
                                             ]}
                                         >
                                             <List.Item.Meta

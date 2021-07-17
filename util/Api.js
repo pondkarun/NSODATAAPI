@@ -57,5 +57,6 @@ const RefreshToken = async(refreshtokenval) => {
   console.log(gettoken)
   await cookies.set('token', gettoken);
   await setAccessToken(gettoken.token);
+  location.reload();
   return succesdata;
 }

@@ -132,7 +132,7 @@ export default function UserList() {
                     <Col span={10}>
                         <div style={{ backgroundColor: '#F9EAC9', borderRadius: 10, padding: 15 }}>
                             <Col style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>
-                                รายการข้อมูลของคุณ
+                                รายการชุดข้อมูลของฉัน
                             </Col>
                             <Col style={{ textAlign: 'left', paddingLeft: 10, backgroundColor: '#F9EAC9' }}>
                                 {datalist?.result.map((text, index) => (

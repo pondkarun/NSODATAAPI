@@ -7,12 +7,12 @@ module.exports = {
     return {
       '/': { page: '/' },
       '/AboutUS': { page: '/AboutUS' },
-      '/Admin/Report/Dashboard': { page: '/Admin/Report/Dashboard' },
       '/Admin/Permission': { page: '/Admin/Permission' },
       '/Admin/SystemFeature': { page: '/Admin/SystemFeature' },
       '/Admin/UserGroup': { page: '/Admin/UserGroup' },
       '/Admin/Users': { page: '/Admin/Users' },
       '/dataset': { page: '/dataset' },
+      '/dataset/Contens': { page: '/dataset/Contens' },
       '/login': { page: '/login' },
       '/login/Admin': { page: '/login/Admin' },
       '/MyDatasetList': { page: '/MyDatasetList' },

@@ -12,7 +12,6 @@ import { Cookies } from 'react-cookie'
 import { SET_MENU } from '../redux/actions'
 import { blue100 } from 'material-ui/styles/colors';
 import router, { useRouter } from 'next/router';
-import { route } from 'next/dist/next-server/server/router';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -42,7 +41,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
     useLayoutEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
-            setStateCookie(cookie.get('yes')?true:false);
+            setStateCookie(cookie.get('yes') ? true : false);
             return;
         }
 
@@ -59,11 +58,10 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
         console.log('error :>> ', error);
     })
 
-    const Logout = async() => {
-        API.post('/logout').then(async(data) => {
-            const cookie = new Cookies();
+    const Logout = () => {
+        API.post('/logout').then(async (data) => {
             console.log('data :>> ', data);
-            await cookie.remove("openid");
+            cookie.remove("openid", { path: '/' });
             window.location.href = "/";
         }).catch((eror) => {
             console.log(`eror`, eror)
@@ -134,14 +132,14 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                                             //     </Menu.Item>
                                             // })
                                             text.child.map((sub, index) => (
-                                                <Menu.Item key={sub.id} onClick={()=>path.push(sub.url)}>
+                                                <Menu.Item key={sub.id} onClick={() => path.push(sub.url)}>
                                                     <Link href={sub.url} prefetch ><span style={{ color: "white" }}>{sub.application_name}</span></Link>
                                                 </Menu.Item>
                                             ))
                                         }
                                     </SubMenu>
                                     :
-                                    <Menu.Item key={text.url} onClick={()=>path.push(text.url)} ><Link href={text.url} prefetch ><span style={{ color: "white" }}>{text.application_name}</span></Link></Menu.Item>
+                                    <Menu.Item key={text.url} onClick={() => path.push(text.url)} ><Link href={text.url} prefetch ><span style={{ color: "white" }}>{text.application_name}</span></Link></Menu.Item>
                             })
                         }
                     </Menu>
@@ -152,11 +150,11 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                     <Layout className={!disablecontainer ? "container" : ""}>
                         {children}
                     </Layout>
-                    <Footer style={{ backgroundColor: blue100 }}>
+                    <Footer style={{ backgroundColor: "#2980B9", color: "white" }}>
                         <Row>
                             <Col span={12}>
                                 <Row>
-                                    <Col span={1} style={{whiteSpace: 'nowrap', marginRight: '10px'}}>
+                                    <Col span={1} style={{ whiteSpace: 'nowrap', marginRight: '10px' }}>
                                         ที่อยู่
                                     </Col>
                                     <Col span={23}>
@@ -175,7 +173,7 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                             <Col span={12}>
                                 <Row>
                                     <Col span={24}>
-                                        <div style={{ textAlign: 'right' }}>
+                                        <div className="link" style={{ textAlign: 'right' }}>
                                             <Link href={'/'}><a>Q & A</a></Link> | <Link href={'/'}><a>นโยบายเว็บไซต์</a></Link> | <Link href={'/'}><a> นโยบายข้อมูลส่วนบุคคล</a></Link> | <Link href={'/'}><a> นโยบายการรักษาความมั่นคงปลอดภัยเว็บไซต์</a></Link>
                                             <br />
                                             <br />
@@ -234,6 +232,9 @@ function Layouts({ children, disableheader, disablecontainer, dataserch }) {
                 font-size: 20px;
                 font-weight: 400;
                 cursor: pointer;
+            }
+            .link>a{
+                color:#F4D03F;
             }
             `}</style>
         </Layout>

@@ -8,7 +8,7 @@ import API from '../util/Api';
 import Axios from 'axios'
 import { SET_OPENID, SET_DATALIST } from '../redux/actions'
 import Cardbox from '../components/Cardbox'
-import { Row, Col, Button, Dropdown, Radio, Space, Menu, Skeleton,  } from 'antd';
+import { Row, Col, Button, Dropdown, Radio, Space, Menu, Skeleton, } from 'antd';
 import { Getdatalist } from '../service/API';
 import {
   BarsOutlined,
@@ -21,7 +21,7 @@ import { useRouter } from 'next/router'
 
 
 
-export default function Home({poppular}) {
+export default function Home({ poppular }) {
   const dispatch = useDispatch();
   const router = useRouter()
   const { id, user_name, e_mail, status, last_login, login_status, token, token_date, created_by, created_date, updated_by, updated_date, open_id } = router.query;
@@ -130,7 +130,7 @@ export default function Home({poppular}) {
     Getdatalist().then(({ data: { data } }) => {
       // console.log('data :>> ', data);
       dispatch(SET_DATALIST(data));
-    }).catch((eror)=>{
+    }).catch((eror) => {
       console.log('eror :>> ', eror);
     })
   }
@@ -172,7 +172,7 @@ export default function Home({poppular}) {
       <Menu style={{ padding: "5px 20px", borderRadius: 10 }}>
         <Radio.Group defaultValue={"title_string+asc"} value={sort}>
           <Space direction="vertical" onChange={changsort} >
-            <Radio value={"score+desc%2C+metadata_modified+desc"}>ความสัมพันธ์</Radio>
+            <Radio value={"score+desc%2C+metadata_modified+desc"}>ความสัมพันธ์ตามคำค้น</Radio>
             <Radio value={"title_string+asc"}>เรียงชื่อตามลำดับตัวอักษร (ก-ฮ)</Radio>
             <Radio value={"title_string+desc"}>เรียงชื่อตามลำดับตัวอักษร (ฮ-ก)</Radio>
             <Radio value={"metadata_modified+desc"}>ถูกแก้ไขครั้งสุดท้าย</Radio>
@@ -197,7 +197,7 @@ export default function Home({poppular}) {
 
       <Layout style={{ padding: 20, display: "flex" }} dataserch={rawdata}  >
         <div style={{ padding: "20px 0px", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล${poppular?"ยอดนิยม":""} (พบทั้งหมด ${rawdata.count?rawdata.count:"กำลังโหลด.."} ชุดข้อมูล)`}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล${poppular ? "ยอดนิยม" : ""} (พบทั้งหมด ${rawdata.count ? rawdata.count : "กำลังโหลด.."} ชุดข้อมูล)`}</span>
           <div>
             {
               modeshow ?
@@ -221,24 +221,32 @@ export default function Home({poppular}) {
             )
           }
           {
-            load && Skalatonshow.map((i,index) =>
+            load && Skalatonshow.map((i, index) =>
               <Col key={index} className="gutter-row" {...changemode()} style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
-              {modeshow ?
-              <Skeleton.Button  style={{width:"60rem",height:"10rem"}} shape={"square"} />
-              :
-              <Skeleton.Input style={{ width: "60rem" }}  size={60} />
-              }
+                {modeshow ?
+                  <Skeleton.Button style={{ width: "60rem", height: "10rem", animation: "blinker 1s linear infinite" }} shape={"square"} />
+                  :
+                  <Skeleton.Input style={{ width: "60rem", animation: "blinker 1s linear infinite" }} size={60} />
+                }
               </Col>
             )
           }
         </Row>
-        <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{ top: "20px", width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
-          <style jsx global>{`
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:25}}>
+          {ckanData.length > 0 ?<span style={{ fontSize: "1rem", fontWeight: "bold", color: "#2980B9" }}>{`แสดง ${' '} ${ckanData.length} ${' '} ชุดข้อมูล (คงเหลือ ${rawdata.count ? rawdata.count-ckanData.length : "กำลังโหลด.."} ชุดข้อมูล)`}</span>:<div></div>}
+          <Button onClick={() => GetDataCKan()} type="primary" size="middle" style={{  width: "200px", alignSelf: "flex-end", borderRadius: "50px", backgroundColor: "#2980B9" }}>แสดงชุดข้อมูลเพิ่มเติม</Button>
+        </div>
+        <style jsx global>{`
           .cut-text-multi{
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          }
+          @keyframes blinker {
+            50% {
+              opacity: 0;
+            }
           }
           `}</style>
       </Layout>

@@ -119,7 +119,7 @@ export default function Header({ serch, onserch, dataserch }) {
                 <span style={{ fontSize: "20px", fontWeight: "bold", color: "#2980B9" }}>ตัวกรองค้นหาข้อมูล</span>
                 <CloseOutlined style={{ margin: "5px 20px", color: "#2980B9", fontSize: "25px" }} onClick={() => setOpensetting(!opensetting)} />
               </div>
-              {dataserch ?
+              {dataserch?.count > 0 ?
                 <div style={{ padding: "10px" }}>
 
                   {!Array.isArray(dataserch.facets?.data_type) &&
