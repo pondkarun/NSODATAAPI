@@ -100,18 +100,18 @@ export default function UserList(){
     const [userGroup, setUserGroup]= useState('');
     const [note, setNote]= useState('');
 
-    const addUserFormData = new FormData();
-    addUserFormData.append('user_name', userName);
-    addUserFormData.append('first_name', name);
-    addUserFormData.append('last_name', lastName);
-    addUserFormData.append('password', password);
-    addUserFormData.append('c_password', cPassword);
-    addUserFormData.append('e_mail', email);
-    addUserFormData.append('mobile_phone_no', telephone);
-    addUserFormData.append('id_card_no', userIdentityNo);
-    addUserFormData.append('status', status);
-    addUserFormData.append('group_id', userGroup);
-    addUserFormData.append('note', note);
+    // const addUserFormData = new FormData();
+    // addUserFormData.append('user_name', userName);
+    // addUserFormData.append('first_name', name);
+    // addUserFormData.append('last_name', lastName);
+    // addUserFormData.append('password', password);
+    // addUserFormData.append('c_password', cPassword);
+    // addUserFormData.append('e_mail', email);
+    // addUserFormData.append('mobile_phone_no', telephone);
+    // addUserFormData.append('id_card_no', userIdentityNo);
+    // addUserFormData.append('status', status);
+    // addUserFormData.append('group_id', userGroup);
+    // addUserFormData.append('note', note);
 
 
     const [userGroupData, setUserGroupData] = useState([]);
@@ -142,19 +142,19 @@ export default function UserList(){
         })
     }
 
-    const addUser = () =>{
-        API.post(`${process.env.NEXT_PUBLIC_APIURL}/user/add`, addUserFormData, {
-            headers: {
-                "Content-Type": "multipart/form-data",'Authorization': `Bearer ${oID.token}`
-              },
-        }).then((data) => {
-            console.log("Add user RESP >>", data.data)
-            setIsModalVisible(false);
+    // const addUser = () =>{
+    //     API.post(`${process.env.NEXT_PUBLIC_APIURL}/user/add`, addUserFormData, {
+    //         headers: {
+    //             "Content-Type": "multipart/form-data",'Authorization': `Bearer ${oID.token}`
+    //           },
+    //     }).then((data) => {
+    //         console.log("Add user RESP >>", data.data)
+    //         setIsModalVisible(false);
 
-        }).catch((error) => {
-            console.log('error :>> ', error);
-        })    
-    }
+    //     }).catch((error) => {
+    //         console.log('error :>> ', error);
+    //     })    
+    // }
     // const updateUser = () =>{
     //     API.post(`${process.env.NEXT_PUBLIC_APIURL}/user/add`, {
     //         headers: {
@@ -225,7 +225,7 @@ export default function UserList(){
                 </Col>
             </Row>
  {/* -------------------------------------------------------------------------------------------------------------------------            */}
-            <Modal title="เพิ่มผู้ใช้งาน" visible={isModalVisible} onOk={addUser} onCancel={handleCancel}>
+            <Modal title="เพิ่มผู้ใช้งาน" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Row style={{ paddingBottom: '10px'}}>
                     <Col span={12} style={{textAlign: 'right'}}>
                         ชื่อผู้ใช้:
