@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import Layout from '../../components/Layouts';
 import API from '../../util/Api';
-import {Table, Row, Col, Button, Modal, Input} from 'antd';
+import {Table, Row, Col, Button, Modal, Input, Select} from 'antd';
 import {Cookies} from 'react-cookie';
 import Head from 'next/head';
 import {CheckCircleOutlined, CloseCircleOutlined, ReloadOutlined, EyeOutlined, EditOutlined} from '@ant-design/icons';
@@ -70,7 +70,7 @@ export default function UserList(){
             render: (text, record, index) => (
                 // <div>
                 <>
-                    <Button type="link"><EyeOutlined style={{fontSize: 23, color: 'gray'}} /></Button><Button type="link"><EditOutlined style={{fontSize: 23, color: 'blue'}} /></Button>
+                    <Button type="link"><EyeOutlined style={{fontSize: 23, color: 'gray'}} /></Button><Button type="link" onClick={showEditModal}><EditOutlined style={{fontSize: 23, color: 'blue'}} /></Button>
                 </>
                 // </div>
             )
@@ -79,12 +79,54 @@ export default function UserList(){
 
     useEffect(async () => {
         userDataList();
+        userGroupDataList();
     },[]);
 
     const cookies = new Cookies();
+    const {Option} = Select;
     const {openid} = useSelector(({ auth }) => auth);
     const oID = cookies.get('openid');
     console.log('getOpenIDCookies', oID);
+
+    const [userName, setUserName]= useState('');
+    const [name, setName]= useState('');
+    const [lastName, setLastName]= useState('');
+    const [password, setPassword]= useState('');
+    const [cPassword, setCPassword]= useState('');
+    const [email, setEmail]= useState('');
+    const [telephone, setTelephone]= useState('');
+    const [userIdentityNo, setUserIdentityNo]= useState('');
+    const [status, setStatus]= useState('1');
+    const [userGroup, setUserGroup]= useState('');
+    const [note, setNote]= useState('');
+
+    const addUserFormData = new FormData();
+    addUserFormData.append('user_name', userName);
+    addUserFormData.append('first_name', name);
+    addUserFormData.append('last_name', lastName);
+    addUserFormData.append('password', password);
+    addUserFormData.append('c_password', cPassword);
+    addUserFormData.append('e_mail', email);
+    addUserFormData.append('mobile_phone_no', telephone);
+    addUserFormData.append('id_card_no', userIdentityNo);
+    addUserFormData.append('status', status);
+    addUserFormData.append('group_id', userGroup);
+    addUserFormData.append('note', note);
+
+
+    const [userGroupData, setUserGroupData] = useState([]);
+    const userGroupDataList = () => {
+        API.get(`${process.env.NEXT_PUBLIC_APIURL}/group/all`, {
+            headers: {
+                'Authorization': `Bearer ${oID.token}`
+              },
+        }).then((data) => {
+            setUserGroupData(data.data.data.data);
+            console.log('userGroupData',userGroupData);
+        }).catch((error) => {
+            console.log('error :>> ', error);
+        })
+    }
 
     const [userData, setUserData] = useState([]);
     const userDataList = () => {
@@ -100,19 +142,64 @@ export default function UserList(){
         })
     }
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const addUser = () =>{
+        API.post(`${process.env.NEXT_PUBLIC_APIURL}/user/add`, addUserFormData, {
+            headers: {
+                "Content-Type": "multipart/form-data",'Authorization': `Bearer ${oID.token}`
+              },
+        }).then((data) => {
+            console.log("Add user RESP >>", data.data)
+            setIsModalVisible(false);
 
+        }).catch((error) => {
+            console.log('error :>> ', error);
+        })    
+    }
+    // const updateUser = () =>{
+    //     API.post(`${process.env.NEXT_PUBLIC_APIURL}/user/add`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${oID.token}`
+    //           },
+    //     }).then((data) => {
+
+    //     }).catch((error) => {
+    //         console.log('error :>> ', error);
+    //     })    
+    // }
+    // const deleteUser = () =>{
+    //     API.delete(`${process.env.NEXT_PUBLIC_APIURL}/user/delete`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${oID.token}`
+    //           },
+    //     }).then((data) => {
+
+    //     }).catch((error) => {
+    //         console.log('error :>> ', error);
+    //     })    
+    // }
+
+
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const showModal = () => {
         setIsModalVisible(true);
     };
-
+    const showEditModal = () =>{
+        setIsEditModalVisible(true);
+    }
     const handleOk = () => {
         setIsModalVisible(false);
+        setIsEditModalVisible(false);
     };
-
     const handleCancel = () => {
         setIsModalVisible(false);
+        setIsEditModalVisible(false);
     };
+
+
+
+
 
     return (
         // <Layout disableheader>
@@ -138,13 +225,13 @@ export default function UserList(){
                 </Col>
             </Row>
  {/* -------------------------------------------------------------------------------------------------------------------------            */}
-            <Modal title="เพิ่มผู้ใช้งาน" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="เพิ่มผู้ใช้งาน" visible={isModalVisible} onOk={addUser} onCancel={handleCancel}>
                 <Row style={{ paddingBottom: '10px'}}>
                     <Col span={12} style={{textAlign: 'right'}}>
                         ชื่อผู้ใช้:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event => setUserName(event.target.value)} defaultValue={userName} required />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -152,7 +239,7 @@ export default function UserList(){
                         ชื่อ:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event =>setName(event.target.value) } defaultValue={name} />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -160,7 +247,7 @@ export default function UserList(){
                         นามสกุล:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event => setLastName(event.target.value)} defaultValue={lastName} />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -168,7 +255,15 @@ export default function UserList(){
                         รหัสผ่าน:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input.Password placeholder="Input" />
+                        <Input.Password placeholder="Input" onChange={event => setPassword(event.target.value)} defaultValue={password} required />
+                    </Col>
+                </Row>
+                <Row style={{ paddingBottom: '10px'}}>
+                    <Col span={12} style={{textAlign: 'right'}}>
+                        ยืนยันรหัสผ่าน:
+                    </Col>
+                    <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
+                        <Input.Password placeholder="Input" onChange={event => setCPassword(event.target.value)} defaultValue={cPassword} required />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -176,7 +271,7 @@ export default function UserList(){
                         อีเมล์:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event => setEmail(event.target.value)} defaultValue={email} required />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -184,7 +279,7 @@ export default function UserList(){
                         เบอร์โทรศัพท์:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event => setTelephone(event.target.value)} defaultValue={telephone} />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -192,7 +287,7 @@ export default function UserList(){
                         หมายเลขประจำตัว:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event => setUserIdentityNo(event.target.value)} defaultValue={userIdentityNo} />
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -200,7 +295,11 @@ export default function UserList(){
                         สถานะ:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        {/* <Input placeholder="Input" onChange={event => setStatus(event.target.value)} defaultValue={status} /> */}
+                        <Select style={{width:'100%'}} placeholder="Please Select" onSelect={event => setStatus(event.target.value)} defaultValue={status}>
+                            <Option value="0">ยกเลิกการใช้งาน</Option>
+                            <Option value="1">ใช้งานระบบ</Option>
+                        </Select>
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -208,7 +307,12 @@ export default function UserList(){
                         กลุ่มผู้ใช้งาน:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        {/* <Input placeholder="Input" onChange={event => setUserGroup(event.target.value)} defaultValue={userGroup} /> */}
+                        {/* <Select style={{width:'100%'}} onSelect={event=>setUserGroup(event.target.value) } placeholder="Please Select" defaultValue={userGroup} aria-required="true" >
+                            {userGroupData.map((data, index) =>
+                                <Option key={index} value={data.id}>{data.group_name}</Option>
+                            )}
+                        </Select> */}
                     </Col>
                 </Row>
                 <Row style={{ paddingBottom: '10px'}}>
@@ -216,12 +320,12 @@ export default function UserList(){
                         หมายเหตุ:
                     </Col>
                     <Col span={12} style={{textAlign: 'left', paddingLeft: '10px'}}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" onChange={event => setNote(event.target.value)} defaultValue={note} />
                     </Col>
                 </Row>
             </Modal>
 
-            <Modal title="แก้ไขข้อมูลผู้ใช้งาน" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="แก้ไขข้อมูลผู้ใช้งาน" visible={isEditModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Row style={{ paddingBottom: '10px'}}>
                     <Col span={12} style={{textAlign: 'right'}}>
                         ชื่อผู้ใช้:

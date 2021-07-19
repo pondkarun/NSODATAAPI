@@ -12,7 +12,7 @@ module.exports = {
       '/Admin/UserGroup': { page: '/Admin/UserGroup' },
       '/Admin/Users': { page: '/Admin/Users' },
       '/dataset': { page: '/dataset' },
-      '/dataset/Contens': { page: '/dataset/Contens' },
+      '/dataset/contens': { page: '/dataset/contens' },
       '/login': { page: '/login' },
       '/login/Admin': { page: '/login/Admin' },
       '/MyDatasetList': { page: '/MyDatasetList' },
